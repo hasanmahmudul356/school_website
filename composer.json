@@ -1,0 +1,19 @@
+{
+    "name": "tmss/school_website",
+    "description": "This Package Will Create Automatic Website For School Managment Software",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mahmudul Hasan",
+            "email": "hasanmahmudul356@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Tmss\\School_website\\": "src/"
+        }
+    }
+}
