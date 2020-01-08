@@ -15,5 +15,12 @@
         "psr-4": {
             "Tmss\\School_website\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tmss\\School_website\\SchoolWebsiteServiceProvider"
+            ]
+        }
     }
 }
