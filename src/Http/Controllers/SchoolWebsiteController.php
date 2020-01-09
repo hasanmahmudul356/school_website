@@ -5,6 +5,8 @@ namespace Tmss\School_website\Http\Controllers;
 
 
 
+use App\Http\Controllers\Manage_department;
+use App\manage_department_model;
 use App\teacher_model;
 use Tmss\School_website\Http\Helper\PackageHelper;
 use Tmss\School_website\Http\Models\Facility;
@@ -22,6 +24,8 @@ class SchoolWebsiteController
         $data['teachers'] = teacher_model::leftJoin('teacher_socials', 'teacher.teacher_id','=','teacher_socials.teacher_id')->where('is_homepage', 1)->select('teacher_socials.*','teacher.*','teacher.teacher_id')->get();
         $data['offers'] = Offers::take(10)->get();
         $data['testimonials'] = Testimonial::take(10)->get();
+        $courses = manage_department_model::all()->toArray();
+        $data['courses'] = collect($courses)->unique('department_code');
         return view($this->ExistViewReturn('website.home'), $data);
     }
 }

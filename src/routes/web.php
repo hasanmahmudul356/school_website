@@ -44,6 +44,16 @@ Route::group(['namespace' => 'Tmss\School_website\Http\Controllers'], function (
         Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@TeacherHomePage');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@TeacherDelete');
     });
+
+    Route::group(['prefix'=>'contactform'], function (){
+        Route::get('/list', 'SchoolWebsiteAdminController@ContactformList');
+        Route::get('/add', 'SchoolWebsiteAdminController@ContactformAddForm');
+        Route::post('/add', 'SchoolWebsiteAdminController@ContactformStore');
+        Route::post('/update', 'SchoolWebsiteAdminController@ContactformUpdateStore');
+        Route::get('/edit/{id}', 'SchoolWebsiteAdminController@ContactformEdit');
+        Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@ContactformHomePage');
+        Route::get('/delete/{id}', 'SchoolWebsiteAdminController@ContactformDelete');
+    });
 });
 
 Route::group(['namespace' => 'Tmss\School_website\Http\Controllers'], function () {

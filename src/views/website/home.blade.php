@@ -118,7 +118,15 @@
                     <div class="col-md-6 col-lg-3 ftco-animate">
                         <div class="staff">
                             <div class="img-wrap d-flex align-items-stretch">
-                                <div class="img align-self-stretch" style="background-image: url({{env('PUBLIC_PATH')}}/img/backend/teacher_staff/{{$teacher->teacher_id.'.jpg'}})"></div>
+                                @php
+                                    if(File::exists(public_path('/img/backend/teacher_staff/'.$teacher->teacher_id.'.jpg'))){
+                                        $image = env('PUBLIC_PATH').'/img/backend/teacher_staff/'.$teacher->teacher_id.'.jpg';
+                                    }else{
+                                        $image = env('PUBLIC_PATH').'/vendor/front_assets/images/course-1.jpg';
+                                    }
+                                @endphp
+
+                                <div class="img align-self-stretch" style="background-image: url({{$image}})"></div>
                             </div>
 
                             <div class="text pt-3 text-center">
@@ -129,23 +137,25 @@
                                     <p>{{$teacher->teachers_say}}</p>
                                     @endif
                                     <ul class="ftco-social text-center">
-                                        @if (isset($teacher->twitter) && $teacher->twitter)
-                                            <li class="ftco-animate"><a href="{{$teacher->twitter}}"><span
-                                                            class="icon-twitter"></span></a></li>
-                                        @endif
-                                        @if (isset($teacher->facebook) && $teacher->facebook)
-                                            <li class="ftco-animate"><a href="{{$teacher->facebook}}"><span class="icon-facebook"></span></a>
+                                            <li class="ftco-animate">
+                                                <a href="{{isset($teacher->twitter) && $teacher->twitter ? $teacher->twitter : ''}}">
+                                                    <span class="icon-twitter"></span>
+                                                </a>
                                             </li>
-                                        @endif
-                                        @if (isset($teacher->youtube) && $teacher->youtube)
-                                            <li class="ftco-animate"><a href="{{$teacher->youtube}}"><span class="icon-google-plus"></span></a>
+                                            <li class="ftco-animate">
+                                                <a href="{{isset($teacher->facebook) && $teacher->facebook ? $teacher->facebook : ''}}">
+                                                    <span class="icon-facebook"></span></a>
                                             </li>
-                                        @endif
-                                        @if (isset($teacher->instagram) && $teacher->instagram)
-                                            <li class="ftco-animate"><a href="{{$teacher->instagram}}"><span
-                                                            class="icon-instagram"></span></a>
+                                            <li class="ftco-animate">
+                                                <a href="{{isset($teacher->youtube) && $teacher->youtube ? $teacher->youtube : ''}}">
+                                                    <span class="icon-google-plus"></span>
+                                                </a>
                                             </li>
-                                        @endif
+                                            <li class="ftco-animate">
+                                                <a href="{{isset($teacher->instagram) && $teacher->instagram ? $teacher->instagram : ''}}">
+                                                    <span class="icon-instagram"></span>
+                                                </a>
+                                            </li>
                                     </ul>
                                 </div>
                             </div>
@@ -157,51 +167,38 @@
     </section>
     @endif
 
-    <section class="ftco-section">
-        <div class="container">
-            <div class="row justify-content-center mb-5 pb-2">
-                <div class="col-md-8 text-center heading-section ftco-animate">
-                    <h2 class="mb-4"><span>Our</span> Courses</h2>
-                    <p>Separated they live in. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 course d-lg-flex ftco-animate">
-                    <div class="img" style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/course-1.jpg);"></div>
-                    <div class="text bg-light p-4">
-                        <h3><a href="#">Arts Lesson</a></h3>
-                        <p class="subheading"><span>Class time:</span> 9:00am - 10am</p>
+    @if (isset($courses) && count($courses) > 0)
+        <section class="ftco-section">
+            <div class="container">
+                <div class="row justify-content-center mb-5 pb-2">
+                    <div class="col-md-8 text-center heading-section ftco-animate">
+                        <h2 class="mb-4"><span>Our</span> Courses</h2>
                         <p>Separated they live in. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country</p>
                     </div>
                 </div>
-                <div class="col-md-6 course d-lg-flex ftco-animate">
-                    <div class="img" style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/course-2.jpg);"></div>
-                    <div class="text bg-light p-4">
-                        <h3><a href="#">Language Lesson</a></h3>
-                        <p class="subheading"><span>Class time:</span> 9:00am - 10am</p>
-                        <p>Separated they live in. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country</p>
-                    </div>
-                </div>
-                <div class="col-md-6 course d-lg-flex ftco-animate">
-                    <div class="img" style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/course-3.jpg);"></div>
-                    <div class="text bg-light p-4">
-                        <h3><a href="#">Music Lesson</a></h3>
-                        <p class="subheading"><span>Class time:</span> 9:00am - 10am</p>
-                        <p>Separated they live in. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country</p>
-                    </div>
-                </div>
-                <div class="col-md-6 course d-lg-flex ftco-animate">
-                    <div class="img" style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/course-4.jpg);"></div>
-                    <div class="text bg-light p-4">
-                        <h3><a href="#">Sports Lesson</a></h3>
-                        <p class="subheading"><span>Class time:</span> 9:00am - 10am</p>
-                        <p>Separated they live in. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                <div class="row">
+                    @foreach($courses as $course)
+                        <div class="col-md-6 course d-lg-flex ftco-animate">
+                            @php
+                                if(File::exists(public_path('/img/backend/department/'.$course['id'].'.jpg'))){
+                                    $image = env('PUBLIC_PATH').'/img/backend/department/'.$course['id'].'.jpg';
+                                }else{
+                                    $image = env('PUBLIC_PATH').'/vendor/front_assets/images/course-1.jpg';
+                                }
+                            @endphp
 
+                            <div class="img" style="background-image: url({{$image}});"></div>
+                            <div class="text bg-light p-4">
+                                <h3><a href="#">{{isset($course['department_name']) ? $course['department_name'] : ''}}</a></h3>
+                                <p class="subheading"><span>Course Code:</span>{{isset($course['department_code']) ? $course['department_code'] : ''}}</p>
+                                <p>{{isset($course['description']) ? $course['description'] : ''}}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
     <section class="ftco-section ftco-counter img" id="section-counter" style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/bg_4.jpg);" data-stellar-background-ratio="0.5">
         <div class="container">
             <div class="row justify-content-center mb-5 pb-2">
@@ -341,7 +338,8 @@
         </div>
     </section>
 
-    <section class="ftco-section">
+    @if (isset($courses) && count($courses) > 0)
+            <section class="ftco-section">
         <div class="container">
             <div class="row justify-content-center mb-5 pb-2">
                 <div class="col-md-8 text-center heading-section ftco-animate">
@@ -350,62 +348,32 @@
                 </div>
             </div>
             <div class="row">
+                @foreach($courses as $course)
                 <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="pricing-entry bg-light pb-4 text-center">
+                        @php
+                            if(File::exists(public_path('/img/backend/department/'.$course['id'].'.jpg'))){
+                                $image = env('PUBLIC_PATH').'/img/backend/department/'.$course['id'].'.jpg';
+                            }else{
+                                $image = env('PUBLIC_PATH').'/vendor/front_assets/images/course-1.jpg';
+                            }
+                        @endphp
                         <div>
-                            <h3 class="mb-3">Basic</h3>
+                            <h3 class="mb-3">{{isset($course['department_name']) ? $course['department_name'] : ''}}</h3>
                             <p><span class="price">$24.50</span> <span class="per">/ 5mos</span></p>
                         </div>
-                        <div class="img" style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/bg_1.jpg);"></div>
+                        <div class="img" style="background-image: url({{$image}})"></div>
                         <div class="px-4">
-                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                            <p>{{isset($course['description']) ? $course['description'] : ''}}</p>
                         </div>
                         <p class="button text-center"><a href="#" class="btn btn-primary px-4 py-3">Take A Course</a></p>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3 ftco-animate">
-                    <div class="pricing-entry bg-light pb-4 text-center">
-                        <div>
-                            <h3 class="mb-3">Standard</h3>
-                            <p><span class="price">$34.50</span> <span class="per">/ 5mos</span></p>
-                        </div>
-                        <div class="img" style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/bg_2.jpg);"></div>
-                        <div class="px-4">
-                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                        </div>
-                        <p class="button text-center"><a href="#" class="btn btn-secondary px-4 py-3">Take A Course</a></p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 ftco-animate">
-                    <div class="pricing-entry bg-light active pb-4 text-center">
-                        <div>
-                            <h3 class="mb-3">Premium</h3>
-                            <p><span class="price">$54.50</span> <span class="per">/ 5mos</span></p>
-                        </div>
-                        <div class="img" style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/bg_3.jpg);"></div>
-                        <div class="px-4">
-                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                        </div>
-                        <p class="button text-center"><a href="#" class="btn btn-tertiary px-4 py-3">Take A Course</a></p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 ftco-animate">
-                    <div class="pricing-entry bg-light pb-4 text-center">
-                        <div>
-                            <h3 class="mb-3">Platinum</h3>
-                            <p><span class="price">$89.50</span> <span class="per">/ 5mos</span></p>
-                        </div>
-                        <div class="img" style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/bg_5.jpg);"></div>
-                        <div class="px-4">
-                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                        </div>
-                        <p class="button text-center"><a href="#" class="btn btn-quarternary px-4 py-3">Take A Course</a></p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
-
+    @endif
     <section class="ftco-section bg-light">
         <div class="container">
             <div class="row justify-content-center mb-5 pb-2">

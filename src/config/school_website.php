@@ -16,6 +16,9 @@ return [
         ],[
             'title' => 'Testimonials',
             'route' => 'testimonial/list',
+        ],[
+            'title' => 'Contactform',
+            'route' => 'contactform/list',
         ]
     ]
 ];

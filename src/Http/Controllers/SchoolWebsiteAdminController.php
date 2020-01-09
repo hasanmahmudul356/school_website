@@ -10,12 +10,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Tmss\School_website\Http\Helper\PackageHelper;
+use Tmss\School_website\Http\Models\Contactform;
 use Tmss\School_website\Http\Models\Facility;
 use Tmss\School_website\Http\Models\Offers;
 use Tmss\School_website\Http\Models\Slides;
-
 use Tmss\School_website\Http\Models\Testimonial;
-
 use Tmss\School_website\Http\Models\TeacherSocial;
 
 
@@ -410,4 +409,88 @@ class SchoolWebsiteAdminController extends Controller
 
         }
     }
+
+    //==================Contactform Methods=======================
+    public function ContactformList(){
+//        dd('test');
+        $data['data_list'] = Contactform::all();
+//        dd('test');
+        if (count($data['data_list']) > 0){
+            return view($this->ExistViewReturn('software.contactform.list'), $data);
+        }else{
+            return redirect(url('contactform/add'));
+        }
+    }
+    public function ContactformAddForm(){
+        return view($this->ExistViewReturn('software.contactform.add'));
+    }
+    public function ContactformStore(Request $request){
+        $this->validate($request, [
+            'title' => 'required',
+            'details' => 'required',
+            'relation' => 'required',
+        ]);
+        $contactform = new Contactform();
+        $contactform->title = $request->input('title');
+        $contactform->details = $request->input('details');
+        $contactform->relation = $request->input('relation');
+        $contactform->save();
+
+//        dd($request->all());
+        if($request->hasfile('image')){
+//            dd('test');
+            $imageName = $contactform->id.'.jpg';
+//            dd($imageName);
+            $request->image->move(public_path('/img/backend/contactform'), $imageName);
+
+        }
+        return redirect(url('contactform/list'));
+    }
+    public function ContactformEdit($id){
+        $data['data'] = Contactform::where('id', $id)->first();
+        if ($data['data']){
+            return view($this->ExistViewReturn('software.contactform.add'),$data);
+        }else{
+            return redirect(url('contactform/list'));
+        }
+    }
+    public function ContactformUpdateStore(Request $request){
+        $this->validate($request, [
+            'title' => 'required',
+            'details' => 'required',
+            'relation' => 'required',
+            'id' => 'required',
+        ]);
+
+        $contactform = Contactform::where('id', $request->input('id'))->first();
+        if ($contactform){
+            $contactform->title = $request->input('title');
+            $contactform->details = $request->input('details');
+            $contactform->relation = $request->input('relation');
+            $contactform->save();
+
+            if($request->hasfile('image')){
+//            dd('test');
+                $imageName = $contactform->id.'.jpg';
+//            dd($imageName);
+                $request->image->move(public_path('/img/backend/contactform'), $imageName);
+
+            }
+            return redirect(url('contactform/list'));
+        }else{
+            return redirect(url('contactform/list'));
+        }
+    }
+    public function ContactformDelete($id)
+    {
+        $contactform = Contactform::where('id', $id)->first();
+        if ($contactform) {
+            $contactform->delete();
+
+            return redirect(url('contactform/list'));
+        } else {
+            return redirect(url('contactform/list'));
+        }
+    }
+    //==================Contactform Methods=======================
 }
