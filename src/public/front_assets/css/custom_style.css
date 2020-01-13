@@ -1,0 +1,8 @@
+div.applicationform label{
+    color: #000000;
+}
+div.applicationform .form-control{
+    border: 1px solid #cccccc;
+    height:40px !important;
+    border-radius: 5px;
+}

@@ -8,6 +8,13 @@ use Illuminate\Support\ServiceProvider;
 
 class SchoolWebsiteServiceProvider extends ServiceProvider
 {
+    protected function loadHelpers()
+    {
+        foreach (glob(__DIR__.'/Helpers/*.php') as $filename)
+        {
+            require_once $filename;
+        }
+    }
 
     public function boot()
     {
@@ -41,6 +48,6 @@ class SchoolWebsiteServiceProvider extends ServiceProvider
 
     public function register()
     {
-        //
+        $this->loadHelpers();
     }
 }

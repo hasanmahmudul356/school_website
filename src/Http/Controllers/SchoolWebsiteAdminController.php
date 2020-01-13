@@ -5,15 +5,25 @@ namespace Tmss\School_website\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
+use App\manage_department_model;
 use App\teacher_model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 use Tmss\School_website\Http\Helper\PackageHelper;
 use Tmss\School_website\Http\Models\Contactform;
 use Tmss\School_website\Http\Models\Facility;
+use Tmss\School_website\Http\Models\Faculty;
+use Tmss\School_website\Http\Models\News;
 use Tmss\School_website\Http\Models\Offers;
+use Tmss\School_website\Http\Models\Page;
+use Tmss\School_website\Http\Models\Photocategory;
+use Tmss\School_website\Http\Models\Photogallery;
 use Tmss\School_website\Http\Models\Slides;
+use Tmss\School_website\Http\Models\Socialmedia;
+use Tmss\School_website\Http\Models\Subscribe;
 use Tmss\School_website\Http\Models\Testimonial;
 use Tmss\School_website\Http\Models\TeacherSocial;
 
@@ -24,7 +34,8 @@ class SchoolWebsiteAdminController extends Controller
 
     public $blade_url = '';
 
-    public function __construct(){
+    public function __construct()
+    {
         if (view()->exists('vendor.school_website')) {
             $this->blade_url = 'vendor.school_website.';
         } else {
@@ -32,18 +43,23 @@ class SchoolWebsiteAdminController extends Controller
         }
     }
 
-    public function slideList(){
+    public function slideList()
+    {
         $data['slides'] = Slides::all();
-        if (count($data['slides']) > 0){
+        if (count($data['slides']) > 0) {
             return view($this->ExistViewReturn('software.slide.list'), $data);
-        }else{
+        } else {
             return redirect(url('slide/add'));
         }
     }
-    public function slideAddForm(){
-        return view($this->blade_url.'software.slide.add');
+
+    public function slideAddForm()
+    {
+        return view($this->blade_url . 'software.slide.add');
     }
-    public function slideStore(Request $request){
+
+    public function slideStore(Request $request)
+    {
         $this->validate($request, [
             'title' => 'required',
             'details' => 'required',
@@ -54,14 +70,16 @@ class SchoolWebsiteAdminController extends Controller
         $slide->details = $request->input('details');
         $slide->save();
 
-        if($request->hasfile('image')){
-            $imageName = $slide->id.'.jpg';
+        if ($request->hasfile('image')) {
+            $imageName = $slide->id . '.jpg';
             $request->image->move(public_path('/img/backend/slide'), $imageName);
 
         }
         return redirect(url('slide/list'));
     }
-    public function slideUpdateStore(Request $request){
+
+    public function slideUpdateStore(Request $request)
+    {
         $this->validate($request, [
             'title' => 'required',
             'details' => 'required',
@@ -69,53 +87,62 @@ class SchoolWebsiteAdminController extends Controller
         ]);
 
         $slide = Slides::where('id', $request->input('id'))->first();
-        if ($slide){
+        if ($slide) {
             $slide->title = $request->input('title');
             $slide->details = $request->input('details');
             $slide->save();
 
-            if($request->hasfile('image')){
-                $imageName = $slide->id.'.jpg';
+            if ($request->hasfile('image')) {
+                $imageName = $slide->id . '.jpg';
                 $request->image->move(public_path('/img/backend/slide'), $imageName);
 
             }
             return redirect(url('slide/list'));
-        }else{
+        } else {
             return redirect(url('slide/list'));
         }
     }
-    public function SlideEdit($id){
+
+    public function SlideEdit($id)
+    {
         $data['slide'] = Slides::where('id', $id)->first();
-        if ($data['slide']){
-            return view($this->blade_url.'software.slide.add',$data);
-        }else{
+        if ($data['slide']) {
+            return view($this->blade_url . 'software.slide.add', $data);
+        } else {
             return redirect(url('slide/list'));
         }
     }
-    public function SlideDelete($id){
+
+    public function SlideDelete($id)
+    {
         $slide = Slides::where('id', $id)->first();
-        if ($slide){
+        if ($slide) {
             $slide->delete();
 
             return redirect(url('slide/list'));
-        }else{
+        } else {
             return redirect(url('slide/list'));
         }
     }
 
     //==================Facility Methods=======================
-    public function FacilityList(){
+    public function FacilityList()
+    {
         $data['data_list'] = Facility::all();
-        if (count($data['data_list']) > 0){
+        if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.facility.list'), $data);
-        }else{
+        } else {
             return redirect(url('facilities/add'));
         }
     }
-    public function FacilityAddForm(){
+
+    public function FacilityAddForm()
+    {
         return view($this->ExistViewReturn('software.facility.add'));
     }
-    public function FacilityStore(Request $request){
+
+    public function FacilityStore(Request $request)
+    {
         $this->validate($request, [
             'title' => 'required',
             'details' => 'required',
@@ -131,15 +158,19 @@ class SchoolWebsiteAdminController extends Controller
 
         return redirect(url('facilities/list'));
     }
-    public function FacilityEdit($id){
+
+    public function FacilityEdit($id)
+    {
         $data['data'] = Facility::where('id', $id)->first();
-        if ($data['data']){
-            return view($this->ExistViewReturn('software.facility.add'),$data);
-        }else{
+        if ($data['data']) {
+            return view($this->ExistViewReturn('software.facility.add'), $data);
+        } else {
             return redirect(url('facilities/list'));
         }
     }
-    public function FacilityUpdateStore(Request $request){
+
+    public function FacilityUpdateStore(Request $request)
+    {
         $this->validate($request, [
             'title' => 'required',
             'details' => 'required',
@@ -149,7 +180,7 @@ class SchoolWebsiteAdminController extends Controller
         ]);
 
         $slide = Facility::where('id', $request->input('id'))->first();
-        if ($slide){
+        if ($slide) {
             $slide->title = $request->input('title');
             $slide->details = $request->input('details');
             $slide->colour = $request->input('color');
@@ -157,35 +188,42 @@ class SchoolWebsiteAdminController extends Controller
             $slide->save();
 
             return redirect(url('facilities/list'));
-        }else{
+        } else {
             return redirect(url('facilities/list'));
         }
     }
-    public function FacilityDelete($id){
+
+    public function FacilityDelete($id)
+    {
         $slide = Facility::where('id', $id)->first();
-        if ($slide){
+        if ($slide) {
             $slide->delete();
 
             return redirect(url('facilities/list'));
-        }else{
+        } else {
             return redirect(url('facilities/list'));
         }
     }
 
     //==================Offers Methods=======================
-    public function OffersList(){
+    public function OffersList()
+    {
 //        dd('test');
         $data['data_list'] = Offers::all();
-        if (count($data['data_list']) > 0){
+        if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.offers.list'), $data);
-        }else{
+        } else {
             return redirect(url('offers/add'));
         }
     }
-    public function OffersAddForm(){
+
+    public function OffersAddForm()
+    {
         return view($this->ExistViewReturn('software.offers.add'));
     }
-    public function OffersStore(Request $request){
+
+    public function OffersStore(Request $request)
+    {
         $this->validate($request, [
             'title' => 'required',
             'details' => 'required',
@@ -200,15 +238,19 @@ class SchoolWebsiteAdminController extends Controller
 
         return redirect(url('offers/list'));
     }
-    public function OffersEdit($id){
+
+    public function OffersEdit($id)
+    {
         $data['data'] = Offers::where('id', $id)->first();
-        if ($data['data']){
-            return view($this->ExistViewReturn('software.offers.add'),$data);
-        }else{
+        if ($data['data']) {
+            return view($this->ExistViewReturn('software.offers.add'), $data);
+        } else {
             return redirect(url('offers/list'));
         }
     }
-    public function OffersUpdateStore(Request $request){
+
+    public function OffersUpdateStore(Request $request)
+    {
         $this->validate($request, [
             'title' => 'required',
             'details' => 'required',
@@ -217,44 +259,51 @@ class SchoolWebsiteAdminController extends Controller
         ]);
 
         $slide = Offers::where('id', $request->input('id'))->first();
-        if ($slide){
+        if ($slide) {
             $slide->title = $request->input('title');
             $slide->details = $request->input('details');
             $slide->icon = $request->input('icon');
             $slide->save();
 
             return redirect(url('offers/list'));
-        }else{
+        } else {
             return redirect(url('offers/list'));
         }
     }
-    public function OffersDelete($id){
+
+    public function OffersDelete($id)
+    {
         $slide = Offers::where('id', $id)->first();
-        if ($slide){
+        if ($slide) {
             $slide->delete();
 
             return redirect(url('offers/list'));
-        }else{
+        } else {
             return redirect(url('offers/list'));
         }
     }
 
 
     //==================Testimonial Methods=======================
-    public function TestimonialList(){
+    public function TestimonialList()
+    {
 //        dd('test');
         $data['data_list'] = Testimonial::all();
 //        dd('test');
-        if (count($data['data_list']) > 0){
+        if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.testimonial.list'), $data);
-        }else{
+        } else {
             return redirect(url('testimonial/add'));
         }
     }
-    public function TestimonialAddForm(){
+
+    public function TestimonialAddForm()
+    {
         return view($this->ExistViewReturn('software.testimonial.add'));
     }
-    public function TestimonialStore(Request $request){
+
+    public function TestimonialStore(Request $request)
+    {
         $this->validate($request, [
             'title' => 'required',
             'details' => 'required',
@@ -267,24 +316,28 @@ class SchoolWebsiteAdminController extends Controller
         $testimonial->save();
 
 //        dd($request->all());
-        if($request->hasfile('image')){
+        if ($request->hasfile('image')) {
 //            dd('test');
-            $imageName = $testimonial->id.'.jpg';
+            $imageName = $testimonial->id . '.jpg';
 //            dd($imageName);
             $request->image->move(public_path('/img/backend/testimonial'), $imageName);
 
         }
         return redirect(url('testimonial/list'));
     }
-    public function TestimonialEdit($id){
+
+    public function TestimonialEdit($id)
+    {
         $data['data'] = Testimonial::where('id', $id)->first();
-        if ($data['data']){
-            return view($this->ExistViewReturn('software.testimonial.add'),$data);
-        }else{
+        if ($data['data']) {
+            return view($this->ExistViewReturn('software.testimonial.add'), $data);
+        } else {
             return redirect(url('testimonial/list'));
         }
     }
-    public function TestimonialUpdateStore(Request $request){
+
+    public function TestimonialUpdateStore(Request $request)
+    {
         $this->validate($request, [
             'title' => 'required',
             'details' => 'required',
@@ -293,24 +346,25 @@ class SchoolWebsiteAdminController extends Controller
         ]);
 
         $testimonial = Testimonial::where('id', $request->input('id'))->first();
-        if ($testimonial){
+        if ($testimonial) {
             $testimonial->title = $request->input('title');
             $testimonial->details = $request->input('details');
             $testimonial->relation = $request->input('relation');
             $testimonial->save();
 
-            if($request->hasfile('image')){
+            if ($request->hasfile('image')) {
 //            dd('test');
-                $imageName = $testimonial->id.'.jpg';
+                $imageName = $testimonial->id . '.jpg';
 //            dd($imageName);
                 $request->image->move(public_path('/img/backend/testimonial'), $imageName);
 
             }
             return redirect(url('testimonial/list'));
-        }else{
+        } else {
             return redirect(url('testimonial/list'));
         }
     }
+
     public function TestimonialDelete($id)
     {
         $testimonial = Testimonial::where('id', $id)->first();
@@ -322,28 +376,36 @@ class SchoolWebsiteAdminController extends Controller
             return redirect(url('testimonial/list'));
         }
     }
+
     //==================Teacher Methods=======================
-    public function TeacherList(){
+    public function TeacherList()
+    {
 //        dd('test');
-        $data['data_list'] = teacher_model::leftJoin('teacher_socials', 'teacher.teacher_id','=','teacher_socials.teacher_id')->select('teacher_socials.*','teacher.*','teacher.teacher_id')->get();
-        if (count($data['data_list']) > 0){
+        $data['data_list'] = teacher_model::leftJoin('teacher_socials', 'teacher.teacher_id', '=', 'teacher_socials.teacher_id')->select('teacher_socials.*', 'teacher.*', 'teacher.teacher_id')->get();
+        if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.teacher.list'), $data);
-        }else{
+        } else {
             return redirect(url('teacher/add'));
         }
     }
-    public function TeacherAddForm(){
+
+    public function TeacherAddForm()
+    {
         return view($this->ExistViewReturn('software.offers.add'));
     }
-    public function TeacherEdit($id){
-        $data['data'] = teacher_model::leftJoin('teacher_socials', 'teacher.teacher_id','=','teacher_socials.teacher_id')->where('teacher.teacher_id', $id)->first();
-        if ($data['data']){
-            return view($this->ExistViewReturn('software.teacher.add'),$data);
-        }else{
+
+    public function TeacherEdit($id)
+    {
+        $data['data'] = teacher_model::leftJoin('teacher_socials', 'teacher.teacher_id', '=', 'teacher_socials.teacher_id')->where('teacher.teacher_id', $id)->first();
+        if ($data['data']) {
+            return view($this->ExistViewReturn('software.teacher.add'), $data);
+        } else {
             return redirect(url('teacher/list'));
         }
     }
-    public function TeacherUpdateStore(Request $request){
+
+    public function TeacherUpdateStore(Request $request)
+    {
         $this->validate($request, [
             'teachers_say' => 'required',
             'teacher_id' => 'required',
@@ -355,19 +417,19 @@ class SchoolWebsiteAdminController extends Controller
         ]);
 
         $teacher = teacher_model::where('teacher_id', $request->input('teacher_id'))->first();
-        if ($teacher){
+        if ($teacher) {
             $teacher->teachers_say = $request->input('teachers_say');
             $teacher->save();
 
             $social = TeacherSocial::where('teacher_id', $request->input('teacher_id'))->first();
-            if ($social){
+            if ($social) {
                 $social->facebook = $request->input('facebook');
                 $social->twitter = $request->input('twitter');
                 $social->pinterest = $request->input('pinterest');
                 $social->linkedin = $request->input('linkedin');
                 $social->youtube = $request->input('youtube');
                 $social->save();
-            }else{
+            } else {
                 $social = new TeacherSocial();
                 $social->teacher_id = $request->input('teacher_id');
                 $social->facebook = $request->input('facebook');
@@ -379,107 +441,77 @@ class SchoolWebsiteAdminController extends Controller
             }
 
             return redirect(url('teacher/list'));
-        }else{
+        } else {
             return redirect(url('teacher/list'));
         }
     }
-    public function TeacherHomePage($id){
+
+    public function TeacherHomePage($id)
+    {
         $teacher = teacher_model::where('teacher_id', $id)->first();
-        if ($teacher){
-            if ($teacher->is_homepage == 1){
+        if ($teacher) {
+            if ($teacher->is_homepage == 1) {
                 $teacher->is_homepage = 0;
-            }else{
+            } else {
                 $teacher->is_homepage = 1;
             }
             $teacher->save();
 
             return redirect(url('teacher/list'));
-        }else{
+        } else {
             return redirect(url('teacher/list'));
         }
     }
-    public function TeacherDelete($id){
+
+    public function TeacherDelete($id)
+    {
         $slide = teacher_model::where('teacher_id', $id)->first();
-        if ($slide){
+        if ($slide) {
             $slide->delete();
 
             return redirect(url('offers/list'));
-        }else{
+        } else {
             return redirect(url('offers/list'));
 
         }
     }
 
     //==================Contactform Methods=======================
-    public function ContactformList(){
-//        dd('test');
+    public function ContactformList()
+    {
         $data['data_list'] = Contactform::all();
 //        dd('test');
-        if (count($data['data_list']) > 0){
+        if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.contactform.list'), $data);
-        }else{
-            return redirect(url('contactform/add'));
+        } else {
+            return view($this->ExistViewReturn('software.contactform.list'), $data);
         }
     }
-    public function ContactformAddForm(){
-        return view($this->ExistViewReturn('software.contactform.add'));
-    }
-    public function ContactformStore(Request $request){
-        $this->validate($request, [
-            'title' => 'required',
-            'details' => 'required',
-            'relation' => 'required',
+
+    public function ContactformStore(Request $request)
+    {
+        $input = $request->input('data');
+        $validate = Validator::make($input,[
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'phone' => 'required',
+            'subject' => 'required',
+            'message' => 'required',
         ]);
+
+        if ($validate->fails()){
+            return response()->json(['status'=>3000, 'errors'=>$validate->errors()], 200);
+        }
+
         $contactform = new Contactform();
-        $contactform->title = $request->input('title');
-        $contactform->details = $request->input('details');
-        $contactform->relation = $request->input('relation');
+        $contactform->firstname = $input['firstname'];
+        $contactform->lastname = $input['lastname'];
+        $contactform->phone = $input['phone'];
+        $contactform->subject = $input['subject'];
+        $contactform->message = $input['message'];
         $contactform->save();
 
-//        dd($request->all());
-        if($request->hasfile('image')){
-//            dd('test');
-            $imageName = $contactform->id.'.jpg';
-//            dd($imageName);
-            $request->image->move(public_path('/img/backend/contactform'), $imageName);
-
-        }
-        return redirect(url('contactform/list'));
-    }
-    public function ContactformEdit($id){
-        $data['data'] = Contactform::where('id', $id)->first();
-        if ($data['data']){
-            return view($this->ExistViewReturn('software.contactform.add'),$data);
-        }else{
-            return redirect(url('contactform/list'));
-        }
-    }
-    public function ContactformUpdateStore(Request $request){
-        $this->validate($request, [
-            'title' => 'required',
-            'details' => 'required',
-            'relation' => 'required',
-            'id' => 'required',
-        ]);
-
-        $contactform = Contactform::where('id', $request->input('id'))->first();
-        if ($contactform){
-            $contactform->title = $request->input('title');
-            $contactform->details = $request->input('details');
-            $contactform->relation = $request->input('relation');
-            $contactform->save();
-
-            if($request->hasfile('image')){
-//            dd('test');
-                $imageName = $contactform->id.'.jpg';
-//            dd($imageName);
-                $request->image->move(public_path('/img/backend/contactform'), $imageName);
-
-            }
-            return redirect(url('contactform/list'));
-        }else{
-            return redirect(url('contactform/list'));
-        }
+        return response()->json(['status'=>2000, 'msg'=>Config::get('school_website.contact_message', 'Thank you For your Quote')], 200);
     }
     public function ContactformDelete($id)
     {
@@ -492,5 +524,585 @@ class SchoolWebsiteAdminController extends Controller
             return redirect(url('contactform/list'));
         }
     }
-    //==================Contactform Methods=======================
+
+    //==================News Methods=======================
+    public function NewsList()
+    {
+        $data['data_list'] = News::all();
+//        dd('test');
+        if (count($data['data_list']) > 0) {
+            return view($this->ExistViewReturn('software.news.list'), $data);
+        } else {
+            return redirect(url('news/add'));
+        }
+    }
+
+    public function NewsAddForm()
+    {
+        return view($this->ExistViewReturn('software.news.add'));
+    }
+
+    public function NewsStore(Request $request)
+    {
+        $this->validate($request, [
+            'topic' => 'required',
+            'details' => 'required',
+        ]);
+        $news = new News();
+        $news->topic = $request->input('topic');
+        $news->details = $request->input('details');
+        $news->save();
+
+        if ($request->hasfile('image')) {
+            $imageName = $news->id . '.jpg';
+            $request->image->move(public_path('/img/backend/news'), $imageName);
+
+        }
+
+        return redirect(url('news/list'));
+    }
+
+    public function NewsEdit($id)
+    {
+        $data['data'] = News::where('id', $id)->first();
+        if ($data['data']) {
+            return view($this->ExistViewReturn('software.news.add'), $data);
+        } else {
+            return redirect(url('news/list'));
+        }
+    }
+
+    public function NewsUpdateStore(Request $request)
+    {
+        $this->validate($request, [
+            'topic' => 'required',
+            'details' => 'required',
+            'id' => 'required',
+        ]);
+
+        $news = News::where('id', $request->input('id'))->first();
+        if ($news) {
+            $news->topic = $request->input('topic');
+            $news->details = $request->input('details');
+            $news->save();
+
+            if ($request->hasfile('image')) {
+                $imageName = $news->id . '.jpg';
+                $request->image->move(public_path('/img/backend/news'), $imageName);
+
+            }
+
+            return redirect(url('news/list'));
+        } else {
+            return redirect(url('news/list'));
+        }
+    }
+
+    public function NewsDelete($id)
+    {
+        $news = News::where('id', $id)->first();
+        if ($news) {
+            $news->delete();
+
+            return redirect(url('news/list'));
+        } else {
+            return redirect(url('news/list'));
+        }
+    }
+
+    //==================Subscribe Methods=======================
+    public function SubscribeList()
+    {
+        $data['data_list'] = Subscribe::all();
+//        dd('test');
+        if (count($data['data_list']) > 0) {
+            return view($this->ExistViewReturn('software.subscribe.list'), $data);
+        } else {
+            return view($this->ExistViewReturn('software.subscribe.list'), $data);
+        }
+    }
+
+    public function SubscribeStore(Request $request)
+    {
+        $input = $request->input('data');
+        $validate = Validator::make($input,[
+            'email' => 'required',
+        ]);
+        $subscribe = new Subscribe();
+        $subscribe->email = $input['email'];
+        $subscribe->save();
+
+        return response()->json(['status'=>2000, 'msg'=>Config::get('school_website.subscribe_message', 'Thank you For Stay With Us')], 200);
+    }
+
+    public function SubscribeDelete($id)
+    {
+        $subscribe = Subscribe::where('id', $id)->first();
+        if ($subscribe) {
+            $subscribe->delete();
+
+            return redirect(url('subscribe/list'));
+        } else {
+            return redirect(url('subscribe/list'));
+        }
+    }
+
+    //==================Photocategory Methods=======================
+    public function PhotocategoryList()
+    {
+        $data['data_list'] = Photocategory::all();
+        if (count($data['data_list']) > 0) {
+            return view($this->ExistViewReturn('software.photocategory.list'), $data);
+        } else {
+            return redirect(url('photocategory/add'));
+        }
+    }
+
+    public function PhotocategoryAddForm()
+    {
+        return view($this->ExistViewReturn('software.photocategory.add'));
+    }
+
+    public function PhotocategoryStore(Request $request)
+    {
+        $this->validate($request, [
+            'topic' => 'required',
+            'details' => 'required',
+        ]);
+        $photocategory = new Photocategory();
+        $photocategory->topic = $request->input('topic');
+        $photocategory->details = $request->input('details');
+        $photocategory->save();
+
+        return redirect(url('photocategory/list'));
+    }
+
+    public function PhotocategoryEdit($id)
+    {
+        $data['data'] = Photocategory::where('id', $id)->first();
+        if ($data['data']) {
+            return view($this->ExistViewReturn('software.photocategory.add'), $data);
+        } else {
+            return redirect(url('photocategory/list'));
+        }
+    }
+
+    public function PhotocategoryUpdateStore(Request $request)
+    {
+        $this->validate($request, [
+            'topic' => 'required',
+            'details' => 'required',
+        ]);
+
+        $photocategory = Photocategory::where('id', $request->input('id'))->first();
+        if ($photocategory) {
+            $photocategory->topic = $request->input('topic');
+            $photocategory->details = $request->input('details');
+            $photocategory->save();
+
+            return redirect(url('photocategory/list'));
+        } else {
+            return redirect(url('photocategory/list'));
+        }
+    }
+
+    public function PhotocategoryDelete($id)
+    {
+        $photocategory = Photocategory::where('id', $id)->first();
+        if ($photocategory) {
+            $photocategory->delete();
+
+            return redirect(url('photocategory/list'));
+        } else {
+            return redirect(url('photocategory/list'));
+        }
+    }
+
+    //==================Photogallery Methods=======================
+    public function PhotogalleryList()
+    {
+        $data['data_list'] = Photogallery::all();
+//        dd('test');
+        if (count($data['data_list']) > 0) {
+            return view($this->ExistViewReturn('software.photogallery.list'), $data);
+        } else {
+            return redirect(url('photogallery/add'));
+        }
+    }
+
+    public function PhotogalleryAddForm()
+    {
+        return view($this->ExistViewReturn('software.photogallery.add'));
+    }
+
+    public function PhotogalleryStore(Request $request)
+    {
+//        dd($request->all());
+
+        $this->validate($request, [
+            'topic' => 'required',
+            'photocategory' => 'required',
+            'details' => 'required',
+        ]);
+
+        $photogallery = new Photogallery();
+
+        $photogallery->topic = $request->input('topic');
+        $photogallery->photocategory = $request->input('photocategory');
+        $photogallery->details = $request->input('details');
+        $photogallery->save();
+        if ($request->hasfile('image')) {
+            $imageName = $photogallery->id . '.jpg';
+            $request->image->move(public_path('/img/backend/photogallery'), $imageName);
+
+        }
+
+        return redirect(url('photogallery/list'));
+    }
+
+    public function PhotogalleryEdit($id)
+    {
+        $data['data'] = Photogallery::where('id', $id)->first();
+        if ($data['data']) {
+            return view($this->ExistViewReturn('software.photogallery.add'), $data);
+        } else {
+            return redirect(url('photogallery/list'));
+        }
+    }
+
+    public function PhotogalleryUpdateStore(Request $request)
+    {
+        $this->validate($request, [
+            'topic' => 'required',
+            'photocategory' => 'required',
+            'details' => 'required',
+        ]);
+
+        $photogallery = Photogallery::where('id', $request->input('id'))->first();
+        if ($photogallery) {
+            $photogallery->topic = $request->input('topic');
+            $photogallery->photocategory = $request->input('photocategory');
+            $photogallery->details = $request->input('details');
+            $photogallery->save();
+            if ($request->hasfile('image')) {
+                $imageName = $photogallery->id . '.jpg';
+                $request->image->move(public_path('/img/backend/photogallery'), $imageName);
+
+            }
+
+            return redirect(url('photogallery/list'));
+        } else {
+            return redirect(url('photogallery/list'));
+        }
+    }
+
+    public function PhotogalleryDelete($id)
+    {
+        $photogallery = Photogallery::where('id', $id)->first();
+        if ($photogallery) {
+            $photogallery->delete();
+
+            return redirect(url('photogallery/list'));
+        } else {
+            return redirect(url('photogallery/list'));
+        }
+    }
+
+    //==================Socialmedia Methods=======================
+
+    public function SocialmediaList()
+    {
+        $data['data_list'] = Socialmedia::all();
+        if (count($data['data_list']) > 0) {
+            return view($this->ExistViewReturn('software.socialmedia.list'), $data);
+        } else {
+            return redirect(url('socialmedia/add'));
+        }
+    }
+
+    public function SocialmediaAddForm()
+    {
+        return view($this->ExistViewReturn('software.socialmedia.add'));
+    }
+
+    public function SocialmediaStore(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'details' => 'required',
+            'icon' => 'required',
+        ]);
+        $socialmedia = new Socialmedia();
+        $socialmedia->title = $request->input('title');
+        $socialmedia->details = $request->input('details');
+        $socialmedia->icon = $request->input('icon');
+        $socialmedia->save();
+
+        return redirect(url('socialmedia/list'));
+    }
+
+    public function SocialmediaEdit($id)
+    {
+        $data['data'] = Socialmedia::where('id', $id)->first();
+        if ($data['data']) {
+            return view($this->ExistViewReturn('software.socialmedia.add'), $data);
+        } else {
+            return redirect(url('socialmedia/list'));
+        }
+    }
+
+    public function SocialmediaUpdateStore(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'details' => 'required',
+            'icon' => 'required',
+            'id' => 'required',
+        ]);
+
+        $socialmedia = Socialmedia::where('id', $request->input('id'))->first();
+        if ($socialmedia) {
+            $socialmedia->title = $request->input('title');
+            $socialmedia->details = $request->input('details');
+            $socialmedia->icon = $request->input('icon');
+            $socialmedia->save();
+
+            return redirect(url('socialmedia/list'));
+        } else {
+            return redirect(url('socialmedia/list'));
+        }
+    }
+
+    public function SocialmediaDelete($id)
+    {
+        $socialmedia = Socialmedia::where('id', $id)->first();
+        if ($socialmedia) {
+            $socialmedia->delete();
+
+            return redirect(url('socialmedia/list'));
+        } else {
+            return redirect(url('socialmedia/list'));
+        }
+    }
+
+
+    //==================Page Methods=======================
+    public function PageList()
+    {
+        $data['data_list'] = Page::all();
+        if (count($data['data_list']) > 0) {
+            return view($this->ExistViewReturn('software.page.list'), $data);
+        } else {
+            return redirect(url('page/add'));
+        }
+    }
+
+    public function PageAddForm()
+    {
+        $data['pages'] = Page::all();
+        return view($this->ExistViewReturn('software.page.add'), $data);
+    }
+
+    public function PageStore(Request $request)
+    {
+
+//        dd($request->all());
+        $this->validate($request, [
+            'title' => 'required',
+            'url' => 'sometimes',
+            'description' => 'sometimes',
+            'template' => 'sometimes',
+            'is_menu' => 'sometimes',
+            'position' => 'sometimes',
+            'parent' => 'sometimes',
+        ]);
+
+//        dd('test');
+        $page = new Page();
+        $page->title = $request->input('title');
+        $page->url = str_replace(' ', '-', mb_strtolower($request->input('title')));
+        $page->description = $request->input('description');
+        $page->template = $request->input('template');
+        $page->is_menu = $request->input('is_menu');
+        $page->position = $request->input('position');
+        $page->parent = $request->input('parent');
+        $page->save();
+        if ($request->hasfile('image')) {
+            $imageName = $page->id . '.jpg';
+            $request->image->move(public_path('/img/backend/page'), $imageName);
+
+        }
+
+        return redirect(url('page/list'));
+    }
+
+    public function PageEdit($id)
+    {
+        $data['pages'] = Page::get();
+        $data['data'] = Page::where('id', $id)->first();
+//        dd($data['pages']);
+        if ($data['pages']) {
+            return view($this->ExistViewReturn('software.page.add'), $data);
+        } else {
+            return redirect(url('page/list'));
+        }
+    }
+
+    public function PageUpdateStore(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'url' => 'sometimes',
+            'description' => 'sometimes',
+            'template' => 'sometimes',
+            'is_menu' => 'sometimes',
+            'position' => 'sometimes',
+            'parent' => 'sometimes',
+            'id' => 'required',
+        ]);
+
+        $page = Page::where('id', $request->input('id'))->first();
+        if ($page) {
+            $page->title = $request->input('title');
+            $page->url = str_replace(' ', '-', mb_strtolower($request->input('title')));
+            $page->description = $request->input('description');
+            $page->template = $request->input('template');
+            $page->is_menu = $request->input('is_menu');
+            $page->position = $request->input('position');
+            $page->parent = $request->input('parent');
+            $page->save();
+            if ($request->hasfile('image')) {
+                $imageName = $page->id . '.jpg';
+                $request->image->move(public_path('/img/backend/page'), $imageName);
+
+            }
+
+            return redirect(url('page/list'));
+        } else {
+            return redirect(url('page/list'));
+        }
+    }
+
+    public function PageDelete($id)
+    {
+        $page = Page::where('id', $id)->first();
+        if ($page) {
+            $page->delete();
+
+            return redirect(url('page/list'));
+        } else {
+            return redirect(url('page/list'));
+        }
+    }
+
+    //==================Faculty Methods=======================
+    public function FacultyList()
+    {
+        $data['data_list'] = Faculty::all();
+        if (count($data['data_list']) > 0) {
+            return view($this->ExistViewReturn('software.faculty.list'), $data);
+        } else {
+            return redirect(url('faculty/add'));
+        }
+    }
+
+    public function FacultyAddForm()
+    {
+        $courses = manage_department_model::all()->toArray();
+        $data['courses'] = collect($courses)->unique('department_code');
+
+        return view($this->ExistViewReturn('software.faculty.add'), $data);
+    }
+
+    public function FacultyStore(Request $request)
+    {
+
+//        dd($request->all());
+        $this->validate($request, [
+            'coursecode' => 'sometimes',
+            'overview' => 'sometimes',
+            'feature' => 'sometimes',
+            'scope' => 'sometimes',
+            'subject' => 'sometimes',
+            'labinfo' => 'sometimes',
+        ]);
+
+//        dd('test');
+        $faculty = new Faculty();
+        $faculty->coursecode = $request->input('coursecode');
+        $faculty->overview = $request->input('overview');
+        $faculty->feature = $request->input('feature');
+        $faculty->scope = $request->input('scope');
+        $faculty->subject = $request->input('subject');
+        $faculty->labinfo = $request->input('labinfo');
+        $faculty->save();
+        if ($request->hasfile('image')) {
+            $imageName = $faculty->id . '.jpg';
+            $request->image->move(public_path('/img/backend/faculty'), $imageName);
+
+        }
+
+        return redirect(url('faculty/list'));
+    }
+
+    public function FacultyEdit($id)
+    {
+        $courses = manage_department_model::all()->toArray();
+        $data['courses'] = collect($courses)->unique('department_code');
+
+        $data['data'] = Faculty::where('id', $id)->first();
+//        dd($data['facultys']);
+        if ($data['courses']) {
+            return view($this->ExistViewReturn('software.faculty.add'), $data);
+        } else {
+            return redirect(url('faculty/list'));
+        }
+    }
+
+    public function FacultyUpdateStore(Request $request)
+    {
+        $this->validate($request, [
+            'coursecode' => 'sometimes',
+            'overview' => 'sometimes',
+            'feature' => 'sometimes',
+            'scope' => 'sometimes',
+            'subject' => 'sometimes',
+            'labinfo' => 'sometimes',
+            'id' => 'required',
+        ]);
+
+        $faculty = Faculty::where('id', $request->input('id'))->first();
+        if ($faculty) {
+            $faculty->coursecode = $request->input('coursecode');
+            $faculty->overview = $request->input('overview');
+            $faculty->feature = $request->input('feature');
+            $faculty->scope = $request->input('scope');
+            $faculty->subject = $request->input('subject');
+            $faculty->labinfo = $request->input('labinfo');
+            $faculty->save();
+            if ($request->hasfile('image')) {
+                $imageName = $faculty->id . '.jpg';
+                $request->image->move(public_path('/img/backend/faculty'), $imageName);
+
+            }
+
+            return redirect(url('faculty/list'));
+        } else {
+            return redirect(url('faculty/list'));
+        }
+    }
+
+    public function FacultyDelete($id)
+    {
+        $faculty = Faculty::where('id', $id)->first();
+        if ($faculty) {
+            $faculty->delete();
+
+            return redirect(url('faculty/list'));
+        } else {
+            return redirect(url('faculty/list'));
+        }
+    }
+
+
 }

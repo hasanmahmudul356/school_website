@@ -1,12 +1,12 @@
 @extends('admin.index')
-@section('Title','Contactform List')
+@section('Title','subscribe List')
 @section('breadcrumbs','Admin')
-@section('breadcrumbs_link','/Contactform/list')
-@section('breadcrumbs_title','Contactform List')
+@section('breadcrumbs_link','/subscribe/list')
+@section('breadcrumbs_title','subscribe List')
 
 @section('content')
     <div class="container">
-        <h2>Contactform List</h2>
+        <h2>subscribe List</h2>
         <div id="home" class="tab-pane fade in active">
             <div class="widget-box">
                 <div class="widget-title"><span class="icon"><i class="icon-th"></i></span>
@@ -18,35 +18,27 @@
                         <thead>
                         <tr>
                             <th>SL</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Phone</th>
-                            <th>Subject</th>
-                            <th>Message</th>
+                            <th>Email</th>
                             <th>Action</th>
                         </tr>
                         </thead>
 
 
                         <tbody>
-
                         @if (count($data_list) > 0)
-                            @foreach($data_list as $key => $Contactform)
+                            @foreach($data_list as $key => $subscribe)
+
                                 <tr class="gradeX">
                                     <td>{{$key+1}}</td>
-                                    <td>{{$Contactform->firstname}}</td>
-                                    <td>{{$Contactform->lastname}}</td>
-                                    <td>{{$Contactform->phone}}</td>
-                                    <td>{{$Contactform->subject}}</td>
-                                    <td>{{$Contactform->message}}</td>
+                                    <td>{{$subscribe->email}}</td>
                                     <td>
-                                        <a onclick="return confirm('are you sure?')" href="{{url('contactform/delete')}}/{{$Contactform->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                        <a onclick="return confirm('are you sure?')" href="{{url('subscribe/delete')}}/{{$subscribe->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
                             @else
-                            <tr class="gradeX">
-                                <td colspan="7">Data Not Found</td>
+                            <tr>
+                                <td colspan="3">Data Not found</td>
                             </tr>
                         @endif
                         </tbody>

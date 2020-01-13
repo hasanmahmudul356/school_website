@@ -20,9 +20,10 @@
     <link rel="stylesheet" href="{{env('PUBLIC_PATH')}}/vendor/front_assets/css/flaticon.css">
     <link rel="stylesheet" href="{{env('PUBLIC_PATH')}}/vendor/front_assets/css/icomoon.css">
     <link rel="stylesheet" href="{{env('PUBLIC_PATH')}}/vendor/front_assets/css/style.css">
+    <link rel="stylesheet" href="{{env('PUBLIC_PATH')}}/vendor/front_assets/css/custom_style.css">
     @yield('style')
 </head>
-<body>
+<body >
 
 @php
     $blade_url = '';
@@ -38,7 +39,10 @@
 @yield('content')
 
 @include($blade_url.'website.layouts.footer')
-
+<script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/vue/vue.js"></script>
+<script>
+    var baseURL = '{{url('/')}}';
+</script>
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/jquery.min.js"></script>
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/popper.min.js"></script>
@@ -51,9 +55,8 @@
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/aos.js"></script>
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/jquery.animateNumber.min.js"></script>
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/scrollax.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-<script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/google-map.js"></script>
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/main.js"></script>
-
+<script>$.ajaxSetup({data : {_token: '{{csrf_token()}}'},});</script>
+@yield('script')
 </body>
 </html>

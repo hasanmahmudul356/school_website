@@ -10,6 +10,6 @@ class Contactform extends Model
 {
     protected $table = 'contactform';
     protected $fillable = [
-        'title', 'details','colour'
+        'firstname','lastname','phone','subject','message'
     ];
 }

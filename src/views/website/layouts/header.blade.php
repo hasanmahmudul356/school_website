@@ -28,13 +28,15 @@
         </button>
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a href="index.html" class="nav-link pl-0">Home</a></li>
-                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="teacher.html" class="nav-link">Teacher</a></li>
-                <li class="nav-item"><a href="courses.html" class="nav-link">Courses</a></li>
-                <li class="nav-item"><a href="pricing.html" class="nav-link">Pricing</a></li>
-                <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                @php
+                    $menus = DB::table('page')->where('is_menu', 1)->where('position', 'main_menu')->get();
+                @endphp
+                <li class="nav-item active"><a href="{{url('/')}}" class="nav-link pl-0">Home</a></li>
+                @if (count($menus) > 0)
+                    @foreach($menus as $menu)
+                        <li class="nav-item"><a href="{{url('/page')}}/{{$menu->url}}" class="nav-link">{{$menu->title}}</a></li>
+                    @endforeach
+                @endif
             </ul>
         </div>
     </div>

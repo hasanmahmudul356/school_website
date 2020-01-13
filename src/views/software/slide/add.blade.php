@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label for="student_name" class="control-label" title="student_name">Imag</label>
+                            <label for="student_name" class="control-label" title="student_name">Image</label>
                             <div class="controls">
                                 <input type="file" name="image" onchange="showImage(this, 'ImageId')">
                             </div>
