@@ -141,7 +141,7 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
 
 });
 
-Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_website\Http\Controllers'], function () {
+Route::group(['middleware' => ['web'], 'namespace' => 'Tmss\School_website\Http\Controllers'], function () {
     Route::get('/', 'SchoolWebsiteController@index');
     Route::get('about-us', 'SchoolWebsiteController@AboutUs');
     Route::get('teachers', 'SchoolWebsiteController@Teachers');
