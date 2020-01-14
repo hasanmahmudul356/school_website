@@ -14,10 +14,10 @@ In the $providers array add the service providers for this package.
 
 ## Publish your Vendor
 
-### php artisan vendor:publish
+#### php artisan vendor:publish
 
 ## Run Seeder For Web site Configuration
 
-### php artisan db:seed --class=Tmss\School_website\Database\Seeds\WebsiteConfigSeeder
+#### php artisan db:seed --class=Tmss\School_website\Database\Seeds\WebsiteConfigSeeder
 
 
