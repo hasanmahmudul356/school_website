@@ -138,6 +138,16 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@FacultyDelete');
     });
 
+    Route::group(['prefix'=>'website_configs'], function (){
+        Route::get('/list', 'SchoolWebsiteAdminController@WebsiteConfigList');
+        Route::get('/add', 'SchoolWebsiteAdminController@WebsiteConfigsAddForm');
+        Route::post('/add', 'SchoolWebsiteAdminController@WebsiteConfigsStore');
+        Route::post('/update', 'SchoolWebsiteAdminController@WebsiteConfigsUpdateStore');
+        Route::get('/edit/{id}', 'SchoolWebsiteAdminController@WebsiteConfigsEdit');
+        Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@WebsiteConfigsHomeWebsite_configs');
+        Route::get('/delete/{id}', 'SchoolWebsiteAdminController@WebsiteConfigsDelete');
+    });
+
 
 });
 

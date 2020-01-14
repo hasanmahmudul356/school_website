@@ -3,14 +3,20 @@
         <div class="row mb-5">
             <div class="col-md-6 col-lg-3">
                 <div class="ftco-footer-widget mb-5">
-                    <h2 class="ftco-heading-2">Have a Questions?</h2>
+                    <h2 class="ftco-heading-2">{{isset($config) ? $config['footer_block1_head'] : ''}}</h2>
                     <div class="block-23 mb-3">
                         <ul>
-                            <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span>
+                            <li><span class="icon icon-map-marker"></span><span class="text">
+                                    {{isset($config) ? $config['address'] : ''}}
+                                </span>
                             </li>
                             <li><a href="#"><span class="icon icon-phone"></span><span
-                                            class="text">+2 392 3929 210</span></a></li>
-                            <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a>
+                                            class="text">
+                                        {{isset($config) ? $config['phone'] : ''}}
+                                    </span></a></li>
+                            <li><a href="#"><span class="icon icon-envelope"></span><span class="text">
+                                    {{isset($config) ? $config['email'] : ''}}
+                                    </span></a>
                             </li>
                         </ul>
                     </div>
@@ -18,48 +24,39 @@
             </div>
             <div class="col-md-6 col-lg-3">
                 <div class="ftco-footer-widget mb-5">
-                    <h2 class="ftco-heading-2">Recent Blog</h2>
-                    <div class="block-21 mb-4 d-flex">
-                        <a class="blog-img mr-4"
-                           style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/image_1.jpg);"></a>
-                        <div class="text">
-                            <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>
-                            <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span> Dec 25, 2018</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="block-21 mb-5 d-flex">
-                        <a class="blog-img mr-4"
-                           style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/image_2.jpg);"></a>
-                        <div class="text">
-                            <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>
-                            <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span> Dec 25, 2018</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                            </div>
-                        </div>
-                    </div>
+
+                    <h2 class="ftco-heading-2">{{isset($config) ? $config['footer_block2_head'] : ''}}</h2>
+                    <ul class="list-unstyled">
+
+                        @php
+                            $menus = DB::table('page')->where('is_menu', 1)->where('position', 'about_us_footer_menu')->get();
+                        @endphp
+                        @if (count($menus) > 0)
+                            @foreach($menus as $menu)
+                                <li><a href="{{url('/page')}}/{{$menu->url}}" class=""><span class="ion-ios-arrow-round-forward mr-2"></span>{{$menu->title}}</a></li>
+                            @endforeach
+                        @endif
+                    </ul>
+
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
                 <div class="ftco-footer-widget mb-5 ml-md-4">
-                    <h2 class="ftco-heading-2">Links</h2>
+                    <h2 class="ftco-heading-2">{{isset($config) ? $config['footer_block3_head'] : ''}}</h2>
                     <ul class="list-unstyled">
-                        <li><a href="#"><span class="ion-ios-arrow-round-forward mr-2"></span>Home</a></li>
-                        <li><a href="#"><span class="ion-ios-arrow-round-forward mr-2"></span>About</a></li>
-                        <li><a href="#"><span class="ion-ios-arrow-round-forward mr-2"></span>Services</a></li>
-                        <li><a href="#"><span class="ion-ios-arrow-round-forward mr-2"></span>Deparments</a></li>
-                        <li><a href="#"><span class="ion-ios-arrow-round-forward mr-2"></span>Contact</a></li>
+                    @if (isset($courses) && count($courses) > 0)
+                        @foreach($courses as $course)
+                            <li>
+                                <a href="{{url('courses')}}/{{$course['department_code']}}"><span class="ion-ios-arrow-round-forward mr-2"></span>{{isset($course['department_name']) ? $course['department_name'] : ''}}</a>
+                            </li>
+                        @endforeach
+                    @endif
                     </ul>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
                 <div class="ftco-footer-widget mb-5" id="Vue_component_subscriber">
-                    <h2 class="ftco-heading-2">Subscribe Us!</h2>
+                    <h2 class="ftco-heading-2">{{isset($config) ? $config['footer_block4_head'] : ''}}</h2>
                     <p class="mb-4" v-text="SuccessMessge"></p>
                     <form method="post" @submit.prevent="SubmitContact($event)"
                           enctype="multipart/form-data" class="subscribe-form">
@@ -71,7 +68,7 @@
                 </div>
                 @if (isset($socialmedias) && count($socialmedias) > 0)
                     <div class="ftco-footer-widget mb-5">
-                        <h2 class="ftco-heading-2 mb-0">Connect With Us</h2>
+                        <h2 class="ftco-heading-2 mb-0">{{isset($config) ? $config['footer_block5_head'] : ''}}</h2>
                         <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-3">
                             @foreach($socialmedias as $socialmedia):
                             <li class="ftco-animate"><a target="_blank" href="{{$socialmedia->details}}"><span class="fa {{$socialmedia->icon}}"></span></a></li>
@@ -83,12 +80,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 text-center">
-
-                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                    All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a
-                            href="https://colorlib.com" target="_blank">Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                <p>{!! isset($config) ? $config['copywright'] : '' !!}</p>
             </div>
         </div>
     </div>

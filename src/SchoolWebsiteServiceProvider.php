@@ -44,6 +44,9 @@ class SchoolWebsiteServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/public/front_assets' => public_path('vendor/front_assets'),
         ], 'public');
+
+        $router = $this->app['router'];
+        $router->pushMiddlewareToGroup('web', Http\Middleware\GlobalShareMiddleware::class);
     }
 
     public function register()

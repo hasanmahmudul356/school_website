@@ -25,7 +25,7 @@
                             <th>SL</th>
                             <th>image</th>
                             <th>Topic</th>
-                            <th>Photo Category</th>
+                            <th>Category</th>
                             <th>Details</th>
                             <th>Action</th>
                         </tr>
@@ -40,7 +40,7 @@
                                 <td>{{$key+1}}</td>
                                 <td><img style="max-height: 30px" src="{{env('PUBLIC_PATH')}}/img/backend/photogallery/{{$photogallery->id.'.jpg'}}"></td>
                                 <td>{{$photogallery->topic}}</td>
-                                <td>{{$photogallery->photocategory}}</td>
+                                <td>{{$photogallery->categoryname}}</td>
                                 <td>{{$photogallery->details}}</td>
                                 <td>
                                     <a href="{{url('photogallery/edit')}}/{{$photogallery->id}}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>

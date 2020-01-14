@@ -38,8 +38,14 @@ return [
             'title' => 'Page',
             'route' => 'page/list',
         ],[
-            'title' => 'Faculty',
+            'title' => 'Faculty & Fee Structure',
             'route' => 'faculty/list',
+        ],[
+            'title' => 'Website Configs',
+            'route' => 'website_configs/list',
+        ],[
+            'title' => 'Website Configs',
+            'route' => 'website_configs/list',
         ]
     ],
     'contact_message' => 'Thank you for your message, As so as Possible we will contact you',

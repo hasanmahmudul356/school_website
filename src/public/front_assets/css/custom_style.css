@@ -6,3 +6,10 @@ div.applicationform .form-control{
     height:40px !important;
     border-radius: 5px;
 }
+div.content_area{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+span.text.address {
+    font-size: 12px;
+}

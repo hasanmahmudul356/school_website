@@ -62,22 +62,18 @@
                 <div class="row">
                     <div class="col-md-5 order-md-last wrap-about py-5 wrap-about bg-light">
                         <div class="text px-4 ftco-animate">
-                            <h2 class="mb-4">Welcome to Kiddos Learning School</h2>
-                            <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from
-                                it would have been rewritten a thousand times and everything that was left from its
-                                origin would be the word.</p>
-                            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large
-                                language ocean. A small river named Duden flows by their place and supplies it with the
-                                necessary regelialia. And if she hasn’t been rewritten, then they are still using
-                                her.</p>
+                            <h2 class="mb-4">{!! isset($config_head) ? $config_head['welcome_message'] : '' !!}</h2>
+                            <p>
+                                {!! isset($config) ? $config['welcome_message'] : '' !!}
+                            </p>
                             <p><a href="#" class="btn btn-secondary px-4 py-3">Read More</a></p>
                         </div>
                     </div>
                     <div class="col-md-7 wrap-about py-5 pr-md-4 ftco-animate">
-                        <h2 class="mb-4">What We Offer</h2>
-                        <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it
-                            would have been rewritten a thousand times and everything that was left from its origin
-                            would be the word.</p>
+                        <h2 class="mb-4">{{isset($config_head) ? $config_head['what_we_offer'] : ''}}</h2>
+                        <p>
+                            {{isset($config) ? $config['what_we_offer'] : ''}}
+                        </p>
                         <div class="row mt-5">
                             @foreach ($offers as $offers)
                                 <div class="col-lg-6">
@@ -104,13 +100,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
-                    <h2>Teaching Your Child Some Good Manners</h2>
-                    <p class="mb-0">A small river named Duden flows by their place and supplies it with the necessary
-                        regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your
-                        mouth.</p>
+                    <h2>{{isset($config_head) ? $config_head['teaching_style'] : ''}}</h2>
+                    <p class="mb-0">
+                        {{isset($config) ? $config['teaching_style'] : ''}}
+                    </p>
                 </div>
                 <div class="col-md-3 d-flex align-items-center">
-                    <p class="mb-0"><a href="#" class="btn btn-secondary px-4 py-3">Take a Course</a></p>
+                    <p class="mb-0"><a href="{{url('/')}}/page/courses" class="btn btn-secondary px-4 py-3">Take a
+                            Course</a></p>
                 </div>
             </div>
         </div>
@@ -120,9 +117,9 @@
             <div class="container">
                 <div class="row justify-content-center mb-5 pb-2">
                     <div class="col-md-8 text-center heading-section ftco-animate">
-                        <h2 class="mb-4"><span>Certified</span> Teachers</h2>
-                        <p>Separated they live in. A small river named Duden flows by their place and supplies it with
-                            the necessary regelialia. It is a paradisematic country</p>
+                        <h2 class="mb-4"><span>{{isset($config_head) ? $config_head['certified_teachers'] : ''}}</span>
+                        </h2>
+                        <p>{{isset($config) ? $config['certified_teachers'] : ''}}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -183,9 +180,8 @@
             <div class="container">
                 <div class="row justify-content-center mb-5 pb-2">
                     <div class="col-md-8 text-center heading-section ftco-animate">
-                        <h2 class="mb-4"><span>Our</span> Courses</h2>
-                        <p>Separated they live in. A small river named Duden flows by their place and supplies it with
-                            the necessary regelialia. It is a paradisematic country</p>
+                        <h2 class="mb-4">{{isset($config_head) ? $config_head['our_courses'] : ''}}</h2>
+                        <p>{{isset($config) ? $config['our_courses'] : ''}}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -202,7 +198,7 @@
                             <div class="img" style="background-image: url({{$image}});"></div>
                             <div class="text bg-light p-4">
                                 <h3>
-                                    <a href="#">{{isset($course['department_name']) ? $course['department_name'] : ''}}</a>
+                                    <a href="{{url('courses')}}/{{$course['department_code']}}">{{isset($course['department_name']) ? $course['department_name'] : ''}}</a>
                                 </h3>
                                 <p class="subheading">
                                     <span>Course Code:</span>{{isset($course['department_code']) ? $course['department_code'] : ''}}
@@ -221,9 +217,9 @@
         <div class="container">
             <div class="row justify-content-center mb-5 pb-2">
                 <div class="col-md-8 text-center heading-section heading-section-black ftco-animate">
-                    <h2 class="mb-4"><span>20 Years of</span> Experience</h2>
-                    <p>Separated they live in. A small river named Duden flows by their place and supplies it with the
-                        necessary regelialia. It is a paradisematic country</p>
+                    <h2 class="mb-4">{{isset($config_head) ? $config_head['years_of_experience'] : ''}}</h2>
+                    <p>{{isset($config) ? $config['years_of_experience'] : ''}}
+                    </p>
                 </div>
             </div>
             <div class="row d-md-flex align-items-center justify-content-center">
@@ -275,10 +271,9 @@
             <div class="container">
                 <div class="row justify-content-center mb-5 pb-2">
                     <div class="col-md-8 text-center heading-section ftco-animate">
-                        <h2 class="mb-4"><span>What Parents</span> Says About Us</h2>
-                        <p>Separated they live in. A small river named Duden flows by their place and supplies it with
-                            the
-                            necessary regelialia. It is a paradisematic country</p>
+                        <h2 class="mb-4">{{isset($config_head) ? $config_head['parents_comment'] : ''}}</h2>
+                        <p>{{isset($config) ? $config['parents_comment'] : ''}}
+                            </p>
                     </div>
                 </div>
                 <div class="row ftco-animate justify-content-center">
@@ -307,24 +302,26 @@
             </div>
         </section>
     @endif
-    <section class="ftco-section ftco-consult ftco-no-pt ftco-no-pb" style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/bg_5.jpg);" >
+    <section class="ftco-section ftco-consult ftco-no-pt ftco-no-pb"
+             style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/bg_5.jpg);">
         <div class="container" id="Vue_component_wrapper">
             <div class="row justify-content-end">
                 <div class="col-md-6 py-5 px-md-5 bg-primary">
                     <div class="heading-section heading-section-white">
-                        <h2 class="mb-4">Request A Quote</h2>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
-                            there live the blind texts.</p>
+                        <h2 class="mb-4">{{isset($config_head) ? $config_head['request_a_quote'] : ''}}</h2>
+                        <p>{{isset($config) ? $config['request_a_quote'] : ''}}</p>
                         <p class="mb-4" v-text="SuccessMessge"></p>
                     </div>
                     <form class="appointment-form" @submit.prevent="SubmitContact($event)">
                         <div class="d-md-flex">
                             <div class="form-group">
-                                <input placeholder="First Name" v-model="FormData.firstname" type="text" class="form-control">
+                                <input placeholder="First Name" v-model="FormData.firstname" type="text"
+                                       class="form-control">
                                 <p class="text-danger" v-text="error.get('firstname')"></p>
                             </div>
                             <div class="form-group ml-md-4">
-                                <input placeholder="Last Name" type="text" class="form-control"  v-model="FormData.lastname">
+                                <input placeholder="Last Name" type="text" class="form-control"
+                                       v-model="FormData.lastname">
                                 <p class="text-danger" v-text="error.get('lastname')"></p>
                             </div>
                         </div>
@@ -334,13 +331,15 @@
                                 <p class="text-danger" v-text="error.get('phone')"></p>
                             </div>
                             <div class="form-group ml-md-4">
-                                <input placeholder="Subject" type="text" class="form-control" v-model="FormData.subject">
+                                <input placeholder="Subject" type="text" class="form-control"
+                                       v-model="FormData.subject">
                                 <p class="text-danger" v-text="error.get('subject')"></p>
                             </div>
                         </div>
                         <div class="d-md-flex">
                             <div class="form-group">
-                                <textarea class="form-control" placeholder="Message" type="text" v-model="FormData.message"></textarea>
+                                <textarea class="form-control" placeholder="Message" type="text"
+                                          v-model="FormData.message"></textarea>
                                 <p class="text-danger" v-text="error.get('message')"></p>
                             </div>
                             <div class="form-group ml-md-4">
@@ -357,9 +356,8 @@
             <div class="container">
                 <div class="row justify-content-center mb-5 pb-2">
                     <div class="col-md-8 text-center heading-section ftco-animate">
-                        <h2 class="mb-4"><span>Our</span> Pricing</h2>
-                        <p>Separated they live in. A small river named Duden flows by their place and supplies it with
-                            the necessary regelialia. It is a paradisematic country</p>
+                        <h2 class="mb-4">{{isset($config_head) ? $config_head['take_a_course'] : ''}}</h2>
+                        <p>{{isset($config) ? $config['take_a_course'] : ''}}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -395,9 +393,8 @@
             <div class="container">
                 <div class="row justify-content-center mb-5 pb-2">
                     <div class="col-md-8 text-center heading-section ftco-animate">
-                        <h2 class="mb-4"><span>Recent</span> Blog</h2>
-                        <p>Separated they live in. A small river named Duden flows by their place and supplies it with the
-                            necessary regelialia. It is a paradisematic country</p>
+                        <h2 class="mb-4"><span>{{isset($config_head) ? $config_head['recent_news'] : ''}}</span></h2>
+                        <p>{{isset($config) ? $config['recent_news'] : ''}}</p>
                     </div>
                 </div>
                 <div class="row">

@@ -26,6 +26,7 @@ use Tmss\School_website\Http\Models\Socialmedia;
 use Tmss\School_website\Http\Models\Subscribe;
 use Tmss\School_website\Http\Models\Testimonial;
 use Tmss\School_website\Http\Models\TeacherSocial;
+use Tmss\School_website\Http\Models\WebsiteConfig;
 
 
 class SchoolWebsiteAdminController extends Controller
@@ -491,7 +492,7 @@ class SchoolWebsiteAdminController extends Controller
     public function ContactformStore(Request $request)
     {
         $input = $request->input('data');
-        $validate = Validator::make($input,[
+        $validate = Validator::make($input, [
             'firstname' => 'required',
             'lastname' => 'required',
             'phone' => 'required',
@@ -499,8 +500,8 @@ class SchoolWebsiteAdminController extends Controller
             'message' => 'required',
         ]);
 
-        if ($validate->fails()){
-            return response()->json(['status'=>3000, 'errors'=>$validate->errors()], 200);
+        if ($validate->fails()) {
+            return response()->json(['status' => 3000, 'errors' => $validate->errors()], 200);
         }
 
         $contactform = new Contactform();
@@ -511,8 +512,9 @@ class SchoolWebsiteAdminController extends Controller
         $contactform->message = $input['message'];
         $contactform->save();
 
-        return response()->json(['status'=>2000, 'msg'=>Config::get('school_website.contact_message', 'Thank you For your Quote')], 200);
+        return response()->json(['status' => 2000, 'msg' => Config::get('school_website.contact_message', 'Thank you For your Quote')], 200);
     }
+
     public function ContactformDelete($id)
     {
         $contactform = Contactform::where('id', $id)->first();
@@ -625,14 +627,14 @@ class SchoolWebsiteAdminController extends Controller
     public function SubscribeStore(Request $request)
     {
         $input = $request->input('data');
-        $validate = Validator::make($input,[
+        $validate = Validator::make($input, [
             'email' => 'required',
         ]);
         $subscribe = new Subscribe();
         $subscribe->email = $input['email'];
         $subscribe->save();
 
-        return response()->json(['status'=>2000, 'msg'=>Config::get('school_website.subscribe_message', 'Thank you For Stay With Us')], 200);
+        return response()->json(['status' => 2000, 'msg' => Config::get('school_website.subscribe_message', 'Thank you For Stay With Us')], 200);
     }
 
     public function SubscribeDelete($id)
@@ -721,8 +723,8 @@ class SchoolWebsiteAdminController extends Controller
     //==================Photogallery Methods=======================
     public function PhotogalleryList()
     {
-        $data['data_list'] = Photogallery::all();
-//        dd('test');
+        $data['data_list'] = Photogallery::leftJoin('photocategory','photogallery.photocategory','=','photocategory.id')->select('photogallery.*','photocategory.topic as categoryname')->get();
+//        dd($data['data_list']);
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.photogallery.list'), $data);
         } else {
@@ -732,7 +734,8 @@ class SchoolWebsiteAdminController extends Controller
 
     public function PhotogalleryAddForm()
     {
-        return view($this->ExistViewReturn('software.photogallery.add'));
+        $data['data_list'] = Photocategory::all();
+        return view($this->ExistViewReturn('software.photogallery.add'), $data);
     }
 
     public function PhotogalleryStore(Request $request)
@@ -762,6 +765,7 @@ class SchoolWebsiteAdminController extends Controller
 
     public function PhotogalleryEdit($id)
     {
+        $data['data_list'] = Photocategory::all();
         $data['data'] = Photogallery::where('id', $id)->first();
         if ($data['data']) {
             return view($this->ExistViewReturn('software.photogallery.add'), $data);
@@ -998,7 +1002,12 @@ class SchoolWebsiteAdminController extends Controller
     //==================Faculty Methods=======================
     public function FacultyList()
     {
-        $data['data_list'] = Faculty::all();
+        $val = Faculty::leftJoin('manage_department', 'faculty.coursecode', '=', 'manage_department.department_code')->select('faculty.*', 'manage_department.department_name','manage_department.department_code')->get();
+
+//        dd($val);
+        $data['data_list']=$val->unique('department_code');
+
+//        $data['data_list'] = Faculty::all();
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.faculty.list'), $data);
         } else {
@@ -1025,6 +1034,8 @@ class SchoolWebsiteAdminController extends Controller
             'scope' => 'sometimes',
             'subject' => 'sometimes',
             'labinfo' => 'sometimes',
+            'fees' => 'sometimes',
+            'fees_structure' => 'sometimes',
         ]);
 
 //        dd('test');
@@ -1035,6 +1046,8 @@ class SchoolWebsiteAdminController extends Controller
         $faculty->scope = $request->input('scope');
         $faculty->subject = $request->input('subject');
         $faculty->labinfo = $request->input('labinfo');
+        $faculty->fees = $request->input('fees');
+        $faculty->fees_structure = $request->input('fees_structure');
         $faculty->save();
         if ($request->hasfile('image')) {
             $imageName = $faculty->id . '.jpg';
@@ -1068,6 +1081,8 @@ class SchoolWebsiteAdminController extends Controller
             'scope' => 'sometimes',
             'subject' => 'sometimes',
             'labinfo' => 'sometimes',
+            'fees' => 'sometimes',
+            'fees_structure' => 'sometimes',
             'id' => 'required',
         ]);
 
@@ -1079,6 +1094,8 @@ class SchoolWebsiteAdminController extends Controller
             $faculty->scope = $request->input('scope');
             $faculty->subject = $request->input('subject');
             $faculty->labinfo = $request->input('labinfo');
+            $faculty->fees = $request->input('fees');
+            $faculty->fees_structure = $request->input('fees_structure');
             $faculty->save();
             if ($request->hasfile('image')) {
                 $imageName = $faculty->id . '.jpg';
@@ -1104,5 +1121,93 @@ class SchoolWebsiteAdminController extends Controller
         }
     }
 
+    //==================Website_configs Methods=======================
+    public function WebsiteConfigsAddForm()
+    {
+        return view($this->ExistViewReturn('software.config.add'));
+    }
 
+    public function WebsiteConfigsStore(Request $request)
+    {
+        $this->validate($request, [
+            'type' => 'required',
+            'name' => 'required',
+            'display_name' => 'required',
+            'value' => 'required',
+        ]);
+
+        if ($request->input('type') == 'file'){
+            if ($request->hasfile('value')) {
+                $imageName = time(). '_'.$request->input('name').'.jpg';
+                $request->value->move(public_path('/img/backend/config'), $imageName);
+
+            }
+        }
+
+        $faculty = new WebsiteConfig();
+        $faculty->type = $request->input('type');
+        $faculty->name = $request->input('name');
+        $faculty->display_name = $request->input('display_name');
+        $faculty->value = $request->input('type') == 'file' ? $imageName : $request->input('value');
+        $faculty->save();
+
+        return redirect(url('website_configs/list'));
+    }
+
+    public function WebsiteConfigList(){
+        $data['title'] = 'Configuration List';
+        $data['data_list'] = WebsiteConfig::all();
+        return view($this->ExistViewReturn('software.config.list'), $data);
+    }
+
+    public function WebsiteConfigsEdit($id){
+
+        $data['title'] = 'Configuration Edit';
+        $data['data'] = WebsiteConfig::where('id', $id)->first();
+        return view($this->ExistViewReturn('software.config.add'), $data);
+    }
+
+    public function WebsiteConfigsUpdateStore(Request $request)
+    {
+        $this->validate($request, [
+            'type' => 'required',
+            'name' => 'required',
+            'display_name' => 'required',
+            'value' => 'required',
+            'id' => 'required',
+        ]);
+        $config = WebsiteConfig::where('id', $request->input('id'))->first();
+
+        if ($request->input('type') == 'file'){
+            if ($request->hasfile('value')) {
+                $imageName = time(). '_'.$request->input('name').'.jpg';
+                $request->value->move(public_path('/img/backend/config'), $imageName);
+            }else{
+                $imageName = $config->value;
+            }
+        }
+
+        if ($config){
+            $config->type = $request->input('type');
+            $config->name = $request->input('name');
+            $config->display_name = $request->input('display_name');
+            $config->value = $request->input('type') == 'file' ? $imageName : $request->input('value');
+            $config->save();
+
+            return redirect(url('website_configs/list'));
+        }else{
+            return redirect(url('website_configs/list'));
+        }
+    }
+    public function WebsiteConfigsDelete($id)
+    {
+        $faculty = WebsiteConfig::where('id', $id)->first();
+        if ($faculty) {
+            $faculty->delete();
+
+            return redirect(url('website_configs/list'));
+        } else {
+            return redirect(url('website_configs/list'));
+        }
+    }
 }

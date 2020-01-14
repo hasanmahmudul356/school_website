@@ -6,10 +6,10 @@
 
 @section('content')
     <div class="container">
-        <h2>Faculty List</h2>
+        <h2>Config List</h2>
         <div id="home" class="row">
             <div class="col-md-12 text-right" style="padding: 0 15px">
-                <a href="{{url('faculty/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Faculty</a>
+                <a href="{{url('website_configs/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Item</a>
             </div>
         </div>
         <div id="home" class="tab-pane fade in active">
@@ -23,22 +23,28 @@
                         <thead>
                         <tr>
                             <th>SL</th>
-                            <th>Faculty Photo</th>
-                            <th>Department Name</th>
+                            <th>id</th>
+                            <th>type</th>
+                            <th>name</th>
+                            <th>Display Name</th>
+                            <th>Value</th>
                             <th>Action</th>
                         </tr>
                         </thead>
 
                         <tbody>
 
-                        @foreach($data_list as $key => $faculty)
+                        @foreach($data_list as $key => $config)
                             <tr class="gradeX">
                                 <td>{{$key+1}}</td>
-                                <td><img style="max-height: 30px" src="{{env('PUBLIC_PATH')}}/img/backend/faculty/{{$faculty->id.'.jpg'}}"></td>
-                                <td>{{$faculty->department_name}}</td>
+                                <td>{{$config->id}}</td>
+                                <td>{{$config->type}}</td>
+                                <td>{{$config->name}}</td>
+                                <td>{{$config->display_name}}</td>
+                                <td>{{$config->value}}</td>
                                 <td>
-                                    <a href="{{url('faculty/edit')}}/{{$faculty->id}}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
-                                    <a onclick="return confirm('are you sure?')" href="{{url('faculty/delete')}}/{{$faculty->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                    <a href="{{url('website_configs/edit')}}/{{$config->id}}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                                    <a onclick="return confirm('are you sure?')" href="{{url('website_configs/delete')}}/{{$config->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         @endforeach

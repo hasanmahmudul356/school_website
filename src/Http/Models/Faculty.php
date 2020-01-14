@@ -8,6 +8,6 @@ class Faculty extends Model
 {
     protected $table = 'faculty';
     protected $fillable = [
-        'coursecode', 'overview','feature','scope','subject','labinfo'
+        'coursecode', 'overview','feature','scope','subject','labinfo','fees','fees_structure'
     ];
 }

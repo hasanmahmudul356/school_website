@@ -43,11 +43,16 @@
                                 <input  placeholder="Topic" name="topic" type="text" class="form-control" value="{{isset($data) ? $data->topic : ''}}">
                             </div>
                         </div><div class="control-group">
-                            <label for="photocategory" class="control-label" title="photocategory">photo Category</label>
+                            <label for="photocategory" class="control-label" title="photocategory">Photo Category</label>
                             <div class="controls">
-                                {{@csrf_field()}}
-                                <input type="hidden" name="id" value="{{isset($data) ? $data->id : ''}}">
-                                <input  placeholder="photocategory" name="photocategory" type="text" class="form-control" value="{{isset($data) ? $data->photocategory : ''}}">
+                                <select name="photocategory" id="photocategory" value="">
+                                    <option value="">Select Category</option>
+                                @if(isset($data_list) && count($data_list)>0)
+                                    @foreach($data_list as $category)
+                                    <option value="{{$category->id}}" {{isset($data) && $data->photocategory ==  $category->id ? 'selected' : ''}} >{{$category->topic}}</option>
+                                        @endforeach
+                                @endif
+                                </select>
                             </div>
                         </div>
                         <div class="control-group">

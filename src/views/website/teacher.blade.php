@@ -39,12 +39,9 @@
                         <p>Separated they live in. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country</p>
                     </div>
                 </div>
-                <div class="row">
-                    test
-                </div>
-                <div class="row">
-                    @foreach ($teachers as $teacher)
-                        <div class="col-md-6 col-lg-3 ftco-animate">
+                <div class="row items-container">
+                    @foreach ($teachers as $key => $teacher)
+                        <div class="col-md-6 col-lg-3 ftco-animate masonry-item all {{$teacher->work_department}}">
                             <div class="staff">
                                 <div class="img-wrap d-flex align-items-stretch">
                                     @php
@@ -54,10 +51,8 @@
                                             $image = env('PUBLIC_PATH').'/vendor/front_assets/images/course-1.jpg';
                                         }
                                     @endphp
-
                                     <div class="img align-self-stretch" style="background-image: url({{$image}})"></div>
                                 </div>
-
                                 <div class="text pt-3 text-center">
                                     <h3>{{$teacher->teacher_name}}</h3>
                                     <span class="position mb-2">{{$teacher->work_department}}</span>
@@ -95,4 +90,27 @@
             </div>
         </section>
     @endif
+@stop
+@section('script')
+    <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/isotop.js"></script>
+    <script>
+        var items_container = jQuery('.items-container');
+        var filters = jQuery('.filters');
+        try{
+            items_container.imagesLoaded( function() {
+                items_container.isotope({
+                    itemSelector: '.masonry-item',
+                    sortBy: 'random'
+                });
+            })
+        } catch(err) {
+        }
+        try{
+            filters.on( "click", "li", function() {
+                var filterValue = $(this).attr('data-filter');
+                items_container.isotope({ filter: filterValue });
+            });
+        } catch(err) {
+        }
+    </script>
 @stop

@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class WebsiteConfig extends Model
 {
-    protected $table = 'slides';
+    protected $table = 'website_configs';
 }

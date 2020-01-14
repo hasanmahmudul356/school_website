@@ -100,6 +100,23 @@
                                 <p class="text-danger">{{isset($errors) && $errors->has('labinfo') ? $errors->first('labinfo') : ''}}</p>
                             </div>
                         </div>
+                        <hr>
+                        <h1 style="text-align: center">Fees Structure</h1>
+                        <hr>
+                        <div class="control-group">
+                            <label for="fees" class="control-label" title="fees">Fees</label>
+                            <div class="controls">
+                                <input placeholder="Fees" name="fees" type="text" class="form-control"
+                                       value="{{isset($data) ? $data->fees : ''}}">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="fees_structure" class="control-label" title="fees_structure">Fees Structure</label>
+                            <div class="controls">                                <textarea id="body" class="form-control" placeholder="fees_structure" title="fees_structure" rows="10"
+                                          name="fees_structure" type="text">{{isset($data) ? $data->fees_structure : ''}}</textarea>
+                                <p class="text-danger">{{isset($errors) && $errors->has('fees_structure') ? $errors->first('fees_structure') : ''}}</p>
+                            </div>
+                        </div>
 
                         <div class="control-group" style="margin-bottom: 50px">
                             <div class="controls">

@@ -90,6 +90,7 @@
                             <div class="controls">
                                 <label class="radio-inline"><input {{isset($data->position) && $data->position=='main_menu' ? 'checked' : '' }} type="radio" name="position" value="main_menu">Main Menu</label>
                                 <label class="radio-inline"><input {{isset($data->position) && $data->position=='footer_menu' ? 'checked' : '' }} type="radio" name="position" value="footer_menu">Footer Mneu</label>
+                                <label class="radio-inline"><input {{isset($data->position) && $data->position=='about_us_footer_menu' ? 'checked' : '' }} type="radio" name="position" value="about_us_footer_menu">About us Footer Menu</label>
                                 <label class="radio-inline"><input {{isset($data->position) && $data->position=='both' ? 'checked' : '' }} type="radio" name="position" value="both">Both</label>
                             </div>
                         </div>

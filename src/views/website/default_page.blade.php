@@ -27,7 +27,7 @@
         </div>
     </section>
     <section class="ftco-section ftco-no-pt ftc-no-pb">
-        <div class="container">
+        <div class="container content_area">
             @if(isset($page) && $page)
                 {!! $page->description !!}
                 @endif

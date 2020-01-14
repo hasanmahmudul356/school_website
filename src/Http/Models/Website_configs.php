@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Website_configs extends Model
 {
-    protected $table = 'testimonials';
+    protected $table = 'website_configs';
     protected $fillable = [
-        'title', 'relation','details'
+        'logo','banner_image', 'address', 'contactperson', 'contactno', 'email', 'phone', 'web','google_map'
     ];
 }

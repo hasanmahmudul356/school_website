@@ -21,6 +21,8 @@ class CreateFacultyTable extends Migration
             $table->text('scope')->nullable();
             $table->text('subject')->nullable();
             $table->text('labinfo')->nullable();
+            $table->string('fees')->nullable();
+            $table->text('fees_structure')->nullable();
             $table->timestamps();
         });
     }
