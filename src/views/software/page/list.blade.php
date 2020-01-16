@@ -42,7 +42,16 @@
                                 <td><img style="max-height: 30px" src="{{env('PUBLIC_PATH')}}/img/backend/page/{{$page->id.'.jpg'}}"></td>
                                 <td>{{$page->title}}</td>
                                 <td>{{$page->template}}</td>
-                                <td>{{$page->is_menu}}</td>
+                                <td>
+{{--                                    {{$page->is_menu}}--}}
+                                <?php
+                                    if (isset($page) && $page->is_menu = '1' ){
+                                        echo 'Yes';
+                                    }else{
+                                        echo 'No';
+                                    }
+                                    ?>
+                                </td>
                                 <td>{{$page->position}}</td>
                                 <td>
                                     <a href="{{url('page/edit')}}/{{$page->id}}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>

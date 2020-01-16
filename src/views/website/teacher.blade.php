@@ -15,8 +15,8 @@
     </style>
 @stop
 @section('content')
-    <section class="hero-wrap hero-wrap-2" style="background-image: url({{env('PUBLIC_PATH')}}'/vendor/front_assets/images/bg_2.jpg');">
-        <div class="overlay"></div>
+    <section class="hero-wrap hero-wrap-2" style="">
+        <div class="overlay" style="background: url('{{env('PUBLIC_PATH')}}/img/backend/config/{{isset($config) ? $config['tisibanner'] : ''}}');"></div>
         <div class="container">
             <div class="row no-gutters slider-text align-items-center justify-content-center">
                 <div class="col-md-9 ftco-animate text-center">

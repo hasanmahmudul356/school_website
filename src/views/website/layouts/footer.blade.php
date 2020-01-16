@@ -22,6 +22,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-md-6 col-lg-3">
                 <div class="ftco-footer-widget mb-5">
 
@@ -40,20 +41,27 @@
 
                 </div>
             </div>
+
             <div class="col-md-6 col-lg-3">
                 <div class="ftco-footer-widget mb-5 ml-md-4">
                     <h2 class="ftco-heading-2">{{isset($config) ? $config['footer_block3_head'] : ''}}</h2>
                     <ul class="list-unstyled">
-                    @if (isset($courses) && count($courses) > 0)
-                        @foreach($courses as $course)
+                        <?php
+                        $courses = DB::table('manage_department')->get();
+                        $course_list = $courses->unique('department_code');
+
+                        ?>
+                    @if (isset($course_list) && count($course_list) > 0)
+                        @foreach($course_list as $course)
                             <li>
-                                <a href="{{url('courses')}}/{{$course['department_code']}}"><span class="ion-ios-arrow-round-forward mr-2"></span>{{isset($course['department_name']) ? $course['department_name'] : ''}}</a>
+                                <a href="{{url('courses')}}/{{$course->department_code}}"><span class="ion-ios-arrow-round-forward mr-2"></span>{{isset($course->department_name) ? $course->department_name : ''}}</a>
                             </li>
                         @endforeach
                     @endif
                     </ul>
                 </div>
             </div>
+
             <div class="col-md-6 col-lg-3">
                 <div class="ftco-footer-widget mb-5" id="Vue_component_subscriber">
                     <h2 class="ftco-heading-2">{{isset($config) ? $config['footer_block4_head'] : ''}}</h2>
