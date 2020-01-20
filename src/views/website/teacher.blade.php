@@ -12,6 +12,20 @@
         .img.align-self-stretch {
             background-image: url(http://localhost/edudesk_package/public/img/blankavatar.png);
         }
+        .filters.filter-button-group ul li {
+            display: inline;
+            list-style-type: none;
+            padding: 5px 10px;
+            margin: 1px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .filters.filter-button-group ul li.active {
+            background: green;
+            color: #FFF;
+            border: 1px solid #000;
+        }
     </style>
 @stop
 @section('content')
@@ -27,7 +41,18 @@
         </div>
     </section>
     @php
-        $teachers = DB::table('teacher')->leftJoin('teacher_socials', 'teacher.teacher_id','=','teacher_socials.teacher_id')->select('teacher_socials.*','teacher.*','teacher.teacher_id')->get()
+            $department_name = DB::table('manage_department')->get()->unique('department_name')->pluck('department_name');
+            $teachers = DB::table('teacher')
+                ->leftJoin('teacher_socials', 'teacher.teacher_id','=','teacher_socials.teacher_id')
+                ->whereIn('teacher.job_type', $department_name)
+                ->select('teacher_socials.*','teacher.*','teacher.teacher_id')
+                ->get();
+            $other_teacher = DB::table('teacher')
+                ->leftJoin('teacher_socials', 'teacher.teacher_id','=','teacher_socials.teacher_id')
+                ->whereNotIn('teacher.job_type', $department_name)
+                ->select('teacher_socials.*','teacher.*','teacher.teacher_id')
+                ->get();
+            $departments = DB::table('manage_department')->get()->unique('department_name')->pluck('department_short_name', 'department_name');
     @endphp
 
     @if (isset($teachers) && count($teachers) > 0)
@@ -39,9 +64,22 @@
                         <p>Separated they live in. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country</p>
                     </div>
                 </div>
-                <div class="row items-container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div class="filters filter-button-group">
+                            <ul>
+                                <li class="active" data-filter="*">All</li>
+                                @foreach($departments as $department => $short)
+                                    <li data-filter=".{{str_replace(' ', '_', $department)}}">{{$short}}</li>
+                                @endforeach
+                                <li data-filter=".other">Other</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row grid">
                     @foreach ($teachers as $key => $teacher)
-                        <div class="col-md-6 col-lg-3 ftco-animate masonry-item all {{$teacher->work_department}}">
+                        <div class="col-md-6 col-lg-3 grid-item  all {{str_replace(' ', '_', $teacher->job_type)}}">
                             <div class="staff">
                                 <div class="img-wrap d-flex align-items-stretch">
                                     @php
@@ -55,7 +93,53 @@
                                 </div>
                                 <div class="text pt-3 text-center">
                                     <h3>{{$teacher->teacher_name}}</h3>
-                                    <span class="position mb-2">{{$teacher->work_department}}</span>
+                                    <span class="position mb-2">{{$teacher->job_type}}</span>
+                                    <div class="faded">
+                                        @if (isset($teacher->teachers_say) && $teacher->teachers_say)
+                                            <p>{{$teacher->teachers_say}}</p>
+                                        @endif
+                                        <ul class="ftco-social text-center">
+                                            <li class="ftco-animate">
+                                                <a href="{{isset($teacher->twitter) && $teacher->twitter ? $teacher->twitter : ''}}">
+                                                    <span class="icon-twitter"></span>
+                                                </a>
+                                            </li>
+                                            <li class="ftco-animate">
+                                                <a href="{{isset($teacher->facebook) && $teacher->facebook ? $teacher->facebook : ''}}">
+                                                    <span class="icon-facebook"></span></a>
+                                            </li>
+                                            <li class="ftco-animate">
+                                                <a href="{{isset($teacher->youtube) && $teacher->youtube ? $teacher->youtube : ''}}">
+                                                    <span class="icon-google-plus"></span>
+                                                </a>
+                                            </li>
+                                            <li class="ftco-animate">
+                                                <a href="{{isset($teacher->instagram) && $teacher->instagram ? $teacher->instagram : ''}}">
+                                                    <span class="icon-instagram"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    @foreach ($other_teacher as $key => $teacher)
+                        <div class="col-md-6 col-lg-3 grid-item  all other">
+                            <div class="staff">
+                                <div class="img-wrap d-flex align-items-stretch">
+                                    @php
+                                        if(File::exists(public_path('/img/backend/teacher_staff/'.$teacher->teacher_id.'.jpg'))){
+                                            $image = env('PUBLIC_PATH').'/img/backend/teacher_staff/'.$teacher->teacher_id.'.jpg';
+                                        }else{
+                                            $image = env('PUBLIC_PATH').'/vendor/front_assets/images/course-1.jpg';
+                                        }
+                                    @endphp
+                                    <div class="img align-self-stretch" style="background-image: url({{$image}})"></div>
+                                </div>
+                                <div class="text pt-3 text-center">
+                                    <h3>{{$teacher->teacher_name}}</h3>
+                                    <span class="position mb-2">{{$teacher->job_type}}</span>
                                     <div class="faded">
                                         @if (isset($teacher->teachers_say) && $teacher->teachers_say)
                                             <p>{{$teacher->teachers_say}}</p>
@@ -92,25 +176,19 @@
     @endif
 @stop
 @section('script')
-    <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/isotop.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <script>
-        var items_container = jQuery('.items-container');
-        var filters = jQuery('.filters');
-        try{
-            items_container.imagesLoaded( function() {
-                items_container.isotope({
-                    itemSelector: '.masonry-item',
-                    sortBy: 'random'
-                });
-            })
-        } catch(err) {
-        }
-        try{
-            filters.on( "click", "li", function() {
-                var filterValue = $(this).attr('data-filter');
-                items_container.isotope({ filter: filterValue });
+        $(document).ready( function() {
+            $('.grid').isotope({
+                itemSelector: '.grid-item',
             });
-        } catch(err) {
-        }
+            $('.filter-button-group').on( 'click', 'li', function() {
+                var filterValue = $(this).attr('data-filter');
+                $('.grid').isotope({ filter: filterValue });
+                $('.filter-button-group li').removeClass('active');
+                $(this).addClass('active');
+            });
+        })
     </script>
 @stop

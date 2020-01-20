@@ -28,9 +28,8 @@
 
                     <h2 class="ftco-heading-2">{{isset($config) ? $config['footer_block2_head'] : ''}}</h2>
                     <ul class="list-unstyled">
-
                         @php
-                            $menus = DB::table('page')->where('is_menu', 1)->where('position', 'about_us_footer_menu')->get();
+                            $menus = DB::table('page')->where('is_menu', 1)->where('position', 'about_us_footer_menu')->orderBy('sort','ASC')->get();
                         @endphp
                         @if (count($menus) > 0)
                             @foreach($menus as $menu)

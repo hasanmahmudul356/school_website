@@ -98,6 +98,7 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/add', 'SchoolWebsiteAdminController@PageAddForm');
         Route::post('/add', 'SchoolWebsiteAdminController@PageStore');
         Route::post('/update', 'SchoolWebsiteAdminController@PageUpdateStore');
+        Route::post('/sort/update', 'SchoolWebsiteAdminController@PageUpdateSort');
         Route::get('/edit/{id}', 'SchoolWebsiteAdminController@PageEdit');
         Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@PageHomePage');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@PageDelete');

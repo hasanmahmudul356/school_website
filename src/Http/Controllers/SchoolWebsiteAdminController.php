@@ -893,7 +893,7 @@ class SchoolWebsiteAdminController extends Controller
     //==================Page Methods=======================
     public function PageList()
     {
-        $data['data_list'] = Page::all();
+        $data['data_list'] = Page::orderBy('sort','ASC')->get();
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.page.list'), $data);
         } else {
@@ -985,6 +985,23 @@ class SchoolWebsiteAdminController extends Controller
         } else {
             return redirect(url('page/list'));
         }
+    }
+    public function PageUpdateSort(Request $request)
+    {
+        $this->validate($request, [
+            'all_data' => 'required|array',
+        ]);
+
+        $input = $request->input('all_data');
+
+        foreach ($input as $id){
+            $page = Page::where('id', $id['id'])->first();
+            if ($page){
+                $page->sort = $id['sort_id'];
+                $page->save();
+            }
+        }
+        return response()->json(['status'=>2000, 'msg'=>'Successfully Updated']);
     }
 
     public function PageDelete($id)
@@ -1140,7 +1157,6 @@ class SchoolWebsiteAdminController extends Controller
             if ($request->hasfile('value')) {
                 $imageName = time(). '_'.$request->input('name').'.jpg';
                 $request->value->move(public_path('/img/backend/config'), $imageName);
-
             }
         }
 

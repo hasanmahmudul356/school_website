@@ -17,11 +17,12 @@ class CreatePageTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('url');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('template');
             $table->string('is_menu')->default(0);
             $table->string('position');
             $table->integer('parent')->nullable();
+            $table->integer('sort')->nullable();
             $table->timestamps();
         });
     }

@@ -29,7 +29,7 @@
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 @php
-                    $menus = DB::table('page')->where('is_menu', 1)->where('position', 'main_menu')->get();
+                    $menus = DB::table('page')->where('is_menu', 1)->where('position', 'main_menu')->orderBy('sort','ASC')->get();
                 @endphp
                 <li class="nav-item active"><a href="{{url('/')}}" class="nav-link pl-0">Home</a></li>
                 @if (count($menus) > 0)
