@@ -13,3 +13,13 @@ div.content_area{
 span.text.address {
     font-size: 12px;
 }
+li.sub-nav-item ul li {
+    list-style-type: none;
+}
+
+li.sub-nav-item ul li a {
+    color: #000;
+}
+li.sub-nav-item ul{
+    display: none;
+}

@@ -29,12 +29,27 @@
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 @php
-                    $menus = DB::table('page')->where('is_menu', 1)->where('position', 'main_menu')->orderBy('sort','ASC')->get();
+                    $filter = [
+                        'is_menu'=> 1,
+                        'position'=> 'main_menu',
+                        'parent'=> 0,
+                    ];
+                    $menus = \Tmss\School_website\Http\Models\Page::where($filter)->orderBy('sort','ASC')->with('submenu')->get();
                 @endphp
                 <li class="nav-item active"><a href="{{url('/')}}" class="nav-link pl-0">Home</a></li>
                 @if (count($menus) > 0)
                     @foreach($menus as $menu)
-                        <li class="nav-item"><a href="{{url('/page')}}/{{$menu->url}}" class="nav-link">{{$menu->title}}</a></li>
+                        <li class="nav-item"><a href="{{url('/page')}}/{{$menu->url}}" class="nav-link dropbtn">{{$menu->title}}</a>
+                            @if (isset($menu->submenu) && count($menu->submenu) > 0)
+                                <ul>
+                                    @foreach($menu->submenu as $sub_menu)
+                                        <li class="sub-nav-item" style="list-style-type: none">
+                                            <a href="{{url('/page')}}/{{$sub_menu->url}}" style="color: #000">{{$sub_menu->title}}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </li>
                     @endforeach
                 @endif
             </ul>

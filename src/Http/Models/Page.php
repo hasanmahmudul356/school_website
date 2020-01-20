@@ -10,4 +10,7 @@ class Page extends Model
     protected $fillable = [
         'title', 'url', 'description','template','is_menu','position','parent'
     ];
+    public function submenu(){
+        return $this->hasMany(Page::class, 'parent', 'id');
+    }
 }

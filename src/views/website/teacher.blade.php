@@ -42,17 +42,20 @@
     </section>
     @php
             $department_name = DB::table('manage_department')->get()->unique('department_name')->pluck('department_name');
+
             $teachers = DB::table('teacher')
                 ->leftJoin('teacher_socials', 'teacher.teacher_id','=','teacher_socials.teacher_id')
+                ->leftJoin('manage_department', 'teacher.job_type','=','manage_department.department_name')
                 ->whereIn('teacher.job_type', $department_name)
-                ->select('teacher_socials.*','teacher.*','teacher.teacher_id')
-                ->get();
+                ->select('teacher_socials.*','teacher.*','teacher.teacher_id','manage_department.department_code')
+                ->get()->unique('teacher_id');
+
             $other_teacher = DB::table('teacher')
                 ->leftJoin('teacher_socials', 'teacher.teacher_id','=','teacher_socials.teacher_id')
                 ->whereNotIn('teacher.job_type', $department_name)
                 ->select('teacher_socials.*','teacher.*','teacher.teacher_id')
                 ->get();
-            $departments = DB::table('manage_department')->get()->unique('department_name')->pluck('department_short_name', 'department_name');
+            $departments = DB::table('manage_department')->get()->unique('department_name')->pluck('department_short_name', 'department_code');
     @endphp
 
     @if (isset($teachers) && count($teachers) > 0)
@@ -79,7 +82,7 @@
                 </div>
                 <div class="row grid">
                     @foreach ($teachers as $key => $teacher)
-                        <div class="col-md-6 col-lg-3 grid-item  all {{str_replace(' ', '_', $teacher->job_type)}}">
+                        <div class="col-md-6 col-lg-3 grid-item  all {{str_replace(' ', '_', $teacher->department_code)}}">
                             <div class="staff">
                                 <div class="img-wrap d-flex align-items-stretch">
                                     @php
