@@ -29,12 +29,7 @@
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 @php
-                    $filter = [
-                        'is_menu'=> 1,
-                        'position'=> 'main_menu',
-                        'parent'=> 0,
-                    ];
-                    $menus = \Tmss\School_website\Http\Models\Page::where($filter)->orderBy('sort','ASC')->with('submenu')->get();
+                    $menus = \Tmss\School_website\Http\Models\Page::where(['is_menu'=> 1,'position'=> 'main_menu','parent'=> 0])->orderBy('sort','ASC')->with('submenu')->get();
                 @endphp
                 <li class="nav-item active"><a href="{{url('/')}}" class="nav-link pl-0">Home</a></li>
                 @if (count($menus) > 0)
