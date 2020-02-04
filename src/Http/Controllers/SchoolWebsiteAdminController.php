@@ -973,7 +973,7 @@ class SchoolWebsiteAdminController extends Controller
             $page->template = $request->input('template');
             $page->is_menu = $request->input('is_menu');
             $page->position = $request->input('position');
-            $page->parent = $request->input('parent');
+            $page->parent = $request->input('parent') ? $request->input('parent') : 0;
             $page->save();
             if ($request->hasfile('image')) {
                 $imageName = $page->id . '.jpg';

@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{env('PUBLIC_PATH')}}/vendor/front_assets/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="{{env('PUBLIC_PATH')}}/vendor/front_assets/css/animate.css">
 
@@ -56,7 +57,12 @@
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/jquery.animateNumber.min.js"></script>
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/scrollax.min.js"></script>
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/main.js"></script>
-<script>$.ajaxSetup({data : {_token: '{{csrf_token()}}'},});</script>
+<script>
+    $.ajaxSetup({data : {_token: '{{csrf_token()}}'},});
+    var path = document.location;
+    var target = $('ul.nav.navbar-nav.navbar-right li a[href$="' + path + '"]');
+    target.parent().addClass("active");
+</script>
 @yield('script')
 </body>
 </html>

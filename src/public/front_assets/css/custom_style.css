@@ -23,3 +23,29 @@ li.sub-nav-item ul li a {
 li.sub-nav-item ul{
     display: none;
 }
+
+.navbar-nav {
+    flex-direction: unset !important;
+}
+.navbar-nav .dropdown-menu {
+    position: absolute !important;
+}
+.navbar {
+    margin-bottom: 0 !important;
+}
+.dropdown-menu>li>a {
+    padding: 9px 20px;
+    font-size: 13px;
+}
+.navbar-default {
+    background-color: #FFF;
+    border-color: #FFF;
+}
+.nav>li>a>img {
+    max-width: none;
+    max-height: 40px;
+}
+ul.nav.navbar-nav.logo li a {
+    padding-top: 0;
+    padding-bottom: 0;
+}
