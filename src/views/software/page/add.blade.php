@@ -94,16 +94,11 @@
                                 <label class="radio-inline"><input {{isset($data->position) && $data->position=='both' ? 'checked' : '' }} type="radio" name="position" value="both">Both</label>
                             </div>
                         </div>
-                        <div class="control-group" v-if="formElement.is_menu ==  1">
+                        <div class="control-group" v-if="formElement.is_menu ==  1" style="display: none;">
                             <label for="topic" class="control-label" title="Topic">Parent Menu</label>
                             <div class="controls">
                                 <select class="form-control" name="parent">
-                                    <option value="">Null</option>
-                                    @if(isset($pages) && count($pages)>0)
-                                        @foreach($pages as $page)
-                                            <option {{isset($data) && $data->id == $page->id ? 'selected' : ''}} value="{{$page->id}}">{{$page->title}}</option>
-                                        @endforeach
-                                    @endif
+                                    <option selected value="">Null</option>
                                 </select>
                             </div>
                         </div>

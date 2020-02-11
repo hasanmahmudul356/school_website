@@ -38,6 +38,9 @@ return [
             'title' => 'Page',
             'route' => 'page/list',
         ],[
+            'title' => 'Top Menu',
+            'route' => 'menu/list',
+        ],[
             'title' => 'Faculty & Fee Structure',
             'route' => 'faculty/list',
         ],[

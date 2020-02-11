@@ -63,6 +63,9 @@
     var target = $('ul.nav.navbar-nav.navbar-right li a[href$="' + path + '"]');
     target.parent().addClass("active");
 </script>
+<script>
+
+</script>
 @yield('script')
 </body>
 </html>

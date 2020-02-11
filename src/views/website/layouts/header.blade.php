@@ -20,48 +20,52 @@
         </div>
     </div>
 </div>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
         </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav logo">
-                <li>
-                    <a href="{{url('/')}}"><img src="{{env('PUBLIC_PATH')}}/img/backend/config/{{isset($config) ? $config['headerlogo'] : ''}}"></a>
-                </li>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="https://github.com/fontenele/bootstrap-navbar-dropdowns" target="_blank">GitHub Project</a></li>
             </ul>
-            @php
-                $menus = \Tmss\School_website\Http\Models\Page::where(['is_menu'=> 1,'position'=> 'main_menu','parent'=> 0])->orderBy('sort','ASC')->with('submenu')->get();
-            @endphp
             <ul class="nav navbar-nav navbar-right">
-                @if (count($menus) > 0)
-                    @foreach($menus as $menu)
-                        @if (isset($menu->submenu) && count($menu->submenu) > 0)
-                            <li class="dropdown">
-                                <a href="{{url('/page')}}/{{$menu->url}}" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false">{{$menu->title}}</a>
-                                    <ul class="dropdown-menu">
-                                        @foreach($menu->submenu as $sub_menu)
-                                        <li><a href="{{url('/page')}}/{{$sub_menu->url}}">{{$sub_menu->title}}</a></li>
-                                        @endforeach
-                                    </ul>
+                @if (Cache::has('menus'))
+                    @foreach (Cache::get('menus') as $menu)
+                        @if (isset($menu['submenu']) && count($menu['submenu']) > 0)
+                            <li>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{$menu['title']}}</a>
+                                <ul class="dropdown-menu multi-level">
+                                    @foreach($menu['submenu'] as $submenu)
+                                        @if (isset($submenu['subsubmenu']) && count($submenu['subsubmenu']) > 0)
+                                            <li class="dropdown-submenu">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{$submenu['title']}}</a>
+                                                <ul class="dropdown-menu">
+                                                    @foreach($submenu['subsubmenu'] as $subsubmenu)
+                                                    <li><a href="{{url('/page')}}/{{$submenu['url']}}">{{$subsubmenu['title']}}</a></li>
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                            @else
+                                            <li>
+                                                <a href="{{url('/page')}}/{{$submenu['url']}}">{{$submenu['title']}}</a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
                             </li>
                         @else
-                            <li><a href="{{url('/page')}}/{{$menu->url}}">{{$menu->title}}</a></li>
+                            <li class="active"><a href="{{url('/page')}}/{{$menu['url']}}">{{$menu['title']}}</a></li>
                         @endif
                     @endforeach
                 @endif
             </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
-<!-- END nav -->
+        </div>
+    </div>
+</div>

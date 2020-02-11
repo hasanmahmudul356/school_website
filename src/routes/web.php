@@ -127,6 +127,11 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@PageHomePage');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@PageDelete');
     });
+    Route::group(['prefix'=>'menu'], function (){
+        Route::get('/list', 'SchoolWebsiteAdminController@MenuList');
+        Route::post('/update', 'SchoolWebsiteAdminController@MenuUpdateStore');
+        Route::get('/delete/{id}', 'SchoolWebsiteAdminController@MenuDelete');
+    });
 
 
     Route::group(['prefix'=>'faculty'], function (){

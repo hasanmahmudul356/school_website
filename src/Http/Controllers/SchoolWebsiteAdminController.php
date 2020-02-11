@@ -9,6 +9,7 @@ use App\manage_department_model;
 use App\teacher_model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -1005,6 +1006,89 @@ class SchoolWebsiteAdminController extends Controller
     }
 
     public function PageDelete($id)
+    {
+        $page = Page::where('id', $id)->first();
+        if ($page) {
+            $page->delete();
+
+            return redirect(url('page/list'));
+        } else {
+            return redirect(url('page/list'));
+        }
+    }
+
+
+    //==================Page Methods=======================
+    public function MenuList()
+    {
+        $all_parent = Page::where('is_menu', 1)->where('position', 'main_menu')->where('parent', 0)->orderBy('sort','ASC')->select('title','id')->get()->toArray();
+        $all_data = [];
+
+        foreach ($all_parent as $key => $parent){
+            $all_data[$key] = $parent;
+            $all_data[$key]['submenu'] = Page::where('parent', $parent['id'])->orderBy('sort','ASC')->select('title','id')->get()->toArray();
+
+            foreach ($all_data[$key]['submenu'] as $key2 => $child){
+                $all_data[$key]['submenu'][$key2]['subsubmenu'] = Page::where('parent', $child['id'])->orderBy('sort','ASC')->select('title','id')->get()->toArray();
+            }
+
+        }
+        if (count($all_data) > 0) {
+            return view($this->ExistViewReturn('software.menu.list'), ['data'=>$all_data]);
+        } else {
+            return redirect(url('page/list'));
+        }
+    }
+    public function MenuUpdateStore(Request $request)
+    {
+        $this->validate($request, [
+            'data' => 'required|array',
+        ]);
+        $input = $request->input('data');
+
+        foreach ($input as $menu){
+            $page = Page::where('id', $menu['id'])->first();
+            $page->parent = 0;
+            $page->save();
+
+            if (isset($menu['children'])){
+                foreach ($menu['children'] as $submenu){
+                    $page = Page::where('id', $submenu['id'])->first();
+                    $page->parent = $menu['id'];
+                    $page->save();
+
+                    if (isset($submenu['children'])){
+                        foreach ($submenu['children'] as $sub_sub_menu){
+                            $page = Page::where('id', $sub_sub_menu['id'])->first();
+                            $page->parent = $submenu['id'];
+                            $page->save();
+                        }
+                    }
+                }
+            }
+        }
+
+        $all_parent = Page::where('is_menu', 1)->where('position', 'main_menu')->where('parent', 0)->orderBy('sort','ASC')->select('title','id','url')->get()->toArray();
+        $all_data = [];
+
+        foreach ($all_parent as $key => $parent){
+            $all_data[$key] = $parent;
+            $all_data[$key]['submenu'] = Page::where('parent', $parent['id'])->orderBy('sort','ASC')->select('title','id','url')->get()->toArray();
+
+            foreach ($all_data[$key]['submenu'] as $key2 => $child){
+                $all_data[$key]['submenu'][$key2]['subsubmenu'] = Page::where('parent', $child['id'])->orderBy('sort','ASC')->select('title','id','url')->get()->toArray();
+            }
+        }
+
+        Cache::forget('menus');
+        Cache::rememberForever('menus', function () use ($all_data) {
+            return $all_data;
+        });
+
+        return response()->json(['status'=>2000, 'msg'=>'Successfully Updated']);
+
+    }
+    public function MenuDelete($id)
     {
         $page = Page::where('id', $id)->first();
         if ($page) {
