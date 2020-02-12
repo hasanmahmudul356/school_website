@@ -33,7 +33,7 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="https://github.com/fontenele/bootstrap-navbar-dropdowns" target="_blank">GitHub Project</a></li>
+                <li class="header_logo"><a href="{{url('/')}}" target="_blank"><img src="{{env('PUBLIC_PATH')}}/img/backend/config/{{isset($config) ? $config['headerlogo'] : ''}}"></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if (Cache::has('menus'))
@@ -61,7 +61,7 @@
                                 </ul>
                             </li>
                         @else
-                            <li class="active"><a href="{{url('/page')}}/{{$menu['url']}}">{{$menu['title']}}</a></li>
+                            <li><a href="{{url('/page')}}/{{$menu['url']}}">{{$menu['title']}}</a></li>
                         @endif
                     @endforeach
                 @endif
