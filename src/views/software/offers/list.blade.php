@@ -43,6 +43,7 @@
                                     <i class="fa {{$offers->icon}}"></i>
                                 </td>
                                 <td>
+                                    <a id="{{$offers->id}}" class="btn btn-primary viewDetailsButton"><i class="fa fa-eye"></i></a>
                                     <a href="{{url('offers/edit')}}/{{$offers->id}}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
                                     <a onclick="return confirm('are you sure?')" href="{{url('offers/delete')}}/{{$offers->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>

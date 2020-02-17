@@ -32,6 +32,7 @@
                                     <td>{{$key+1}}</td>
                                     <td>{{$subscribe->email}}</td>
                                     <td>
+                                        <a id="{{$subscribe->id}}" class="btn btn-primary viewDetailsButton"><i class="fa fa-eye"></i></a>
                                         <a onclick="return confirm('are you sure?')" href="{{url('subscribe/delete')}}/{{$subscribe->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>

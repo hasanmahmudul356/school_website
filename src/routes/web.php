@@ -24,7 +24,6 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/edit/{id}', 'SchoolWebsiteAdminController@OffersEdit');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@OffersDelete');
     });
-
     Route::group(['prefix'=>'testimonial'], function (){
         Route::get('/list', 'SchoolWebsiteAdminController@TestimonialList');
         Route::get('/add', 'SchoolWebsiteAdminController@TestimonialAddForm');
@@ -33,7 +32,6 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/edit/{id}', 'SchoolWebsiteAdminController@TestimonialEdit');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@TestimonialDelete');
     });
-
     Route::group(['prefix'=>'teacher'], function (){
         Route::get('/list', 'SchoolWebsiteAdminController@TeacherList');
         Route::get('/add', 'SchoolWebsiteAdminController@TeacherAddForm');
@@ -43,7 +41,6 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@TeacherHomePage');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@TeacherDelete');
     });
-
     Route::group(['prefix'=>'contactform'], function (){
         Route::get('/list', 'SchoolWebsiteAdminController@ContactformList');
         Route::get('/add', 'SchoolWebsiteAdminController@ContactformAddForm');
@@ -62,7 +59,6 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@SubscribeHomePage');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@SubscribeDelete');
     });
-
     Route::group(['prefix'=>'photocategory'], function (){
         Route::get('/list', 'SchoolWebsiteAdminController@PhotocategoryList');
         Route::get('/add', 'SchoolWebsiteAdminController@PhotocategoryAddForm');
@@ -72,7 +68,6 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@PhotocategoryHomePage');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@PhotocategoryDelete');
     });
-
     Route::group(['prefix'=>'photogallery'], function (){
         Route::get('/list', 'SchoolWebsiteAdminController@PhotogalleryList');
         Route::get('/add', 'SchoolWebsiteAdminController@PhotogalleryAddForm');
@@ -82,7 +77,6 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@PhotogalleryHomePage');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@PhotogalleryDelete');
     });
-
     Route::group(['prefix'=>'socialmedia'], function (){
         Route::get('/list', 'SchoolWebsiteAdminController@SocialmediaList');
         Route::get('/add', 'SchoolWebsiteAdminController@SocialmediaAddForm');
@@ -92,7 +86,6 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@SocialmediaHomePage');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@SocialmediaDelete');
     });
-
     Route::group(['prefix'=>'page'], function (){
         Route::get('/list', 'SchoolWebsiteAdminController@PageList');
         Route::get('/add', 'SchoolWebsiteAdminController@PageAddForm');
@@ -103,7 +96,6 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@PageHomePage');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@PageDelete');
     });
-
     Route::group(['prefix'=>'news'], function (){
         Route::get('/list', 'SchoolWebsiteAdminController@NewsList');
         Route::get('/add', 'SchoolWebsiteAdminController@NewsAddForm');
@@ -113,11 +105,9 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@NewsHomePage');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@NewsDelete');
     });
-
     Route::group(['prefix'=>'registration'], function () {
         Route::get('/list', 'SchoolWebsiteAdminController@RegistrationList');
     });
-
     Route::group(['prefix'=>'page'], function (){
         Route::get('/list', 'SchoolWebsiteAdminController@PageList');
         Route::get('/add', 'SchoolWebsiteAdminController@PageAddForm');
@@ -132,8 +122,6 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::post('/update', 'SchoolWebsiteAdminController@MenuUpdateStore');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@MenuDelete');
     });
-
-
     Route::group(['prefix'=>'faculty'], function (){
         Route::get('/list', 'SchoolWebsiteAdminController@FacultyList');
         Route::get('/add', 'SchoolWebsiteAdminController@FacultyAddForm');
@@ -143,7 +131,6 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@FacultyHomeFaculty');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@FacultyDelete');
     });
-
     Route::group(['prefix'=>'website_configs'], function (){
         Route::get('/list', 'SchoolWebsiteAdminController@WebsiteConfigList');
         Route::get('/add', 'SchoolWebsiteAdminController@WebsiteConfigsAddForm');
@@ -154,7 +141,22 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@WebsiteConfigsDelete');
     });
 
-
+    Route::group(['prefix'=>'view'], function (){
+        Route::post('/slide/{id}', 'WebsiteDataViewApiController@SlideDataView');
+        Route::post('/facility/{id}', 'WebsiteDataViewApiController@FacilityDataDetails');
+        Route::post('/offer/{id}', 'WebsiteDataViewApiController@OfferDetails');
+        Route::post('/teacher/{id}', 'WebsiteDataViewApiController@TeacherDetails');
+        Route::post('/testimonial/{id}', 'WebsiteDataViewApiController@TestimonialDetails');
+        Route::post('/contact/{id}', 'WebsiteDataViewApiController@ContactDetails');
+        Route::post('/subscribe/{id}', 'WebsiteDataViewApiController@SubscribeDetails');
+        Route::post('/news/{id}', 'WebsiteDataViewApiController@NewsDetails');
+        Route::post('/photogallery/{id}', 'WebsiteDataViewApiController@PhotogalleryDetails');
+        Route::post('/photocategory/{id}', 'WebsiteDataViewApiController@PhotocategoryDetails');
+        Route::post('/socialmedia/{id}', 'WebsiteDataViewApiController@SocialmediaDetails');
+        Route::post('/page/{id}', 'WebsiteDataViewApiController@PageDetails');
+        Route::post('/faculty/{id}', 'WebsiteDataViewApiController@FacultyDetails');
+        Route::post('/config/{id}', 'WebsiteDataViewApiController@WebconfigurationDetails');
+    });
 });
 
 Route::group(['middleware' => ['web'], 'namespace' => 'Tmss\School_website\Http\Controllers'], function () {

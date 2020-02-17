@@ -19,7 +19,6 @@
                 </div>
                 <div class="widget-content nopadding">
                     <table class="table table-bordered data-table">
-
                         <thead>
                         <tr>
                             <th>SL</th>
@@ -30,12 +29,9 @@
                             <th>Action</th>
                         </tr>
                         </thead>
-
-
                         <tbody>
 
                         @foreach($data_list as $key => $teacher)
-
                             <tr class="gradeX">
                                 <td>{{$key+1}}</td>
                                 <td>{{$teacher->teacher_name}}</td>
@@ -43,6 +39,7 @@
                                 <td>{{$teacher->medium}}</td>
                                 <td>{{$teacher->mobile_no}}</td>
                                 <td>
+                                    <a id="{{$teacher->teacher_id}}" class="btn btn-primary viewDetailsButton"><i class="fa fa-eye"></i></a>
                                     <a href="{{url('teacher/edit')}}/{{$teacher->teacher_id}}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
                                     <a href="{{url('teacher/is_homepage')}}/{{$teacher->teacher_id}}" class="btn {{$teacher->is_homepage == 1 ? 'btn-success' : 'btn-default'}}"><i class="fa fa-check"></i></a>
                                     <a onclick="return confirm('are you sure?')" href="{{url('teacher/delete')}}/{{$teacher->teacher_id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
@@ -55,4 +52,7 @@
             </div>
         </div>
     </div>
+@stop
+@section('script')
+
 @stop

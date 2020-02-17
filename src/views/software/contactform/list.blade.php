@@ -40,6 +40,7 @@
                                     <td>{{$Contactform->subject}}</td>
                                     <td>{{$Contactform->message}}</td>
                                     <td>
+                                        <a id="{{$Contactform->id}}" class="btn btn-primary viewDetailsButton"><i class="fa fa-eye"></i></a>
                                         <a onclick="return confirm('are you sure?')" href="{{url('contactform/delete')}}/{{$Contactform->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>

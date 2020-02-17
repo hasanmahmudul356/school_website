@@ -41,7 +41,7 @@
                     @foreach ($facilities as $facility)
                         <div class="col-md-3 d-flex services align-self-stretch pb-4 px-4 ftco-animate"
                              style="background-color: {{$facility->colour}}">
-                            <div class="media block-6 d-block text-center">
+                            <div class="block-6 d-block text-center">
                                 <div class="icon d-flex justify-content-center align-items-center">
                                     <i class="fa {{$facility->icon}}"></i>
                                 </div>

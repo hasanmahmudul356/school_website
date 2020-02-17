@@ -48,6 +48,7 @@ class SchoolWebsiteAdminController extends Controller
     public function slideList()
     {
         $data['slides'] = Slides::all();
+        $data['prefix'] = 'slide';
         if (count($data['slides']) > 0) {
             return view($this->ExistViewReturn('software.slide.list'), $data);
         } else {
@@ -131,6 +132,7 @@ class SchoolWebsiteAdminController extends Controller
     public function FacilityList()
     {
         $data['data_list'] = Facility::all();
+        $data['prefix'] = 'facility';
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.facility.list'), $data);
         } else {
@@ -212,6 +214,7 @@ class SchoolWebsiteAdminController extends Controller
     {
 //        dd('test');
         $data['data_list'] = Offers::all();
+        $data['prefix'] = 'offer';
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.offers.list'), $data);
         } else {
@@ -291,6 +294,7 @@ class SchoolWebsiteAdminController extends Controller
     {
 //        dd('test');
         $data['data_list'] = Testimonial::all();
+        $data['prefix'] = 'testimonial';
 //        dd('test');
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.testimonial.list'), $data);
@@ -384,6 +388,7 @@ class SchoolWebsiteAdminController extends Controller
     {
 //        dd('test');
         $data['data_list'] = teacher_model::leftJoin('teacher_socials', 'teacher.teacher_id', '=', 'teacher_socials.teacher_id')->select('teacher_socials.*', 'teacher.*', 'teacher.teacher_id')->get();
+        $data['prefix'] = 'teacher';
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.teacher.list'), $data);
         } else {
@@ -482,6 +487,7 @@ class SchoolWebsiteAdminController extends Controller
     public function ContactformList()
     {
         $data['data_list'] = Contactform::all();
+        $data['prefix'] = 'contact';
 //        dd('test');
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.contactform.list'), $data);
@@ -532,6 +538,7 @@ class SchoolWebsiteAdminController extends Controller
     public function NewsList()
     {
         $data['data_list'] = News::all();
+        $data['prefix'] = 'news';
 //        dd('test');
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.news.list'), $data);
@@ -617,6 +624,7 @@ class SchoolWebsiteAdminController extends Controller
     public function SubscribeList()
     {
         $data['data_list'] = Subscribe::all();
+        $data['prefix'] = 'subscribe';
 //        dd('test');
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.subscribe.list'), $data);
@@ -654,6 +662,7 @@ class SchoolWebsiteAdminController extends Controller
     public function PhotocategoryList()
     {
         $data['data_list'] = Photocategory::all();
+        $data['prefix'] = 'photocategory';
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.photocategory.list'), $data);
         } else {
@@ -725,6 +734,7 @@ class SchoolWebsiteAdminController extends Controller
     public function PhotogalleryList()
     {
         $data['data_list'] = Photogallery::leftJoin('photocategory','photogallery.photocategory','=','photocategory.id')->select('photogallery.*','photocategory.topic as categoryname')->get();
+        $data['prefix'] = 'photogallery';
 //        dd($data['data_list']);
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.photogallery.list'), $data);
@@ -818,6 +828,7 @@ class SchoolWebsiteAdminController extends Controller
     public function SocialmediaList()
     {
         $data['data_list'] = Socialmedia::all();
+        $data['prefix'] = 'socialmedia';
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.socialmedia.list'), $data);
         } else {
@@ -895,6 +906,7 @@ class SchoolWebsiteAdminController extends Controller
     public function PageList()
     {
         $data['data_list'] = Page::orderBy('sort','ASC')->get();
+        $data['prefix'] = 'page';
         if (count($data['data_list']) > 0) {
             return view($this->ExistViewReturn('software.page.list'), $data);
         } else {
@@ -1107,6 +1119,7 @@ class SchoolWebsiteAdminController extends Controller
 
 //        dd($val);
         $data['data_list']=$val->unique('department_code');
+        $data['prefix'] = 'faculty';
 
 //        $data['data_list'] = Faculty::all();
         if (count($data['data_list']) > 0) {
@@ -1257,6 +1270,7 @@ class SchoolWebsiteAdminController extends Controller
     public function WebsiteConfigList(){
         $data['title'] = 'Configuration List';
         $data['data_list'] = WebsiteConfig::all();
+        $data['prefix'] = 'config';
         return view($this->ExistViewReturn('software.config.list'), $data);
     }
 

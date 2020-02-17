@@ -27,7 +27,7 @@
                     <h5 style="float: right" class="btn btn-xs btn-success" onclick="UpdateSort()">Update Sort</h5>
                 </div>
                 <div class="widget-content nopadding">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered data-table">
 
                         <thead>
                         <tr>
@@ -63,6 +63,7 @@
                                 </td>
                                 <td>{{$page->position}}</td>
                                 <td>
+                                    <a id="{{$page->id}}" class="btn btn-primary viewDetailsButton"><i class="fa fa-eye"></i></a>
                                     <a href="{{url('page/edit')}}/{{$page->id}}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
                                     <a onclick="return confirm('are you sure?')" href="{{url('page/delete')}}/{{$page->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>

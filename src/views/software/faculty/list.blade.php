@@ -37,6 +37,7 @@
                                 <td><img style="max-height: 30px" src="{{env('PUBLIC_PATH')}}/img/backend/faculty/{{$faculty->id.'.jpg'}}"></td>
                                 <td>{{$faculty->department_name}}</td>
                                 <td>
+                                    <a id="{{$faculty->id}}" class="btn btn-primary viewDetailsButton"><i class="fa fa-eye"></i></a>
                                     <a href="{{url('faculty/edit')}}/{{$faculty->id}}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
                                     <a onclick="return confirm('are you sure?')" href="{{url('faculty/delete')}}/{{$faculty->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>

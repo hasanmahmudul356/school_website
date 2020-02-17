@@ -43,6 +43,7 @@
                                     <i class="fa {{$socialmedia->icon}}"></i>
                                 </td>
                                 <td>
+                                    <a id="{{$socialmedia->id}}" class="btn btn-primary viewDetailsButton"><i class="fa fa-eye"></i></a>
                                     <a href="{{url('socialmedia/edit')}}/{{$socialmedia->id}}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
                                     <a onclick="return confirm('are you sure?')" href="{{url('socialmedia/delete')}}/{{$socialmedia->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>

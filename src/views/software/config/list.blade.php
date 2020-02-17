@@ -3,10 +3,16 @@
 @section('breadcrumbs','Admin')
 @section('breadcrumbs_link','/faculty/list')
 @section('breadcrumbs_title','Faculty List')
-
+@section('style')
+    <style>
+        td.value_image img {
+            height: 60px;
+        }
+    </style>
+@stop
 @section('content')
     <div class="container">
-        <h2>Config List</h2>
+        <h2>Configuration List</h2>
         <div id="home" class="row">
             <div class="col-md-12 text-right" style="padding: 0 15px">
                 <a href="{{url('website_configs/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Item</a>
@@ -41,8 +47,15 @@
                                 <td>{{$config->type}}</td>
                                 <td>{{$config->name}}</td>
                                 <td>{{$config->display_name}}</td>
-                                <td>{{$config->value}}</td>
+                                <td class="value_image">
+                                    @if ($config->type == 'file')
+                                        <img src="{{env('PUBLIC_PATH')}}/img/backend/config/{{$config->value}}">
+                                        @else
+                                        {{$config->value}}
+                                    @endif
+                                </td>
                                 <td>
+                                    <a id="{{$config->id}}" class="btn btn-primary viewDetailsButton"><i class="fa fa-eye"></i></a>
                                     <a href="{{url('website_configs/edit')}}/{{$config->id}}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
                                     <a onclick="return confirm('are you sure?')" href="{{url('website_configs/delete')}}/{{$config->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
