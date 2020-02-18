@@ -57,6 +57,7 @@
                             <label for="topic" class="control-label" title="Topic">Template</label>
                             <div class="controls">
                                 <select class="form-control" name="template" v-model="formElement.templete">
+                                    <option {{isset($data->template) && $data->home=='home' ? 'selected' : '' }} value="home">Home Page</option>
                                     <option {{isset($data->template) && $data->template=='default_page' ? 'selected' : '' }} value="default_page">Default Page</option>
                                     <option {{isset($data->template) && $data->template=='about_us' ? 'selected' : '' }} value="about_us">About Us</option>
                                     <option {{isset($data->template) && $data->template=='contact_us' ? 'selected' : '' }} value="contact_us">Contact Us</option>

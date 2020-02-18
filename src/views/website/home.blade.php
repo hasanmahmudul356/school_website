@@ -15,6 +15,20 @@
     </style>
 @stop
 @section('content')
+    @php
+        $slides = Tmss\School_website\Http\Models\Slides::take(10)->orderBy('id', 'DESC')->get();
+        $slides = Tmss\School_website\Http\Models\Slides::take(10)->orderBy('id', 'DESC')->get();
+        $facilities = Tmss\School_website\Http\Models\Facility::take(10)->orderBy('id', 'DESC')->get();
+        $teachers = App\teacher_model::leftJoin('teacher_socials', 'teacher.teacher_id', '=', 'teacher_socials.teacher_id')->where('is_homepage', 1)->select('teacher_socials.*', 'teacher.*', 'teacher.teacher_id')->get();
+        $offers = Tmss\School_website\Http\Models\Offers::take(10)->get();
+        $testimonials = Tmss\School_website\Http\Models\Testimonial::take(10)->get();
+        $courses = App\manage_department_model::all()->toArray();
+        $courses = collect($courses)->unique('department_code');
+        $news = Tmss\School_website\Http\Models\News::take(10)->orderBy('id', 'DESC')->get();
+        $photogallery = Tmss\School_website\Http\Models\Photogallery::take(4)->orderBy('id', 'DESC')->get();
+        $socialmedias = Tmss\School_website\Http\Models\Socialmedia::take(4)->orderBy('id', 'DESC')->get();
+        $pages = Tmss\School_website\Http\Models\Page::all()->toArray();
+    @endphp
     @if (isset($slides) && count($slides) > 0)
         <section class="home-slider owl-carousel">
             @foreach($slides as $slide)
