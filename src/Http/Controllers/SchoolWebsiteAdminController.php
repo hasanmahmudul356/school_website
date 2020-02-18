@@ -1058,9 +1058,11 @@ class SchoolWebsiteAdminController extends Controller
         ]);
         $input = $request->input('data');
 
-        foreach ($input as $menu){
+        foreach ($input as $key => $menu){
+           // dd($input);
             $page = Page::where('id', $menu['id'])->first();
             $page->parent = 0;
+            $page->sort = $key+1;
             $page->save();
 
             if (isset($menu['children'])){

@@ -18,7 +18,7 @@
                 <a href="{{url('page/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Page</a>
             </div>
         </div>
-        <div id="Vue_component_wrapper" class="tab-pane fade in active">
+        <div id="Vue_component_package_wrapper" class="tab-pane fade in active">
             <div class="widget-box">
                 <div class="widget-title"><span class="icon"> <i class="icon-info-sign"></i> </span>
                     <h5>Add Page</h5>
@@ -127,7 +127,7 @@
     </script>
     <script>
         new Vue({
-            el: '#Vue_component_wrapper',
+            el: '#Vue_component_package_wrapper',
             data: {
                 formElement: {
                     templete: '{{isset($data) ? $data->template : 'default_page'}}',
