@@ -68,6 +68,16 @@ class SchoolWebsiteController
             return redirect(url('courses'));
         }
     }
+    public function ShortCoursedetails($id)
+    {
+
+        $data['faculty'] = Faculty::where('id', $id)->first();
+        if ($data['faculty']) {
+            return view($this->ExistViewReturn('website.course_details'), $data);
+        } else {
+            return redirect(url('courses'));
+        }
+    }
 
     public function Pagedetails($url)
     {

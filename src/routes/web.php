@@ -140,6 +140,14 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@WebsiteConfigsHomeWebsite_configs');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@WebsiteConfigsDelete');
     });
+    Route::group(['prefix'=>'short_course'], function (){
+        Route::get('/list', 'SchoolWebsiteAdminController@ShortCourseList');
+        Route::get('/add', 'SchoolWebsiteAdminController@ShortCourseAdd');
+        Route::post('/add', 'SchoolWebsiteAdminController@ShortCourseAddStore');
+        Route::post('/update', 'SchoolWebsiteAdminController@ShortCourseUpdate');
+        Route::get('/edit/{id}', 'SchoolWebsiteAdminController@ShortCourseUpdateSave');
+        Route::get('/delete/{id}', 'SchoolWebsiteAdminController@ShortCourseDelete');
+    });
 
     Route::group(['prefix'=>'view'], function (){
         Route::post('/slide/{id}', 'WebsiteDataViewApiController@SlideDataView');
@@ -156,6 +164,7 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::post('/page/{id}', 'WebsiteDataViewApiController@PageDetails');
         Route::post('/faculty/{id}', 'WebsiteDataViewApiController@FacultyDetails');
         Route::post('/config/{id}', 'WebsiteDataViewApiController@WebconfigurationDetails');
+        Route::post('/short_course/{id}', 'WebsiteDataViewApiController@ShortCodeDetails');
     });
 });
 
@@ -166,6 +175,7 @@ Route::group(['middleware' => ['web'], 'namespace' => 'Tmss\School_website\Http\
     Route::get('courses', 'SchoolWebsiteController@Course');
 
     Route::get('courses/{id}', 'SchoolWebsiteController@Coursedetails');
+    Route::get('short_course/{id}', 'SchoolWebsiteController@ShortCoursedetails');
 
     Route::get('registration', 'SchoolWebsiteController@RegistrationForm');
     Route::post('registration/submit', 'SchoolWebsiteController@RegistrationSubmit');

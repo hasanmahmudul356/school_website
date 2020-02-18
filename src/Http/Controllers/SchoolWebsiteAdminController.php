@@ -359,9 +359,7 @@ class SchoolWebsiteAdminController extends Controller
             $testimonial->save();
 
             if ($request->hasfile('image')) {
-//            dd('test');
                 $imageName = $testimonial->id . '.jpg';
-//            dd($imageName);
                 $request->image->move(public_path('/img/backend/testimonial'), $imageName);
 
             }
@@ -1117,7 +1115,7 @@ class SchoolWebsiteAdminController extends Controller
     //==================Faculty Methods=======================
     public function FacultyList()
     {
-        $val = Faculty::leftJoin('manage_department', 'faculty.coursecode', '=', 'manage_department.department_code')->select('faculty.*', 'manage_department.department_name','manage_department.department_code')->get();
+        $val = Faculty::where('type', 1)->leftJoin('manage_department', 'faculty.coursecode', '=', 'manage_department.department_code')->select('faculty.*', 'manage_department.department_name','manage_department.department_code')->get();
 
 //        dd($val);
         $data['data_list']=$val->unique('department_code');
@@ -1135,6 +1133,7 @@ class SchoolWebsiteAdminController extends Controller
     {
         $courses = manage_department_model::all()->toArray();
         $data['courses'] = collect($courses)->unique('department_code');
+        $data['page'] = 'short_course';
 
         return view($this->ExistViewReturn('software.faculty.add'), $data);
     }
@@ -1152,10 +1151,12 @@ class SchoolWebsiteAdminController extends Controller
             'labinfo' => 'sometimes',
             'fees' => 'sometimes',
             'fees_structure' => 'sometimes',
+            'duration' => 'sometimes',
         ]);
 
 //        dd('test');
         $faculty = new Faculty();
+        $faculty->type = 1;
         $faculty->coursecode = $request->input('coursecode');
         $faculty->overview = $request->input('overview');
         $faculty->feature = $request->input('feature');
@@ -1164,6 +1165,7 @@ class SchoolWebsiteAdminController extends Controller
         $faculty->labinfo = $request->input('labinfo');
         $faculty->fees = $request->input('fees');
         $faculty->fees_structure = $request->input('fees_structure');
+        $faculty->duration = $request->input('duration');
         $faculty->save();
         if ($request->hasfile('image')) {
             $imageName = $faculty->id . '.jpg';
@@ -1200,6 +1202,7 @@ class SchoolWebsiteAdminController extends Controller
             'fees' => 'sometimes',
             'fees_structure' => 'sometimes',
             'id' => 'required',
+            'duration' => 'sometimes',
         ]);
 
         $faculty = Faculty::where('id', $request->input('id'))->first();
@@ -1212,6 +1215,7 @@ class SchoolWebsiteAdminController extends Controller
             $faculty->labinfo = $request->input('labinfo');
             $faculty->fees = $request->input('fees');
             $faculty->fees_structure = $request->input('fees_structure');
+            $faculty->duration = $request->input('duration');
             $faculty->save();
             if ($request->hasfile('image')) {
                 $imageName = $faculty->id . '.jpg';
@@ -1226,6 +1230,131 @@ class SchoolWebsiteAdminController extends Controller
     }
 
     public function FacultyDelete($id)
+    {
+        $faculty = Faculty::where('id', $id)->first();
+        if ($faculty) {
+            $faculty->delete();
+
+            return redirect(url('faculty/list'));
+        } else {
+            return redirect(url('faculty/list'));
+        }
+    }
+
+
+    //==================Faculty Methods=======================
+    public function ShortCourseList()
+    {
+        $val = Faculty::where('type', 2)->get();
+
+//        dd($val);
+        $data['data_list']=$val->unique('department_code');
+        $data['prefix'] = 'short_course';
+
+//        $data['data_list'] = Faculty::all();
+        if (count($data['data_list']) > 0) {
+            return view($this->ExistViewReturn('software.short_course.list'), $data);
+        } else {
+            return redirect(url('short_course/add'));
+        }
+    }
+
+    public function ShortCourseAdd()
+    {
+        $courses = manage_department_model::all()->toArray();
+        $data['courses'] = collect($courses)->unique('department_code');
+
+        return view($this->ExistViewReturn('software.short_course.add'), $data);
+    }
+
+    public function ShortCourseAddStore(Request $request)
+    {
+        $this->validate($request, [
+            'coursecode' => 'sometimes',
+            'overview' => 'sometimes',
+            'feature' => 'sometimes',
+            'scope' => 'sometimes',
+            'subject' => 'sometimes',
+            'labinfo' => 'sometimes',
+            'duration' => 'sometimes',
+            'fees' => 'sometimes',
+            'fees_structure' => 'sometimes',
+        ]);
+        $faculty = new Faculty();
+        $faculty->type = 2;
+        $faculty->coursecode = $request->input('coursecode');
+        $faculty->overview = $request->input('overview');
+        $faculty->feature = $request->input('feature');
+        $faculty->scope = $request->input('scope');
+        $faculty->subject = $request->input('subject');
+        $faculty->labinfo = $request->input('labinfo');
+        $faculty->fees = $request->input('fees');
+        $faculty->fees_structure = $request->input('fees_structure');
+        $faculty->duration = $request->input('duration');
+        $faculty->save();
+        if ($request->hasfile('image')) {
+            $imageName = $faculty->id . '.jpg';
+            $request->image->move(public_path('/img/backend/faculty'), $imageName);
+
+        }
+
+        return redirect(url('short_course/list'));
+    }
+
+    public function ShortCourseUpdate($id)
+    {
+        $courses = manage_department_model::all()->toArray();
+        $data['courses'] = collect($courses)->unique('department_code');
+
+        $data['data'] = Faculty::where('id', $id)->first();
+//        dd($data['facultys']);
+        if ($data['courses']) {
+            return view($this->ExistViewReturn('software.faculty.add'), $data);
+        } else {
+            return redirect(url('faculty/list'));
+        }
+    }
+
+    public function ShortCourseUpdateSave(Request $request)
+    {
+        $this->validate($request, [
+            'coursecode' => 'sometimes',
+            'overview' => 'sometimes',
+            'feature' => 'sometimes',
+            'scope' => 'sometimes',
+            'subject' => 'sometimes',
+            'labinfo' => 'sometimes',
+            'fees' => 'sometimes',
+            'fees_structure' => 'sometimes',
+            'id' => 'required',
+            'duration' => 'sometimes',
+        ]);
+
+        $faculty = Faculty::where('id', $request->input('id'))->first();
+        if ($faculty) {
+            $faculty->coursecode = $request->input('coursecode');
+            $faculty->overview = $request->input('overview');
+            $faculty->feature = $request->input('feature');
+            $faculty->scope = $request->input('scope');
+            $faculty->subject = $request->input('subject');
+            $faculty->labinfo = $request->input('labinfo');
+            $faculty->fees = $request->input('fees');
+            $faculty->fees_structure = $request->input('fees_structure');
+            $faculty->duration = $request->input('duration');
+            $faculty->save();
+            if ($request->hasfile('image')) {
+                $imageName = $faculty->id . '.jpg';
+                $request->image->move(public_path('/img/backend/faculty'), $imageName);
+
+            }
+
+            return redirect(url('faculty/list'));
+        } else {
+            return redirect(url('faculty/list'));
+        }
+    }
+
+    public function ShortCourseDelete($id)
     {
         $faculty = Faculty::where('id', $id)->first();
         if ($faculty) {

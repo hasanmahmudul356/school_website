@@ -161,4 +161,13 @@ class WebsiteDataViewApiController
             return response()->json(['status'=>3000, 'data'=>[]], 200);
         }
     }
+    public function ShortCodeDetails($id){
+        $model = new Faculty();
+        $data = $model->where('id', $id)->first();
+        if ($data){
+            return response()->json(['status'=>2000, 'data'=>$data], 200);
+        }else{
+            return response()->json(['status'=>3000, 'data'=>[]], 200);
+        }
+    }
 }

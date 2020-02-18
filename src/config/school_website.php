@@ -44,6 +44,9 @@ return [
             'title' => 'Faculty & Fee Structure',
             'route' => 'faculty/list',
         ],[
+            'title' => 'Short Courses',
+            'route' => 'short_course/list',
+        ],[
             'title' => 'Website Configs',
             'route' => 'website_configs/list',
         ],[

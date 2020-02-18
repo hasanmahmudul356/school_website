@@ -28,6 +28,7 @@
         $photogallery = Tmss\School_website\Http\Models\Photogallery::take(4)->orderBy('id', 'DESC')->get();
         $socialmedias = Tmss\School_website\Http\Models\Socialmedia::take(4)->orderBy('id', 'DESC')->get();
         $pages = Tmss\School_website\Http\Models\Page::all()->toArray();
+        $faculty = Tmss\School_website\Http\Models\Faculty::where('type', 2)->get();
     @endphp
     @if (isset($slides) && count($slides) > 0)
         <section class="home-slider owl-carousel">
@@ -40,7 +41,6 @@
                              data-scrollax-parent="true">
                             <div class="col-md-8 text-center ftco-animate">
                                 <h1 class="mb-4">{{$slide->title}}</h1>
-                                <p><a href="#" class="btn btn-secondary px-4 py-3 mt-3">Read More</a></p>
                             </div>
                         </div>
                     </div>
@@ -243,8 +243,8 @@
                             <div class="block-18">
                                 <div class="icon"><span class="flaticon-doctor"></span></div>
                                 <div class="text">
-                                    <strong class="number" data-number="18">0</strong>
-                                    <span>Certified Teachers</span>
+                                    <strong class="number" data-number="{{App\teacher_model::get()->count()}}">0</strong>
+                                    <span>Teachers</span>
                                 </div>
                             </div>
                         </div>
@@ -252,8 +252,8 @@
                             <div class="block-18">
                                 <div class="icon"><span class="flaticon-doctor"></span></div>
                                 <div class="text">
-                                    <strong class="number" data-number="351">0</strong>
-                                    <span>Successful Kids</span>
+                                    <strong class="number" data-number="{{App\students::get()->count()}}">0</strong>
+                                    <span>Students</span>
                                 </div>
                             </div>
                         </div>
@@ -261,8 +261,8 @@
                             <div class="block-18">
                                 <div class="icon"><span class="flaticon-doctor"></span></div>
                                 <div class="text">
-                                    <strong class="number" data-number="564">0</strong>
-                                    <span>Happy Parents</span>
+                                    <strong class="number" data-number="{{App\parents_info_model::get()->count()}}">0</strong>
+                                    <span>Parents</span>
                                 </div>
                             </div>
                         </div>
@@ -270,8 +270,8 @@
                             <div class="block-18">
                                 <div class="icon"><span class="flaticon-doctor"></span></div>
                                 <div class="text">
-                                    <strong class="number" data-number="300">0</strong>
-                                    <span>Awards Won</span>
+                                    <strong class="number" data-number="7">0</strong>
+                                    <span>Publications</span>
                                 </div>
                             </div>
                         </div>
@@ -365,7 +365,7 @@
             </div>
         </div>
     </section>
-    @if (isset($courses) && count($courses) > 0)
+    @if (isset($faculty) && count($faculty) > 0)
         <section class="ftco-section">
             <div class="container">
                 <div class="row justify-content-center mb-5 pb-2">
@@ -375,26 +375,24 @@
                     </div>
                 </div>
                 <div class="row">
-                    @foreach($courses as $course)
+                    @foreach($faculty as $facul)
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="pricing-entry bg-light pb-4 text-center">
                                 @php
-                                    if(File::exists(public_path('/img/backend/department/'.$course['id'].'.jpg'))){
-                                        $image = env('PUBLIC_PATH').'/img/backend/department/'.$course['id'].'.jpg';
+                                    if(File::exists(public_path('/img/backend/faculty/'.$facul['id'].'.jpg'))){
+                                        $image = env('PUBLIC_PATH').'/img/backend/faculty/'.$facul['id'].'.jpg';
                                     }else{
                                         $image = env('PUBLIC_PATH').'/vendor/front_assets/images/course-1.jpg';
                                     }
                                 @endphp
                                 <div>
-                                    <h3 class="mb-3">{{isset($course['department_name']) ? $course['department_name'] : ''}}</h3>
-                                    <p><span class="price">$24.50</span> <span class="per">/ 5mos</span></p>
+                                    <h3 class="mb-3">{{isset($facul['coursecode']) ? $facul['coursecode'] : ''}}</h3>
+                                    <p><span class="price">{{$facul['fees']}}</span> <span class="per"></span></p>
                                 </div>
                                 <div class="img" style="background-image: url({{$image}})"></div>
-                                <div class="px-4">
-                                    <p>{{isset($course['description']) ? $course['description'] : ''}}</p>
-                                </div>
-                                <p class="button text-center"><a href="#" class="btn btn-primary px-4 py-3">Take A
-                                        Course</a></p>
+                                <p class="button text-center" style="margin-top: 10px">
+                                    <a href="{{url('short_course')}}/{{$facul['id']}}" class="btn btn-primary px-4 py-3">Take A Course</a>
+                                </p>
                             </div>
                         </div>
                     @endforeach

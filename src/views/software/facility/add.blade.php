@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="container">
-        <h2>Add Facilities</h2>
+        <h2>Add Course Information</h2>
         <div id="home" class="row">
             <div class="col-md-12 text-right">
                 <a href="{{url('facilities/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Feature</a>

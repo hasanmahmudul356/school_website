@@ -132,6 +132,9 @@
                                 <a href="#" class="list-group-item text-center">
                                     <h4 class="fa fa-angle-left"></h4><br/>Fee Structure
                                 </a>
+                                <a href="#" class="list-group-item text-center">
+                                    <h4 class="fa fa-angle-left"></h4><br/>Duration
+                                </a>
                             </div>
                         </div>
                         <div class="col-md-9 bhoechie-tab">
@@ -155,6 +158,9 @@
                             <div class="bhoechie-tab-content">
                                 <h3 style="margin-top: 0;color:#55518a">{!! $faculty->fees !!}</h3>
                                 <p style="margin-top: 0;color:#55518a">{!! $faculty->fees_structure !!}</p>
+                            </div>
+                            <div class="bhoechie-tab-content">
+                                <h3 style="margin-top: 0;color:#55518a">{!! $faculty->duration !!}</h3>
                             </div>
                         </div>
                     </div>

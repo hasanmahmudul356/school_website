@@ -15,13 +15,14 @@ class CreateFacultyTable extends Migration
     {
         Schema::create('faculty', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('coursecode');
+            $table->string('coursecode');
             $table->text('overview');
             $table->text('feature')->nullable();
             $table->text('scope')->nullable();
             $table->text('subject')->nullable();
             $table->text('labinfo')->nullable();
             $table->string('fees')->nullable();
+            $table->string('duration')->nullable();
             $table->text('fees_structure')->nullable();
             $table->timestamps();
         });

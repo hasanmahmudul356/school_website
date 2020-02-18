@@ -12,26 +12,25 @@
 @stop
 @section('content')
     <div class="container">
-        <h2>Add Faculty</h2>
+        <h2>Add Course Information</h2>
         <div id="home" class="row">
             <div class="col-md-12 text-right">
-                <a href="{{url('faculty/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Faculty</a>
+                <a href="{{url('faculty/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Course Information</a>
             </div>
         </div>
         <div id="Vue_component_wrapper" class="tab-pane fade in active">
             <div class="widget-box">
                 <div class="widget-title"><span class="icon"> <i class="icon-info-sign"></i> </span>
-                    <h5>Add Faculty</h5>
+                    <h5>Add Course Information</h5>
                 </div>
                 <form class="form-horizontal" method="post"
-                      action="{{isset($data) ? url('faculty/update') : url('faculty/add')}}" enctype="multipart/form-data">
+                      action="{{isset($data) ? url('short_course/update') : url('short_course/add')}}" enctype="multipart/form-data">
                     <div class="widget-content nopadding">
                         <div class="control-group">
                             <label for="faculty_photo" class="control-label" title="Faculty Photo"></label>
                             <div class="controls">
                                 @if (isset($data))
-                                    <img style="height: 100px" id="ImageId"
-                                         src="{{env('PUBLIC_PATH')}}/img/backend/faculty/{{$data->id.'.jpg'}}">
+                                    <img style="height: 100px" id="ImageId" src="{{env('PUBLIC_PATH')}}/img/backend/faculty/{{$data->id.'.jpg'}}">
                                 @else
                                     <img style="height: 100px" src="{{env('PUBLIC_PATH')}}/img/blankavatar.png"
                                          id="ImageId">
@@ -50,16 +49,9 @@
                             <label for="coursecode" class="control-label" title="title">Course Name</label>
                             <div class="controls">
                                 {{@csrf_field()}}
-                                <select name="coursecode" id="coursecode">
-                                    <option value="">Select Department</option>
-                                    @foreach($courses as $course)
-                                    <option {{isset($data) && $data->coursecode==$course['department_code'] ? 'Selected': ''}}  value="{{$course['department_code']}}">{{$course['department_name']}}</option>
-                                    @endforeach
-                                </select>
+                                <input class="form-control" name="coursecode" type="text">
                             </div>
                         </div>
-
-
                         <div class="control-group">
                             <label for="overview" class="control-label" title="overview">Overview</label>
                             <div class="controls">
