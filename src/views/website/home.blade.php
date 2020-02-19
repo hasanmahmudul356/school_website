@@ -387,9 +387,14 @@
                                 @endphp
                                 <div>
                                     <h3 class="mb-3">{{isset($facul['coursecode']) ? $facul['coursecode'] : ''}}</h3>
-                                    <p><span class="price">{{$facul['fees']}}</span> <span class="per"></span></p>
+                                    <p><span class="price">{{$facul['fees']}}</span>
+                                        <span class="per">/{{$facul['duration']}}</span>
+                                    </p>
                                 </div>
                                 <div class="img" style="background-image: url({{$image}})"></div>
+                                <div class="px-4">
+                                    <p>{!! substr($facul['overview'],0,100) !!}</p>
+                                </div>
                                 <p class="button text-center" style="margin-top: 10px">
                                     <a href="{{url('short_course')}}/{{$facul['id']}}" class="btn btn-primary px-4 py-3">Take A Course</a>
                                 </p>
@@ -422,13 +427,12 @@
                                     </div>
                                 </a>
                                 <div class="text bg-white p-4">
-                                    <h3 class="heading"><a href="#">
-                                            {{$newsarticle->topic}}
-                                        </a></h3>
-                                    <p>{{$newsarticle->details}}</p>
+                                    <h3 class="heading">
+                                        <a href="#">{!! $newsarticle->topic !!}</a>
+                                    </h3>
+                                    <p>{!! $newsarticle->details !!}</p>
                                     <div class="d-flex align-items-center mt-4">
-                                        <p class="mb-0"><a href="#" class="btn btn-secondary">Read More <span
-                                                        class="ion-ios-arrow-round-forward"></span></a></p>
+                                        <p class="mb-0"><a href="#" class="btn btn-secondary">Read More <span class="ion-ios-arrow-round-forward"></span></a></p>
                                         <p class="ml-auto mb-0">
                                             <a href="#" class="mr-2">Admin 12</a>
                                             <a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a>

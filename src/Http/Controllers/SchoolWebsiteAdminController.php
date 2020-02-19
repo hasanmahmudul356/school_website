@@ -1303,13 +1303,10 @@ class SchoolWebsiteAdminController extends Controller
 
     public function ShortCourseUpdate($id)
     {
-        $courses = manage_department_model::all()->toArray();
-        $data['courses'] = collect($courses)->unique('department_code');
-
         $data['data'] = Faculty::where('id', $id)->first();
 //        dd($data['facultys']);
-        if ($data['courses']) {
-            return view($this->ExistViewReturn('software.faculty.add'), $data);
+        if ($data['data']) {
+            return view($this->ExistViewReturn('software.short_course.add'), $data);
         } else {
             return redirect(url('faculty/list'));
         }
@@ -1348,9 +1345,9 @@ class SchoolWebsiteAdminController extends Controller
 
             }
 
-            return redirect(url('faculty/list'));
+            return redirect(url('short_course/list'));
         } else {
-            return redirect(url('faculty/list'));
+            return redirect(url('short_course/list'));
         }
     }
 

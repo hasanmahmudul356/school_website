@@ -9,7 +9,7 @@
         <h2>Short Course List</h2>
         <div id="home" class="row">
             <div class="col-md-12 text-right" style="padding: 0 15px">
-                <a href="{{url('faculty/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Short Course</a>
+                <a href="{{url('short_course/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Short Course</a>
             </div>
         </div>
         <div id="home" class="tab-pane fade in active">
@@ -38,8 +38,8 @@
                                 <td>{{$faculty->coursecode}}</td>
                                 <td>
                                     <a id="{{$faculty->id}}" class="btn btn-primary viewDetailsButton"><i class="fa fa-eye"></i></a>
-                                    <a href="{{url('faculty/edit')}}/{{$faculty->id}}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
-                                    <a onclick="return confirm('are you sure?')" href="{{url('faculty/delete')}}/{{$faculty->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                    <a href="{{url('short_course/edit')}}/{{$faculty->id}}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                                    <a onclick="return confirm('are you sure?')" href="{{url('short_course/delete')}}/{{$faculty->id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         @endforeach

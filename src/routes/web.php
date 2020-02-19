@@ -144,8 +144,8 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/list', 'SchoolWebsiteAdminController@ShortCourseList');
         Route::get('/add', 'SchoolWebsiteAdminController@ShortCourseAdd');
         Route::post('/add', 'SchoolWebsiteAdminController@ShortCourseAddStore');
-        Route::post('/update', 'SchoolWebsiteAdminController@ShortCourseUpdate');
-        Route::get('/edit/{id}', 'SchoolWebsiteAdminController@ShortCourseUpdateSave');
+        Route::get('/edit/{id}', 'SchoolWebsiteAdminController@ShortCourseUpdate');
+        Route::post('/update', 'SchoolWebsiteAdminController@ShortCourseUpdateSave');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@ShortCourseDelete');
     });
 

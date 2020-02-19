@@ -15,7 +15,7 @@
         <h2>Add Course Information</h2>
         <div id="home" class="row">
             <div class="col-md-12 text-right">
-                <a href="{{url('faculty/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Course Information</a>
+                <a href="{{url('short_course/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Course Information</a>
             </div>
         </div>
         <div id="Vue_component_wrapper" class="tab-pane fade in active">
