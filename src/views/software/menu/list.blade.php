@@ -9,8 +9,20 @@
 @section('content')
     <div class="container">
         <h2>Menu Update</h2>
-        <button class="btn btn-success" onclick="updateOutput()">Update</button>
-        <p id="message" class="text-success"></p>
+        <div class="col-md-12">
+            <div style="float: left;">
+                <form action="" method="GET">
+                    <select onchange="this.form.submit()" name="menutype" id="">
+                        <option {{isset($current_menu) && $current_menu == 'main_menu' ? 'selected' : ''}} value="main_menu">Main Menu</option>
+                        <option {{isset($current_menu) && $current_menu == 'about_us_footer_menu' ? 'selected' : ''}} value="about_us_footer_menu">Footer Menu</option>
+                        {{--<option {{isset($current_menu) && $current_menu == 'footer_menu' ? 'selected' : ''}} value="footer_menu">Footer Third Block</option>--}}
+                    </select>
+                </form>
+            </div>
+            <div style="float: right;"><button class="btn btn-success" onclick="updateOutput()">Update</button></div>
+        </div>
+        
+        <p id="message" class="clearboth text-success"></p>
         <div id="home" class="tab-pane fade in active">
             <div class="widget-box">
                 <div class="widget-content nopadding">

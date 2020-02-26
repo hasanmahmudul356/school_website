@@ -80,7 +80,7 @@
                             <p>
                                 {!! isset($config) ? $config['welcome_message'] : '' !!}
                             </p>
-                            <p><a href="#" class="btn btn-secondary px-4 py-3">Read More</a></p>
+                            <p><a href="{{url('/')}}/page/about-tisi" class="btn btn-secondary px-4 py-3 readmore">Read More</a></p>
                         </div>
                     </div>
                     <div class="col-md-7 wrap-about py-5 pr-md-4 ftco-animate">

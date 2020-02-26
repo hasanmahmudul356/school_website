@@ -24,7 +24,6 @@
                 <div class="widget-title">
                     <span class="icon"><i class="icon-th"></i></span>
                     <h5>Data table</h5>
-                    <h5 style="float: right" class="btn btn-xs btn-success" onclick="UpdateSort()">Update Sort</h5>
                 </div>
                 <div class="widget-content nopadding">
                     <table class="table table-bordered data-table">
@@ -42,7 +41,7 @@
                         </thead>
 
 
-                        <tbody id="sortable">
+                        <tbody id="">
 
                         @foreach($data_list as $key => $page)
 
@@ -75,58 +74,4 @@
             </div>
         </div>
     </div>
-@stop
-@section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        let NewArray = [];
-        jQuery(function () {
-            jQuery("#sortable").sortable({
-                update: function (event, ui) {
-                    NewArray = [];
-                    let product_list = jQuery(".sort_product-each");
-                    product_list.each(function (index, value) {
-                        let rv = {
-                            id: jQuery(value).attr("data_product_id"),
-                            sort_id: (product_list.length - index)
-                        };
-                        NewArray.push(rv)
-                    });
-                }
-            });
-        });
-
-        function UpdateSort() {
-            let data = [];
-            NewArray = [];
-            let product_list = jQuery(".sort_product-each");
-            product_list.each(function (index, value) {
-                let rv = {
-                    id: jQuery(value).attr("data_product_id"),
-                    sort_id: (index + 1)
-                };
-                NewArray.push(rv)
-            });
-            jQuery.ajax({
-                type: "POST",
-                url: '{{url('/')}}/page/sort/update',
-                data: {
-                    all_data: NewArray,
-                    _token : '{{csrf_token()}}'
-                },
-                success: function (response) {
-                    if (parseInt(response.status) === 2000) {
-                        $('#message').text(response.msg);
-                    } else {
-                        Toster(messageType(response.status_code), response.message);
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                }
-            });
-        }
-
-    </script>
 @stop

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Tmss\School_website\Http\Helper\PackageHelper;
 use Tmss\School_website\Http\Models\Contactform;
@@ -1031,7 +1032,15 @@ class SchoolWebsiteAdminController extends Controller
     //==================Page Methods=======================
     public function MenuList()
     {
-        $all_parent = Page::where('is_menu', 1)->where('position', 'main_menu')->where('parent', 0)->orderBy('sort','ASC')->select('title','id')->get()->toArray();
+        $input = Input::get('menutype');
+        $all_parent = Page::where('is_menu', 1)
+            ->where(function($query) use ($input){
+              if($input && !empty($input)){
+                  $query->where('position', $input);
+                } else{
+                  $query->where('position', 'main_menu');
+              }
+            })->where('parent', 0)->orderBy('sort','ASC')->select('title','id')->get()->toArray();
         $all_data = [];
 
         foreach ($all_parent as $key => $parent){
@@ -1044,7 +1053,7 @@ class SchoolWebsiteAdminController extends Controller
 
         }
         if (count($all_data) > 0) {
-            return view($this->ExistViewReturn('software.menu.list'), ['data'=>$all_data]);
+            return view($this->ExistViewReturn('software.menu.list'), ['data'=>$all_data,'current_menu' => $input ]);
         } else {
             return redirect(url('page/list'));
         }
@@ -1064,15 +1073,17 @@ class SchoolWebsiteAdminController extends Controller
             $page->save();
 
             if (isset($menu['children'])){
-                foreach ($menu['children'] as $submenu){
+                foreach ($menu['children'] as $key2 => $submenu){
                     $page = Page::where('id', $submenu['id'])->first();
                     $page->parent = $menu['id'];
+                    $page->sort = $key2+1;
                     $page->save();
 
                     if (isset($submenu['children'])){
-                        foreach ($submenu['children'] as $sub_sub_menu){
+                        foreach ($submenu['children'] as $key3=> $sub_sub_menu){
                             $page = Page::where('id', $sub_sub_menu['id'])->first();
                             $page->parent = $submenu['id'];
+                            $page->sort = $key3+1;
                             $page->save();
                         }
                     }

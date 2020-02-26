@@ -38,7 +38,7 @@ return [
             'title' => 'Page',
             'route' => 'page/list',
         ],[
-            'title' => 'Top Menu',
+            'title' => 'Menu',
             'route' => 'menu/list',
         ],[
             'title' => 'Faculty & Fee Structure',

@@ -16,6 +16,7 @@
         <div id="home" class="row">
             <div class="col-md-12 text-right">
                 <a href="{{url('page/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Page</a>
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </div>
         <div id="Vue_component_package_wrapper" class="tab-pane fade in active">
@@ -26,24 +27,6 @@
                 <form class="form-horizontal" method="post"
                       action="{{isset($data) ? url('page/update') : url('page/add')}}" enctype="multipart/form-data">
                     <div class="widget-content nopadding">
-                        <div class="control-group">
-                            <label for="page_photo" class="control-label" title="Page Photo"></label>
-                            <div class="controls">
-                                @if (isset($data))
-                                    <img style="height: 100px" id="ImageId"
-                                         src="{{env('PUBLIC_PATH')}}/img/backend/page/{{$data->id.'.jpg'}}">
-                                @else
-                                    <img style="height: 100px" src="{{env('PUBLIC_PATH')}}/img/blankavatar.png"
-                                         id="ImageId">
-                                @endif
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label for="page_photo" class="control-label" title="page_photo">Image</label>
-                            <div class="controls">
-                                <input type="file" name="image" onchange="showImage(this, 'ImageId')">
-                            </div>
-                        </div>
                         <div class="control-group">
                             <label for="topic" class="control-label" title="title">Title</label>
                             <div class="controls">
@@ -89,9 +72,9 @@
                         <div class="control-group" v-if="formElement.is_menu ==  1">
                             <label for="details" class="control-label" title="details">Menu Position</label>
                             <div class="controls">
-                                <label class="radio-inline"><input {{isset($data->position) && $data->position=='main_menu' ? 'checked' : '' }} type="radio" name="position" value="main_menu">Main Menu</label>
-                                <label class="radio-inline"><input {{isset($data->position) && $data->position=='about_us_footer_menu' ? 'checked' : '' }} type="radio" name="position" value="about_us_footer_menu">Footer Second Block</label>
-                                <label class="radio-inline"><input {{isset($data->position) && $data->position=='footer_menu' ? 'checked' : '' }} type="radio" name="position" value="footer_menu">Footer Third Block</label>
+                                <label class="radio-inline"><input {{isset($data->position) && $data->position=='main_menu' ? 'checked' : '' }} type="radio" name="position" value="main_menu"> Main Menu</label>
+                                <label class="radio-inline"><input {{isset($data->position) && $data->position=='about_us_footer_menu' ? 'checked' : '' }} type="radio" name="position" value="about_us_footer_menu"> Footer Menu</label>
+                                {{--<label class="radio-inline"><input {{isset($data->position) && $data->position=='footer_menu' ? 'checked' : '' }} type="radio" name="position" value="footer_menu">Footer Third Block</label>--}}
                             </div>
                         </div>
                         <div class="control-group" v-if="formElement.is_menu ==  1" style="display: none;">
@@ -100,6 +83,24 @@
                                 <select class="form-control" name="parent">
                                     <option selected value="">Null</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="page_photo" class="control-label" title="Page Photo"></label>
+                            <div class="controls">
+                                @if (isset($data))
+                                    <img style="height: 100px" id="ImageId"
+                                         src="{{env('PUBLIC_PATH')}}/img/backend/page/{{$data->id.'.jpg'}}">
+                                @else
+                                    <img style="height: 100px" src="{{env('PUBLIC_PATH')}}/img/blankavatar.png"
+                                         id="ImageId">
+                                @endif
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="page_photo" class="control-label" title="page_photo">Background Image</label>
+                            <div class="controls">
+                                <input type="file" name="image" onchange="showImage(this, 'ImageId')">
                             </div>
                         </div>
                         <div class="control-group" style="margin-bottom: 50px">
