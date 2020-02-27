@@ -48,7 +48,9 @@
                                     <option {{isset($data->template) && $data->template=='pricing' ? 'selected' : '' }} value="pricing">Pricing</option>
                                     <option {{isset($data->template) && $data->template=='blog' ? 'selected' : '' }} value="blog">Blog</option>
                                     <option {{isset($data->template) && $data->template=='teacher' ? 'selected' : '' }} value="teacher">Teacher</option>
+                                    <option {{isset($data->template) && $data->template=='stuff' ? 'selected' : '' }} value="stuff">Other Stuff</option>
                                     <option {{isset($data->faculty_page) && $data->template=='faculty_page' ? 'selected' : '' }} value="faculty_page">Faculty Page</option>
+                                    <option {{isset($data->template) && $data->template=='registration' ? 'selected' : '' }} value="registration">Registration Page</option>
                                 </select>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-<footer class="ftco-footer ftco-bg-dark ftco-section">
+<footer class="ftco-footer ftco-bg-dark ftco-section" style="clear:both; margin-top: 20px">
     <div class="container">
         <div class="row mb-5">
             <div class="col-md-6 col-lg-3">
@@ -10,9 +10,9 @@
                                     {{isset($config) ? $config['address'] : ''}}
                                 </span>
                             </li>
-                            <li><a href="#"><span class="icon icon-phone"></span><span
-                                            class="text">
-                                        {{isset($config) ? $config['phone'] : ''}}
+                            <li><a href="#">
+                                    <span class="icon icon-phone"></span>
+                                    <span class="text">{{isset($config) ? $config['phone'] : ''}}
                                     </span></a></li>
                             <li><a href="#"><span class="icon icon-envelope"></span><span class="text">
                                     {{isset($config) ? $config['email'] : ''}}

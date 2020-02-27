@@ -33,6 +33,8 @@
     <section>
         <div class="col-md-8 offset-md-2 applicationform" id="Vue_component_wrapper">
             <form @submit.prevent="SubmitRegistration($event)">
+
+
                 <hr style="border:1px solid green;">
                 <div class="row ">
                     <div class="mx-auto col-md-3 col-xs-12 text-head">
@@ -186,11 +188,15 @@
                         <input v-model="parmanent_address.village_name" type="text" id="village_name" name="village_name" class="form-control" placeholder="Details"/>
                     </div>
                 </div>
+
+
+
+
                 <h4>Academic Information</h4>
                 <div class="control-group">
                     <label for="">Educational Qualifications</label>
                     <div class="controls input_fields_wrap">
-                        <table class="table address" id="Vue_component_wrapper">
+                        <table class="table address" >
                             <thead>
                             <tr>
                                 <th>Exam Name</th>
