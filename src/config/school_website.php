@@ -38,6 +38,15 @@ return [
             'title' => 'Page',
             'route' => 'page/list',
         ],[
+            'title' => 'Events',
+            'route' => 'event/list',
+        ],[
+            'title' => 'Routines',
+            'route' => 'routine/list',
+        ],[
+            'title' => 'Notice',
+            'route' => 'notice/list',
+        ],[
             'title' => 'Menu',
             'route' => 'menu/list',
         ],[

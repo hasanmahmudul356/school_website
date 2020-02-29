@@ -34,7 +34,7 @@
                         @foreach($data_list as $key => $faculty)
                             <tr class="gradeX">
                                 <td>{{$key+1}}</td>
-                                <td><img style="max-height: 30px" src="{{env('PUBLIC_PATH')}}/img/backend/faculty/{{$faculty->id.'.jpg'}}"></td>
+                                <td><img style="max-height: 30px" src="{{env('SOFTWARE_PUBLIC_PATH')}}/img/backend/faculty/{{$faculty->id.'.jpg'}}"></td>
                                 <td>{{$faculty->coursecode}}</td>
                                 <td>
                                     <a id="{{$faculty->id}}" class="btn btn-primary viewDetailsButton"><i class="fa fa-eye"></i></a>

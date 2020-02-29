@@ -51,6 +51,8 @@
                                     <option {{isset($data->template) && $data->template=='stuff' ? 'selected' : '' }} value="stuff">Other Stuff</option>
                                     <option {{isset($data->faculty_page) && $data->template=='faculty_page' ? 'selected' : '' }} value="faculty_page">Faculty Page</option>
                                     <option {{isset($data->template) && $data->template=='registration' ? 'selected' : '' }} value="registration">Registration Page</option>
+                                    <option {{isset($data->template) && $data->template=='calender' ? 'selected' : '' }} value="calender">Academic Calender</option>
+                                    <option {{isset($data->template) && $data->template=='short_courses' ? 'selected' : '' }} value="short_courses">Short Courses</option>
                                 </select>
                             </div>
                         </div>
@@ -76,7 +78,7 @@
                             <div class="controls">
                                 <label class="radio-inline"><input {{isset($data->position) && $data->position=='main_menu' ? 'checked' : '' }} type="radio" name="position" value="main_menu"> Main Menu</label>
                                 <label class="radio-inline"><input {{isset($data->position) && $data->position=='about_us_footer_menu' ? 'checked' : '' }} type="radio" name="position" value="about_us_footer_menu"> Footer Menu</label>
-                                {{--<label class="radio-inline"><input {{isset($data->position) && $data->position=='footer_menu' ? 'checked' : '' }} type="radio" name="position" value="footer_menu">Footer Third Block</label>--}}
+                                <label class="radio-inline"><input {{isset($data->position) && $data->position=='both_menu' ? 'checked' : '' }} type="radio" name="position" value="both_menu"> Both Menu</label>
                             </div>
                         </div>
                         <div class="control-group" v-if="formElement.is_menu ==  1" style="display: none;">

@@ -536,7 +536,7 @@ class SchoolWebsiteAdminController extends Controller
     //==================News Methods=======================
     public function NewsList()
     {
-        $data['data_list'] = News::all();
+        $data['data_list'] = News::where('type', 1)->get();
         $data['prefix'] = 'news';
 //        dd('test');
         if (count($data['data_list']) > 0) {
@@ -560,6 +560,7 @@ class SchoolWebsiteAdminController extends Controller
         $news = new News();
         $news->topic = $request->input('topic');
         $news->details = $request->input('details');
+        $news->type = 1;
         $news->save();
 
         if ($request->hasfile('image')) {
@@ -608,6 +609,93 @@ class SchoolWebsiteAdminController extends Controller
     }
 
     public function NewsDelete($id)
+    {
+        $news = News::where('id', $id)->first();
+        if ($news) {
+            $news->delete();
+
+            return redirect(url('news/list'));
+        } else {
+            return redirect(url('news/list'));
+        }
+    }
+
+    //==================News Methods=======================
+    public function NoticeList()
+    {
+        $data['data_list'] = News::where('type', 1)->get();
+        $data['prefix'] = 'news';
+//        dd('test');
+        if (count($data['data_list']) > 0) {
+            return view($this->ExistViewReturn('software.news.list'), $data);
+        } else {
+            return redirect(url('news/add'));
+        }
+    }
+
+    public function NoticeAddForm()
+    {
+        return view($this->ExistViewReturn('software.news.add'));
+    }
+
+    public function NoticeStore(Request $request)
+    {
+        $this->validate($request, [
+            'topic' => 'required',
+            'details' => 'required',
+        ]);
+        $news = new News();
+        $news->topic = $request->input('topic');
+        $news->details = $request->input('details');
+        $news->type = 2;
+        $news->save();
+
+        if ($request->hasfile('image')) {
+            $imageName = $news->id . '.jpg';
+            $request->image->move(public_path('/img/backend/news'), $imageName);
+
+        }
+
+        return redirect(url('news/list'));
+    }
+
+    public function NoticeEdit($id)
+    {
+        $data['data'] = News::where('id', $id)->first();
+        if ($data['data']) {
+            return view($this->ExistViewReturn('software.news.add'), $data);
+        } else {
+            return redirect(url('news/list'));
+        }
+    }
+
+    public function NoticeUpdateStore(Request $request)
+    {
+        $this->validate($request, [
+            'topic' => 'required',
+            'details' => 'required',
+            'id' => 'required',
+        ]);
+
+        $news = News::where('id', $request->input('id'))->first();
+        if ($news) {
+            $news->topic = $request->input('topic');
+            $news->details = $request->input('details');
+            $news->save();
+
+            if ($request->hasfile('image')) {
+                $imageName = $news->id . '.jpg';
+                $request->image->move(public_path('/img/backend/news'), $imageName);
+
+            }
+
+            return redirect(url('news/list'));
+        } else {
+            return redirect(url('news/list'));
+        }
+    }
+
+    public function NoticeDelete($id)
     {
         $news = News::where('id', $id)->first();
         if ($news) {
@@ -1033,14 +1121,29 @@ class SchoolWebsiteAdminController extends Controller
     public function MenuList()
     {
         $input = Input::get('menutype');
+        if($input && !empty($input)){
+            $menu = $input;
+        }else{
+            $menu = 'main_menu';
+        }
         $all_parent = Page::where('is_menu', 1)
-            ->where(function($query) use ($input){
-              if($input && !empty($input)){
-                  $query->where('position', $input);
-                } else{
-                  $query->where('position', 'main_menu');
+            ->where(function($query) use ($menu){
+              if($menu == 'main_menu'){
+                  $query->where('position', $menu);
+                  $query->orWhere('position', 'both_menu');
+                }else{
+                  $query->where('position', $menu);
+                  $query->orWhere('position', 'both_menu');
               }
-            })->where('parent', 0)->orderBy('sort','ASC')->select('title','id')->get()->toArray();
+            })->where(function ($query) use ($menu){
+                if($menu == 'main_menu'){
+                    $query->where('parent', 0);
+                }else{
+                    $query->where('parent', 0);
+                    $query->orWhere('parent', '>', 0);
+                }
+            })->orderBy('sort','ASC')->select('title','id')->get()->toArray();
+
         $all_data = [];
 
         foreach ($all_parent as $key => $parent){
@@ -1091,7 +1194,12 @@ class SchoolWebsiteAdminController extends Controller
             }
         }
 
-        $all_parent = Page::where('is_menu', 1)->where('position', 'main_menu')->where('parent', 0)->orderBy('sort','ASC')->select('title','id','url')->get()->toArray();
+        $all_parent = Page::where('is_menu', 1)
+            ->where(function($query){
+                $query->where('position', 'main_menu');
+                $query->orWhere('position', 'both_menu');
+            })
+            ->where('parent', 0)->orderBy('sort','ASC')->select('title','id','url')->get()->toArray();
         $all_data = [];
 
         foreach ($all_parent as $key => $parent){

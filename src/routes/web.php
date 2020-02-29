@@ -148,6 +148,30 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::post('/update', 'SchoolWebsiteAdminController@ShortCourseUpdateSave');
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@ShortCourseDelete');
     });
+    Route::group(['prefix'=>'routine'], function (){
+        Route::get('/list', 'SchoolWebsiteAdminController@ShortCourseList');
+        Route::get('/add', 'SchoolWebsiteAdminController@ShortCourseAdd');
+        Route::post('/add', 'SchoolWebsiteAdminController@ShortCourseAddStore');
+        Route::get('/edit/{id}', 'SchoolWebsiteAdminController@ShortCourseUpdate');
+        Route::post('/update', 'SchoolWebsiteAdminController@ShortCourseUpdateSave');
+        Route::get('/delete/{id}', 'SchoolWebsiteAdminController@ShortCourseDelete');
+    });
+    Route::group(['prefix'=>'event'], function (){
+        Route::get('/list', 'SchoolWebsiteAdminController@ShortCourseList');
+        Route::get('/add', 'SchoolWebsiteAdminController@ShortCourseAdd');
+        Route::post('/add', 'SchoolWebsiteAdminController@ShortCourseAddStore');
+        Route::get('/edit/{id}', 'SchoolWebsiteAdminController@ShortCourseUpdate');
+        Route::post('/update', 'SchoolWebsiteAdminController@ShortCourseUpdateSave');
+        Route::get('/delete/{id}', 'SchoolWebsiteAdminController@ShortCourseDelete');
+    });
+    Route::group(['prefix'=>'notice'], function (){
+        Route::get('/list', 'SchoolWebsiteAdminController@NoticeList');
+        Route::get('/add', 'SchoolWebsiteAdminController@NoticeAdd');
+        Route::post('/add', 'SchoolWebsiteAdminController@NoticeAddStore');
+        Route::get('/edit/{id}', 'SchoolWebsiteAdminController@NoticeUpdate');
+        Route::post('/update', 'SchoolWebsiteAdminController@NoticeUpdateSave');
+        Route::get('/delete/{id}', 'SchoolWebsiteAdminController@NoticeDelete');
+    });
 
     Route::group(['prefix'=>'view'], function (){
         Route::post('/slide/{id}', 'WebsiteDataViewApiController@SlideDataView');

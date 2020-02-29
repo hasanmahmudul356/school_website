@@ -30,7 +30,7 @@
 @stop
 @section('content')
     <section class="hero-wrap hero-wrap-2" style="">
-        <div class="overlay" style="background: url('{{env('PUBLIC_PATH')}}/img/backend/config/{{isset($config) ? $config['tisibanner'] : ''}}');"></div>
+        <div class="overlay" style="background: url('{{env('SOFTWARE_PUBLIC_PATH')}}/img/backend/config/{{isset($config) ? $config['tisibanner'] : ''}}');"></div>
         <div class="container">
             <div class="row no-gutters slider-text align-items-center justify-content-center">
                 <div class="col-md-9 ftco-animate text-center">
@@ -87,9 +87,9 @@
                                 <div class="img-wrap d-flex align-items-stretch">
                                     @php
                                         if(File::exists(public_path('/img/backend/teacher_staff/'.$teacher->teacher_id.'.jpg'))){
-                                            $image = env('PUBLIC_PATH').'/img/backend/teacher_staff/'.$teacher->teacher_id.'.jpg';
+                                            $image = env('SOFTWARE_PUBLIC_PATH').'/img/backend/teacher_staff/'.$teacher->teacher_id.'.jpg';
                                         }else{
-                                            $image = env('PUBLIC_PATH').'/vendor/front_assets/images/course-1.jpg';
+                                            $image = env('SOFTWARE_PUBLIC_PATH').'/vendor/front_assets/images/course-1.jpg';
                                         }
                                     @endphp
                                     <div class="img align-self-stretch" style="background-image: url({{$image}})"></div>
@@ -133,9 +133,9 @@
                                 <div class="img-wrap d-flex align-items-stretch">
                                     @php
                                         if(File::exists(public_path('/img/backend/teacher_staff/'.$teacher->teacher_id.'.jpg'))){
-                                            $image = env('PUBLIC_PATH').'/img/backend/teacher_staff/'.$teacher->teacher_id.'.jpg';
+                                            $image = env('SOFTWARE_PUBLIC_PATH').'/img/backend/teacher_staff/'.$teacher->teacher_id.'.jpg';
                                         }else{
-                                            $image = env('PUBLIC_PATH').'/vendor/front_assets/images/course-1.jpg';
+                                            $image = env('SOFTWARE_PUBLIC_PATH').'/vendor/front_assets/images/course-1.jpg';
                                         }
                                     @endphp
                                     <div class="img align-self-stretch" style="background-image: url({{$image}})"></div>

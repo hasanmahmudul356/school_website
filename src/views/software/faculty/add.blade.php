@@ -31,9 +31,9 @@
                             <div class="controls">
                                 @if (isset($data))
                                     <img style="height: 100px" id="ImageId"
-                                         src="{{env('PUBLIC_PATH')}}/img/backend/faculty/{{$data->id.'.jpg'}}">
+                                         src="{{env('SOFTWARE_PUBLIC_PATH')}}/img/backend/faculty/{{$data->id.'.jpg'}}">
                                 @else
-                                    <img style="height: 100px" src="{{env('PUBLIC_PATH')}}/img/blankavatar.png"
+                                    <img style="height: 100px" src="{{env('SOFTWARE_PUBLIC_PATH')}}/img/blankavatar.png"
                                          id="ImageId">
                                 @endif
                             </div>
@@ -137,8 +137,8 @@
     </div>
 @stop
 @section('script')
-    <script src="{{env('PUBLIC_PATH')}}/tinymce/js/tinymce/tinymce.min.js"></script>
-    <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/vue/vue.js"></script>
+    <script src="{{env('SOFTWARE_PUBLIC_PATH')}}/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script src="{{env('SOFTWARE_PUBLIC_PATH')}}/vendor/front_assets/vue/vue.js"></script>
     <script>
         tinyMCE.init({
             selector: 'textarea',
