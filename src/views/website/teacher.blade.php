@@ -30,12 +30,19 @@
 @stop
 @section('content')
     <section class="hero-wrap hero-wrap-2" style="">
-        <div class="overlay" style="background: url('{{env('SOFTWARE_PUBLIC_PATH')}}/img/backend/config/{{isset($config) ? $config['tisibanner'] : ''}}');"></div>
+        @php
+            if(File::exists(public_path('/img/backend/page/'.$page->id.'.jpg'))){
+                $image = env('PUBLIC_PATH').'/img/backend/page/'.$page->id.'.jpg';
+            }else{
+                $image = env('PUBLIC_PATH').'/img/backend/config/'.$config['tisibanner'];
+            }
+        @endphp
+        <div class="overlay" style="background: url('{{$image}}');"></div>
         <div class="container">
             <div class="row no-gutters slider-text align-items-center justify-content-center">
                 <div class="col-md-9 ftco-animate text-center">
-                    <h1 class="mb-2 bread">Certified Teachers</h1>
-                    <p class="breadcrumbs"><span class="mr-2"><a href="{{url('/')}}">Home <i class="ion-ios-arrow-forward"></i></a></span> <a href="{{Request::url()}}"><span>Teachers <i class="ion-ios-arrow-forward"></i></span></a></p>
+                    <h1 class="mb-2 bread">{{$page->title}}</h1>
+                    <p class="breadcrumbs"><span class="mr-2"><a href="{{url('/')}}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>{{$page->title}}</span></p>
                 </div>
             </div>
         </div>
@@ -63,8 +70,8 @@
             <div class="container">
                 <div class="row justify-content-center mb-5 pb-2">
                     <div class="col-md-8 text-center heading-section ftco-animate">
-                        <h2 class="mb-4"><span>{!! isset($config['certified_teachers	']) ? $config['certified_teachers	'] : '' !!}</span></h2>
-                        <p>{!! isset($config) ? $config['certified_teachers_details'] : '' !!}</p>
+                        <h2 class="mb-4"><span>{!! isset($config_head['certified_teachers	']) ? $config['certified_teachers	'] : '' !!}</span></h2>
+                        <p>{!! isset($config) ? $config['certified_teachers'] : '' !!}</p>
                     </div>
                 </div>
                 <div class="row">

@@ -24,7 +24,7 @@
                     <h5>Data table</h5>
                 </div>
                 <div class="widget-content nopadding">
-                    <table class="table table-bordered data-table">
+                    <table class="table table-bordered data-table table-responsive">
 
                         <thead>
                         <tr>

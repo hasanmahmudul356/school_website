@@ -89,6 +89,16 @@ class SchoolWebsiteController
         }
 
     }
+    public function NewsDetails($id)
+    {
+        $news = News::where('id', $id)->first();
+        if ($news) {
+            return view($this->ExistViewReturn('website.single_news'), ['news' => $news]);
+        } else {
+
+        }
+
+    }
 
     public function RegistrationForm()
     {

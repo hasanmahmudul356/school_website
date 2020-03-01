@@ -41,12 +41,6 @@ return [
             'title' => 'Events',
             'route' => 'event/list',
         ],[
-            'title' => 'Routines',
-            'route' => 'routine/list',
-        ],[
-            'title' => 'Notice',
-            'route' => 'notice/list',
-        ],[
             'title' => 'Menu',
             'route' => 'menu/list',
         ],[
@@ -55,9 +49,6 @@ return [
         ],[
             'title' => 'Short Courses',
             'route' => 'short_course/list',
-        ],[
-            'title' => 'Website Configs',
-            'route' => 'website_configs/list',
         ],[
             'title' => 'Website Configs',
             'route' => 'website_configs/list',

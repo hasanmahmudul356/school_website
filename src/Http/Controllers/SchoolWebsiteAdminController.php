@@ -46,6 +46,18 @@ class SchoolWebsiteAdminController extends Controller
         }
     }
 
+    public function UlpoadImage(Request $request){
+        if ($request->hasfile('file')) {
+            $this->validate($request, [
+                'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $imageName = time().'.'.$request->file->getClientOriginalExtension();
+            $request->file->move(public_path('images'), $imageName);
+
+            return response()->json(['location'=>$imageName], 200);
+        }
+    }
+
     public function slideList()
     {
         $data['slides'] = Slides::all();
@@ -77,7 +89,6 @@ class SchoolWebsiteAdminController extends Controller
         if ($request->hasfile('image')) {
             $imageName = $slide->id . '.jpg';
             $request->image->move(public_path('/img/backend/slide'), $imageName);
-
         }
         return redirect(url('slide/list'));
     }
@@ -566,7 +577,6 @@ class SchoolWebsiteAdminController extends Controller
         if ($request->hasfile('image')) {
             $imageName = $news->id . '.jpg';
             $request->image->move(public_path('/img/backend/news'), $imageName);
-
         }
 
         return redirect(url('news/list'));
@@ -621,24 +631,24 @@ class SchoolWebsiteAdminController extends Controller
     }
 
     //==================News Methods=======================
-    public function NoticeList()
+    public function EventList()
     {
-        $data['data_list'] = News::where('type', 1)->get();
-        $data['prefix'] = 'news';
+        $data['data_list'] = News::where('type', 2)->get();
+        $data['prefix'] = 'event';
 //        dd('test');
         if (count($data['data_list']) > 0) {
-            return view($this->ExistViewReturn('software.news.list'), $data);
+            return view($this->ExistViewReturn('software.event.list'), $data);
         } else {
-            return redirect(url('news/add'));
+            return redirect(url('event/add'));
         }
     }
 
-    public function NoticeAddForm()
+    public function EventAddForm()
     {
-        return view($this->ExistViewReturn('software.news.add'));
+        return view($this->ExistViewReturn('software.event.add'));
     }
 
-    public function NoticeStore(Request $request)
+    public function EventStore(Request $request)
     {
         $this->validate($request, [
             'topic' => 'required',
@@ -653,19 +663,107 @@ class SchoolWebsiteAdminController extends Controller
         if ($request->hasfile('image')) {
             $imageName = $news->id . '.jpg';
             $request->image->move(public_path('/img/backend/news'), $imageName);
+        }
+
+        return redirect(url('event/list'));
+    }
+
+    public function EventEdit($id)
+    {
+        $data['data'] = News::where('id', $id)->first();
+        if ($data['data']) {
+            return view($this->ExistViewReturn('software.event.add'), $data);
+        } else {
+            return redirect(url('event/list'));
+        }
+    }
+
+    public function EventUpdateStore(Request $request)
+    {
+        $this->validate($request, [
+            'topic' => 'required',
+            'details' => 'required',
+            'id' => 'required',
+        ]);
+
+        $news = News::where('id', $request->input('id'))->first();
+        if ($news) {
+            $news->topic = $request->input('topic');
+            $news->details = $request->input('details');
+            $news->save();
+
+            if ($request->hasfile('image')) {
+                $imageName = $news->id . '.jpg';
+                $request->image->move(public_path('/img/backend/news'), $imageName);
+
+            }
+
+            return redirect(url('event/list'));
+        } else {
+            return redirect(url('event/list'));
+        }
+    }
+
+    public function EventDelete($id)
+    {
+        $news = News::where('id', $id)->first();
+        if ($news) {
+            $news->delete();
+
+            return redirect(url('event/list'));
+        } else {
+            return redirect(url('event/list'));
+        }
+    }
+
+    //==================News Methods=======================
+    public function NoticeList()
+    {
+        $data['data_list'] = News::where('type', 2)->get();
+        $data['prefix'] = 'news';
+//        dd('test');
+        if (count($data['data_list']) > 0) {
+            return view($this->ExistViewReturn('software.news.list'), $data);
+        } else {
+            return redirect(url('notice/add'));
+        }
+    }
+
+    public function NoticeAdd()
+    {
+        return view($this->ExistViewReturn('software.notice.add'));
+    }
+
+    public function NoticeAddStore(Request $request)
+    {
+        $this->validate($request, [
+            'topic' => 'required',
+            'details' => 'required',
+        ]);
+        $news = new News();
+        $news->topic = $request->input('topic');
+        $news->details = $request->input('details');
+        $news->type = 2;
+        $news->save();
+
+        dd($request->all());
+        if ($request->hasfile('file')) {
+            $imageName = $news->id . $request->file->getClientOriginalExtension();
+            dd($imageName);
+            $request->image->move(public_path('/img/backend/notice'), $imageName);
 
         }
 
-        return redirect(url('news/list'));
+        return redirect(url('notice/list'));
     }
 
     public function NoticeEdit($id)
     {
         $data['data'] = News::where('id', $id)->first();
         if ($data['data']) {
-            return view($this->ExistViewReturn('software.news.add'), $data);
+            return view($this->ExistViewReturn('software.notice.add'), $data);
         } else {
-            return redirect(url('news/list'));
+            return redirect(url('notice/list'));
         }
     }
 
@@ -1073,7 +1171,6 @@ class SchoolWebsiteAdminController extends Controller
             $page->template = $request->input('template');
             $page->is_menu = $request->input('is_menu');
             $page->position = $request->input('position');
-            $page->parent = $request->input('parent') ? $request->input('parent') : 0;
             $page->save();
             if ($request->hasfile('image')) {
                 $imageName = $page->id . '.jpg';

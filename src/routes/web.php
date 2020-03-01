@@ -1,5 +1,6 @@
 <?php
 Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_website\Http\Controllers'], function () {
+    Route::post('/image/upload', 'SchoolWebsiteAdminController@UlpoadImage');
     Route::group(['prefix'=>'slide'], function (){
         Route::get('/list', 'SchoolWebsiteAdminController@slideList');
         Route::get('/add', 'SchoolWebsiteAdminController@slideAddForm');
@@ -157,20 +158,13 @@ Route::group(['middleware' => ['web', 'auth'], 'namespace' => 'Tmss\School_websi
         Route::get('/delete/{id}', 'SchoolWebsiteAdminController@ShortCourseDelete');
     });
     Route::group(['prefix'=>'event'], function (){
-        Route::get('/list', 'SchoolWebsiteAdminController@ShortCourseList');
-        Route::get('/add', 'SchoolWebsiteAdminController@ShortCourseAdd');
-        Route::post('/add', 'SchoolWebsiteAdminController@ShortCourseAddStore');
-        Route::get('/edit/{id}', 'SchoolWebsiteAdminController@ShortCourseUpdate');
-        Route::post('/update', 'SchoolWebsiteAdminController@ShortCourseUpdateSave');
-        Route::get('/delete/{id}', 'SchoolWebsiteAdminController@ShortCourseDelete');
-    });
-    Route::group(['prefix'=>'notice'], function (){
-        Route::get('/list', 'SchoolWebsiteAdminController@NoticeList');
-        Route::get('/add', 'SchoolWebsiteAdminController@NoticeAdd');
-        Route::post('/add', 'SchoolWebsiteAdminController@NoticeAddStore');
-        Route::get('/edit/{id}', 'SchoolWebsiteAdminController@NoticeUpdate');
-        Route::post('/update', 'SchoolWebsiteAdminController@NoticeUpdateSave');
-        Route::get('/delete/{id}', 'SchoolWebsiteAdminController@NoticeDelete');
+        Route::get('/list', 'SchoolWebsiteAdminController@EventList');
+        Route::get('/add', 'SchoolWebsiteAdminController@EventAddForm');
+        Route::post('/add', 'SchoolWebsiteAdminController@EventStore');
+        Route::post('/update', 'SchoolWebsiteAdminController@EventUpdateStore');
+        Route::get('/edit/{id}', 'SchoolWebsiteAdminController@EventEdit');
+        Route::get('/is_homepage/{id}', 'SchoolWebsiteAdminController@EventHomePage');
+        Route::get('/delete/{id}', 'SchoolWebsiteAdminController@EventDelete');
     });
 
     Route::group(['prefix'=>'view'], function (){
@@ -205,4 +199,5 @@ Route::group(['middleware' => ['web'], 'namespace' => 'Tmss\School_website\Http\
     Route::post('registration/submit', 'SchoolWebsiteController@RegistrationSubmit');
 
     Route::get('page/{url}', 'SchoolWebsiteController@Pagedetails');
+    Route::get('details/{id}', 'SchoolWebsiteController@NewsDetails');
 });

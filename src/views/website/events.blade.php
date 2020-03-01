@@ -16,7 +16,7 @@
 @stop
 @section('content')
     @php
-        $news = Tmss\School_website\Http\Models\News::take(10)->where('type', 1)->orderBy('id', 'DESC')->get();
+        $news = Tmss\School_website\Http\Models\News::take(10)->where('type', 2)->orderBy('id', 'DESC')->get();
     @endphp
     @if (isset($news) && count($news) > 0)
         <section class="hero-wrap hero-wrap-2" style="">
@@ -42,34 +42,26 @@
             <div class="container">
                 <div class="row justify-content-center mb-5 pb-2">
                     <div class="col-md-8 text-center heading-section ftco-animate">
-                        <h2 class="mb-4"><span>{{isset($config_head) ? $config_head['recent_news'] : ''}}</span></h2>
-                        <p>{{isset($config) ? $config['recent_news'] : ''}}</p>
+                        <h2 class="mb-4"><span>{{isset($config_head) ? $config_head['events'] : ''}}</span></h2>
+                        <p>{{isset($config) ? $config['events'] : ''}}</p>
                     </div>
                 </div>
                 <div class="row">
                     @foreach($news as $newsarticle)
                         <div class="col-md-6 col-lg-4 ftco-animate">
                             <div class="blog-entry">
-                                <a href="blog-single.html" class="block-20 d-flex align-items-end"
+                                <a href="{{url('details')}}/{{$newsarticle->id}}" class="block-20 d-flex align-items-end"
                                    style="background-image:url({{env('PUBLIC_PATH')}}/img/backend/news/{{$newsarticle->id.'.jpg'}});">
                                     <div class="meta-date text-center p-2">
-                                        <span class="day">27</span>
-                                        <span class="mos">January</span>
-                                        <span class="yr">2019</span>
+                                        <span class="day">{{date('d',strtotime($newsarticle->created_at))}}</span>
+                                        <span class="mos">{{date('F',strtotime($newsarticle->created_at))}}</span>
+                                        <span class="yr">{{date('Y',strtotime($newsarticle->created_at))}}</span>
                                     </div>
                                 </a>
                                 <div class="text bg-white p-4">
                                     <h3 class="heading">
-                                        <a href="#">{!! $newsarticle->topic !!}</a>
+                                        <a href="{{url('details')}}/{{$newsarticle->id}}">{!! $newsarticle->topic !!}</a>
                                     </h3>
-                                    <p>{!! $newsarticle->details !!}</p>
-                                    <div class="d-flex align-items-center mt-4">
-                                        <p class="mb-0"><a href="#" class="btn btn-secondary">Read More <span class="ion-ios-arrow-round-forward"></span></a></p>
-                                        <p class="ml-auto mb-0">
-                                            <a href="#" class="mr-2">Admin 12</a>
-                                            <a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a>
-                                        </p>
-                                    </div>
                                 </div>
                             </div>
                         </div>

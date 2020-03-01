@@ -6,18 +6,18 @@
 
 @section('content')
     <div class="container">
-        <h2>Add News</h2>
+        <h2>Add Notice</h2>
         <div id="home" class="row">
             <div class="col-md-12 text-right">
-                <a href="{{url('news/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Feature</a>
+                <a href="{{url('notice/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Notice</a>
             </div>
         </div>
         <div id="home" class="tab-pane fade in active">
             <div class="widget-box">
                 <div class="widget-title"><span class="icon"> <i class="icon-info-sign"></i> </span>
-                    <h5>Add News</h5>
+                    <h5>Add Notice</h5>
                 </div>
-                <form class="form-horizontal" method="post"  action="{{isset($data) ? url('news/update') : url('news/add')}}" enctype="multipart/form-data">
+                <form class="form-horizontal" method="post"  action="{{isset($data) ? url('notice/update') : url('notice/add')}}" enctype="multipart/form-data">
                     <div class="widget-content nopadding">
                         <div class="control-group">
                             <label for="news_photo" class="control-label" title="News Photo"></label>
@@ -32,7 +32,7 @@
                         <div class="control-group">
                             <label for="news_photo" class="control-label" title="news_photo">Image</label>
                             <div class="controls">
-                                <input type="file" name="image" onchange="showImage(this, 'ImageId')">
+                                <input type="file" name="file" onchange="showImage(this, 'ImageId')">
                             </div>
                         </div>
                         <div class="control-group">
@@ -70,18 +70,14 @@
                 "advlist autolink lists link image charmap print preview hr anchor pagebreak",
                 "searchreplace wordcount visualblocks visualchars code fullscreen",
                 "insertdatetime media nonbreaking save table contextmenu directionality",
-                "emoticons template paste textcolor colorpicker textpattern", "emoticons template paste textcolor colorpicker textpattern code directionality table", "insertdatetime media nonbreaking save table contextmenu directionality image",
+                "emoticons template paste textcolor colorpicker textpattern", "emoticons template paste textcolor colorpicker textpattern code directionality table", "insertdatetime media nonbreaking save table contextmenu directionality",
             ],
-            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table tabledelete | tableprops tablerowprops tablecellprops | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol |  ",
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table tabledelete | tableprops tablerowprops tablecellprops | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | code",
             menubar: false,
             statusbar: false,
-            convert_urls: false,
+            convert_urls: true,
             height : "250",
             paste_as_text: true,
-
-            images_upload_url: '{{url('image/upload')}}',
-            images_upload_base_path: '{{env('PUBLIC_PATH')}}/images',
-            images_upload_credentials: true,
         });
     </script>
 @stop

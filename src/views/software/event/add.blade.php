@@ -6,18 +6,18 @@
 
 @section('content')
     <div class="container">
-        <h2>Add News</h2>
+        <h2>Add Event</h2>
         <div id="home" class="row">
             <div class="col-md-12 text-right">
-                <a href="{{url('news/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Feature</a>
+                <a href="{{url('event/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Event</a>
             </div>
         </div>
         <div id="home" class="tab-pane fade in active">
             <div class="widget-box">
                 <div class="widget-title"><span class="icon"> <i class="icon-info-sign"></i> </span>
-                    <h5>Add News</h5>
+                    <h5>Add Event</h5>
                 </div>
-                <form class="form-horizontal" method="post"  action="{{isset($data) ? url('news/update') : url('news/add')}}" enctype="multipart/form-data">
+                <form class="form-horizontal" method="post"  action="{{isset($data) ? url('event/update') : url('event/add')}}" enctype="multipart/form-data">
                     <div class="widget-content nopadding">
                         <div class="control-group">
                             <label for="news_photo" class="control-label" title="News Photo"></label>

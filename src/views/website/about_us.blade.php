@@ -20,13 +20,23 @@
         $testimonials = DB::table('testimonials')->take(10)->get();
         $photogallery = DB::table('photogallery')->take(4)->orderBy('id','DESC')->get();
     @endphp
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{{env('PUBLIC_PATH')}}/vendor/front_assets/images/bg_2.jpg');">
-        <div class="overlay"></div>
+    <section class="hero-wrap hero-wrap-2" style="">
+
+        @php
+            if(File::exists(public_path('/img/backend/page/'.$page->id.'.jpg'))){
+                $image = env('PUBLIC_PATH').'/img/backend/page/'.$page->id.'.jpg';
+            }else{
+                $image = env('PUBLIC_PATH').'/img/backend/config/'.$config['tisibanner'];
+            }
+        @endphp
+
+
+        <div class="overlay" style="background: url('{{$image}}');"></div>
         <div class="container">
             <div class="row no-gutters slider-text align-items-center justify-content-center">
                 <div class="col-md-9 ftco-animate text-center">
-                    <h1 class="mb-2 bread">About Us</h1>
-                    <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>About us <i class="ion-ios-arrow-forward"></i></span></p>
+                    <h1 class="mb-2 bread">{{$page->title}}</h1>
+                    <p class="breadcrumbs"><span class="mr-2"><a href="{{url('/')}}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>{{$page->title}}</span></p>
                 </div>
             </div>
         </div>

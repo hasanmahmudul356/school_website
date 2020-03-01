@@ -16,7 +16,6 @@
         <div id="home" class="row">
             <div class="col-md-12 text-right">
                 <a href="{{url('page/add')}}" class="btn btn-primary"><i class="fa fa-plus"></i>Add Page</a>
-                <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </div>
         <div id="Vue_component_package_wrapper" class="tab-pane fade in active">
@@ -53,6 +52,10 @@
                                     <option {{isset($data->template) && $data->template=='registration' ? 'selected' : '' }} value="registration">Registration Page</option>
                                     <option {{isset($data->template) && $data->template=='calender' ? 'selected' : '' }} value="calender">Academic Calender</option>
                                     <option {{isset($data->template) && $data->template=='short_courses' ? 'selected' : '' }} value="short_courses">Short Courses</option>
+                                    <option {{isset($data->template) && $data->template=='notice' ? 'selected' : '' }} value="notice">Notice</option>
+                                    <option {{isset($data->template) && $data->template=='events' ? 'selected' : '' }} value="events">Events</option>
+                                    <option {{isset($data->template) && $data->template=='blog' ? 'selected' : '' }} value="blog">News</option>
+
                                 </select>
                             </div>
                         </div>
@@ -78,7 +81,6 @@
                             <div class="controls">
                                 <label class="radio-inline"><input {{isset($data->position) && $data->position=='main_menu' ? 'checked' : '' }} type="radio" name="position" value="main_menu"> Main Menu</label>
                                 <label class="radio-inline"><input {{isset($data->position) && $data->position=='about_us_footer_menu' ? 'checked' : '' }} type="radio" name="position" value="about_us_footer_menu"> Footer Menu</label>
-                                <label class="radio-inline"><input {{isset($data->position) && $data->position=='both_menu' ? 'checked' : '' }} type="radio" name="position" value="both_menu"> Both Menu</label>
                             </div>
                         </div>
                         <div class="control-group" v-if="formElement.is_menu ==  1" style="display: none;">
@@ -122,16 +124,6 @@
     <script src="{{env('PUBLIC_PATH')}}/tinymce/js/tinymce/tinymce.min.js"></script>
     <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/vue/vue.js"></script>
     <script>
-        tinyMCE.init({
-            selector: 'textarea',
-            plugins: ["advlist autolink lists link image charmap print preview hr anchor pagebreak", "searchreplace wordcount visualblocks visualchars code fullscreen", "insertdatetime media nonbreaking save table contextmenu directionality", "emoticons template paste textcolor colorpicker textpattern code directionality"],
-            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | code",
-            menubar: true,
-            statusbar: false,
-            convert_urls: true,
-        });
-    </script>
-    <script>
         new Vue({
             el: '#Vue_component_package_wrapper',
             data: {
@@ -140,6 +132,37 @@
                     is_menu: parseInt('{{isset($data) ? $data->is_menu : '0'}}'),
                 },
             },
+            watch: {
+                'formElement.templete' : function (newData, oldData) {
+                    const _this = this;
+                    tinymce.remove('textarea');
+                    Vue.nextTick(function () {
+                        _this.ActiveEditor();
+                    })
+                },
+            },
+            methods : {
+                ActiveEditor : function () {
+                    tinyMCE.init({
+                        selector: 'textarea',
+                        plugins: ["advlist autolink lists link image charmap print preview hr anchor pagebreak", "searchreplace wordcount visualblocks visualchars code fullscreen", "insertdatetime media nonbreaking save table contextmenu directionality", "emoticons template paste textcolor colorpicker textpattern code directionality"],
+                        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | code",
+                        menubar: true,
+                        statusbar: false,
+                        convert_urls: false,
+
+                        images_upload_url: '{{url('image/upload')}}',
+                        images_upload_base_path: '{{env('PUBLIC_PATH')}}/images',
+                        images_upload_credentials: true,
+                    });
+                }
+            },
+            mounted(){
+
+            },
+            created() {
+                this.ActiveEditor();
+            }
         });
     </script>
 @stop

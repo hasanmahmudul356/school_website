@@ -16,12 +16,19 @@
 @stop
 @section('content')
     <section class="hero-wrap hero-wrap-2" style="">
-        <div class="overlay" style="background: url('{{env('PUBLIC_PATH')}}/img/backend/config/{{isset($config) ? $config['tisibanner'] : ''}}');"></div>
+        @php
+            if(File::exists(public_path('/img/backend/page/'.$page->id.'.jpg'))){
+                $image = env('PUBLIC_PATH').'/img/backend/page/'.$page->id.'.jpg';
+            }else{
+                $image = env('PUBLIC_PATH').'/img/backend/config/'.$config['tisibanner'];
+            }
+        @endphp
+        <div class="overlay" style="background: url('{{$image}}');"></div>
         <div class="container">
             <div class="row no-gutters slider-text align-items-center justify-content-center">
                 <div class="col-md-9 ftco-animate text-center">
-                    <h1 class="mb-2 bread">Contact Us</h1>
-                    <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Contact <i class="ion-ios-arrow-forward"></i></span></p>
+                    <h1 class="mb-2 bread">{{$page->title}}</h1>
+                    <p class="breadcrumbs"><span class="mr-2"><a href="{{url('/')}}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>{{$page->title}}</span></p>
                 </div>
             </div>
         </div>
@@ -33,47 +40,56 @@
                 <div class="col-md-3 d-flex">
                     <div class="bg-light align-self-stretch box p-4 text-center">
                         <h3 class="mb-4">Address</h3>
-                        <p>198 West 21th Street, Suite 721 New York NY 10016</p>
+                        <p>{!! isset($config) ? $config['address'] : '' !!}</p>
                     </div>
                 </div>
                 <div class="col-md-3 d-flex">
                     <div class="bg-light align-self-stretch box p-4 text-center">
                         <h3 class="mb-4">Contact Number</h3>
-                        <p><a href="tel://1234567920">+ 1235 2355 98</a></p>
+                        <p><a href="tel://1234567920">{!! isset($config) ? $config['phone'] : '' !!}</a></p>
                     </div>
                 </div>
                 <div class="col-md-3 d-flex">
                     <div class="bg-light align-self-stretch box p-4 text-center">
                         <h3 class="mb-4">Email Address</h3>
-                        <p><a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
+                        <p><a href="mailto:info@yoursite.com">{!! isset($config) ? $config['email'] : '' !!}</a></p>
                     </div>
                 </div>
                 <div class="col-md-3 d-flex">
                     <div class="bg-light align-self-stretch box p-4 text-center">
                         <h3 class="mb-4">Website</h3>
-                        <p><a href="#">yoursite.com</a></p>
+                        <p><a href="#">{!! isset($config) ? $config['website'] : '' !!}</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="ftco-section ftco-no-pt ftco-no-pb contact-section">
+    <section class="ftco-section ftco-no-pt ftco-no-pb contact-section" id="Vue_component_wrapper">
         <div class="container">
             <div class="row d-flex align-items-stretch no-gutters">
                 <div class="col-md-6 p-4 p-md-5 order-md-last bg-light">
-                    <form action="#">
+                    <p class="mb-4" v-text="SuccessMessge"></p>
+                    <form @submit.prevent="SubmitContact($event)">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Your Name">
+                            <input type="text" class="form-control" v-model="FormData.firstname" placeholder="First Name">
+                            <p class="text-danger" v-text="error.get('firstname')"></p>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Your Email">
+                            <input type="text" class="form-control"  v-model="FormData.lastname" placeholder="Last Name">
+                            <p class="text-danger" v-text="error.get('lastname')"></p>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Subject">
+                            <input type="text" class="form-control" v-model="FormData.phone" placeholder="Phone">
+                            <p class="text-danger" v-text="error.get('phone')"></p>
                         </div>
                         <div class="form-group">
-                            <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+                            <input type="text"  v-model="FormData.subject" class="form-control" placeholder="Subject">
+                            <p class="text-danger" v-text="error.get('subject')"></p>
+                        </div>
+                        <div class="form-group">
+                            <textarea v-model="FormData.message" id="" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+                            <p class="text-danger" v-text="error.get('message')"></p>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
@@ -81,9 +97,74 @@
                     </form>
                 </div>
                 <div class="col-md-6 d-flex align-items-stretch">
-                    <div id="map"></div>
+                    <div id="map">
+                        {!! isset($config) ? $config['google_map_location'] : '' !!}
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 @stop
+@section('script')
+    <script>
+        class Errors{
+            constructor(){
+                this.errors = {};
+                this.arr_errors = [];
+            }
+            get(field){
+                if (this.errors[field]) {
+                    return this.errors[field][0];
+                }
+            }
+            record(errors){
+                this.errors = errors;
+            }
+        }
+        new Vue({
+            el: '#Vue_component_wrapper',
+            data: {
+                app_url: baseURL,
+                FormData: {
+                    firstname: '',
+                    lastname: '',
+                    phone: '',
+                    subject: '',
+                    message: '',
+                },
+                SuccessMessge: '',
+                error : new Errors(),
+            },
+            methods: {
+                SubmitContact: function () {
+                    const _this = this;
+                    let URL = this.app_url + '/contactform/add';
+                    _this.error.record([]);
+                    $.ajax({
+                        url: URL,
+                        type: "post",
+                        data: {
+                            data: _this.FormData,
+                        },
+                        success: function (response) {
+                            if (parseInt(response.status) === 2000) {
+                                _this.SuccessMessge = response.msg;
+                                _this.FormData.firstname = '';
+                                _this.FormData.lastname = '';
+                                _this.FormData.phone = '';
+                                _this.FormData.subject = '';
+                                _this.FormData.message = '';
+                            }else if (parseInt(response.status) === 3000) {
+                                _this.error.record(response.errors);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            _this.HttpRequest = false;
+                            console.log(textStatus, errorThrown);
+                        }
+                    });
+                },
+            },
+        });
+    </script>
+@endsection

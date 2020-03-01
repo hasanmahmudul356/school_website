@@ -24,7 +24,7 @@
         $testimonials = Tmss\School_website\Http\Models\Testimonial::take(10)->get();
         $courses = App\manage_department_model::all()->toArray();
         $courses = collect($courses)->unique('department_code');
-        $news = Tmss\School_website\Http\Models\News::take(10)->orderBy('id', 'DESC')->get();
+        $news = Tmss\School_website\Http\Models\News::where('type', 1)->take(10)->orderBy('id', 'DESC')->get();
         $photogallery = Tmss\School_website\Http\Models\Photogallery::take(4)->orderBy('id', 'DESC')->get();
         $socialmedias = Tmss\School_website\Http\Models\Socialmedia::take(4)->orderBy('id', 'DESC')->get();
         $pages = Tmss\School_website\Http\Models\Page::all()->toArray();
@@ -418,25 +418,21 @@
                     @foreach($news as $newsarticle)
                         <div class="col-md-6 col-lg-4 ftco-animate">
                             <div class="blog-entry">
-                                <a href="blog-single.html" class="block-20 d-flex align-items-end"
+                                <a href="{{url('details')}}/{{$newsarticle->id}}" class="block-20 d-flex align-items-end"
                                    style="background-image:url({{env('PUBLIC_PATH')}}/img/backend/news/{{$newsarticle->id.'.jpg'}});">
                                     <div class="meta-date text-center p-2">
-                                        <span class="day">27</span>
-                                        <span class="mos">January</span>
-                                        <span class="yr">2019</span>
+                                        <span class="day">{{date('d',strtotime($newsarticle->created_at))}}</span>
+                                        <span class="mos">{{date('F',strtotime($newsarticle->created_at))}}</span>
+                                        <span class="yr">{{date('Y',strtotime($newsarticle->created_at))}}</span>
                                     </div>
                                 </a>
                                 <div class="text bg-white p-4">
                                     <h3 class="heading">
-                                        <a href="#">{!! $newsarticle->topic !!}</a>
+                                        <a href="{{url('details')}}/{{$newsarticle->id}}">{!! $newsarticle->topic !!}</a>
                                     </h3>
                                     <p>{!! $newsarticle->details !!}</p>
                                     <div class="d-flex align-items-center mt-4">
-                                        <p class="mb-0"><a href="#" class="btn btn-secondary">Read More <span class="ion-ios-arrow-round-forward"></span></a></p>
-                                        <p class="ml-auto mb-0">
-                                            <a href="#" class="mr-2">Admin 12</a>
-                                            <a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a>
-                                        </p>
+                                        <p class="mb-0"><a href="{{url('details')}}/{{$newsarticle->id}}" class="btn btn-secondary">Read More <span class="ion-ios-arrow-round-forward"></span></a></p>
                                     </div>
                                 </div>
                             </div>
