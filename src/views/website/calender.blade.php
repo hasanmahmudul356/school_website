@@ -39,8 +39,8 @@
                 @php
                   $academic_syllabus = DB::table('academic_syllebus')->get()
                 @endphp
-                <div class="widget-content nopadding">
-                    <table class="table table-bordered data-table font_my">
+                <div class="widget-content nopadding" style="width: 100%">
+                    <table class="table table-bordered data-table font_my" style="width: 100%">
 
                         <thead>
                         <tr>
