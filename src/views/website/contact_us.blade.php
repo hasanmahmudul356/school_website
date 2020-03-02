@@ -81,7 +81,7 @@
                             <p class="text-danger" v-text="error.get('lastname')"></p>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control"  v-model="FormData.email" placeholder="Last Name">
+                            <input type="text" class="form-control"  v-model="FormData.email" placeholder="Email Address">
                             <p class="text-danger" v-text="error.get('email')"></p>
                         </div>
                         <div class="form-group">
