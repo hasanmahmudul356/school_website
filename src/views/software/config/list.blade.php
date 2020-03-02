@@ -25,7 +25,6 @@
                 </div>
                 <div class="widget-content nopadding">
                     <table class="table table-bordered data-table table-responsive">
-
                         <thead>
                         <tr>
                             <th>SL</th>

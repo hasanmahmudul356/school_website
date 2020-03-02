@@ -108,7 +108,7 @@
         </section>
     @endif
     <section class="ftco-intro"
-             style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/bg_3.jpg);"
+             style="background-image: url({{env('PUBLIC_PATH')}}/img/backend/config/{{isset($config) ? $config['teaching_style_image'] : ''}});"
              data-stellar-background-ratio="0.5">
         <div class="overlay"></div>
         <div class="container">
@@ -317,7 +317,7 @@
         </section>
     @endif
     <section class="ftco-section ftco-consult ftco-no-pt ftco-no-pb"
-             style="background-image: url({{env('PUBLIC_PATH')}}/vendor/front_assets/images/bg_5.jpg);">
+             style="background-image: url({{env('PUBLIC_PATH')}}/img/backend/config/{{isset($config) ? $config['contact_section_image'] : ''}});">
         <div class="container" id="Vue_component_wrapper">
             <div class="row justify-content-end">
                 <div class="col-md-6 py-5 px-md-5 bg-primary">
@@ -352,8 +352,7 @@
                         </div>
                         <div class="d-md-flex">
                             <div class="form-group">
-                                <textarea class="form-control" placeholder="Message" type="text"
-                                          v-model="FormData.message"></textarea>
+                                <textarea class="form-control" placeholder="Message" type="text" v-model="FormData.message"></textarea>
                                 <p class="text-danger" v-text="error.get('message')"></p>
                             </div>
                             <div class="form-group ml-md-4">

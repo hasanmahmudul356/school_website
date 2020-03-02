@@ -43,6 +43,20 @@
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/vue/vue.js"></script>
 <script>
     var baseURL = '{{url('/')}}';
+    class Errors{
+        constructor(){
+            this.errors = {};
+            this.arr_errors = [];
+        }
+        get(field){
+            if (this.errors[field]) {
+                return this.errors[field][0];
+            }
+        }
+        record(errors){
+            this.errors = errors;
+        }
+    }
 </script>
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/jquery.min.js"></script>
 <script src="{{env('PUBLIC_PATH')}}/vendor/front_assets/js/jquery-migrate-3.0.1.min.js"></script>
@@ -63,8 +77,45 @@
     var target = $('ul.nav.navbar-nav.navbar-right li a[href$="' + path + '"]');
     target.parent().addClass("active");
 </script>
-<script>
 
+<script>
+    new Vue({
+        el: '#Vue_component_subscriber',
+        data: {
+            app_url: baseURL,
+            FormData: {
+                email: '',
+            },
+            SuccessMessge: '',
+            error : new Errors(),
+        },
+        methods: {
+            SubmitContact: function () {
+                const _this = this;
+                let URL = this.app_url + '/subscribe/add';
+                _this.error.record([]);
+                $.ajax({
+                    url: URL,
+                    type: "post",
+                    data: {
+                        data: _this.FormData,
+                    },
+                    success: function (response) {
+                        if (parseInt(response.status) === 2000) {
+                            _this.SuccessMessge = response.msg;
+                            _this.FormData.email = '';
+                        }else if (parseInt(response.status) === 3000) {
+                            _this.error.record(response.errors);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        _this.HttpRequest = false;
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            },
+        },
+    });
 </script>
 @yield('script')
 </body>

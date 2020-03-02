@@ -35,15 +35,14 @@
     </section>
     <section>
         <div class="col-md-8 offset-md-2 applicationform" id="Vue_component_wrapper">
-            <form @submit.prevent="SubmitRegistration($event)">
-
-
+            <form @submit.prevent="SubmitRegistration($event)" style="margin: 20px 0 20px 0">
                 <hr style="border:1px solid green;">
                 <div class="row ">
                     <div class="mx-auto col-md-3 col-xs-12 text-head">
-                        <h4 class=" text-center"> Admission Form</h4>
+                        <h2 class=" text-center"> Admission Form</h2>
                     </div>
                 </div>
+                <hr style="border:1px solid green;">
                 <div class="row">
                     <div class="col-md-6">
                         <label for="">Name of the Trade</label>
@@ -387,10 +386,7 @@
                     </div>
                 </div>
                 <div style="text-align:center;">
-                    <input type="submit" name="btn-save" value="REGISTRATION" class="btn btn-success"/>
-                    <a href="http://tfmti.com/">
-                        <input type="button" src="http://tfmti.com/" value="BACK" class="btn btn-success"/>
-                    </a>
+                    <input style="font-size: 16px; padding: 7px; border-radius: 8px;" type="submit" name="btn-save" value="REGISTRATION" class="btn btn-success"/>
                 </div>
             </form>
         </div>
@@ -398,39 +394,6 @@
 @stop
 @section('script')
     <script>
-        class Errors{
-            constructor(){
-                this.errors = {};
-                this.arr_errors = [];
-            }
-            get(field){
-                if (this.errors[field]) {
-                    return this.errors[field][0];
-                }
-            }
-            arr_get(multi = false, key, arr_field){
-                if (multi){
-                    if (this.arr_errors[multi] !== undefined && this.arr_errors[multi][key] !== undefined && this.arr_errors[multi][key][arr_field] !== undefined) {
-                        return this.arr_errors[multi][key][arr_field][0];
-                    }
-                } else{
-                    if (this.arr_errors[key] !== undefined && this.arr_errors[key][arr_field] !== undefined) {
-                        return this.arr_errors[key][arr_field][0];
-                    }
-                }
-            }
-            record(errors){
-                this.errors = errors;
-            }
-            arr_record(arr_errors, multi = false){
-                if (multi){
-                    this.arr_errors[multi] = arr_errors;
-                } else{
-                    this.arr_errors = arr_errors;
-                }
-            }
-        }
-
         new Vue({
             el: '#Vue_component_wrapper',
             data: {
@@ -547,6 +510,7 @@
                                 location.reload();
                             }else if (parseInt(response.status) === 3000) {
                                 _this.error.record(response.error);
+                                $("html, body").animate({ scrollTop: "400" });
                             }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
