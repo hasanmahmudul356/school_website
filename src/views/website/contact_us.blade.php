@@ -69,6 +69,7 @@
         <div class="container">
             <div class="row d-flex align-items-stretch no-gutters">
                 <div class="col-md-6 p-4 p-md-5 order-md-last bg-light">
+                    <h2>Contact Us</h2>
                     <p class="mb-4" v-text="SuccessMessge"></p>
                     <form @submit.prevent="SubmitContact($event)">
                         <div class="form-group">
@@ -107,20 +108,6 @@
 @stop
 @section('script')
     <script>
-        class Errors{
-            constructor(){
-                this.errors = {};
-                this.arr_errors = [];
-            }
-            get(field){
-                if (this.errors[field]) {
-                    return this.errors[field][0];
-                }
-            }
-            record(errors){
-                this.errors = errors;
-            }
-        }
         new Vue({
             el: '#Vue_component_wrapper',
             data: {
