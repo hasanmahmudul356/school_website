@@ -46,11 +46,15 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="">Name of the Trade</label>
+                        @php
+                            $course_data = DB::table('manage_department')->get()->toArray();
+                            $courses = collect($course_data)->unique('department_code');
+                        @endphp
                         <select v-model="FormData.department" class="form-control">
                             <option value="">Select Trade</option>
                             @if (isset($courses) && count($courses) > 0)
                                 @foreach ($courses as $course)
-                                    <option value="{{$course['department_name']}}">{{$course['department_name']}}</option>
+                                    <option value="{{$course->department_name}}">{{$course->department_name}}</option>
                                 @endforeach
                             @endif
                         </select>
@@ -58,11 +62,14 @@
                     </div>
                     <div class="col-md-6">
                         <label for="">Session</label>
+                        @php
+                            $sessions = DB::table('ov_setup')->where('type','Session')->get();
+                        @endphp
                         <select v-model="FormData.session" class="form-control">
                             <option value="">Select Session</option>
                             @if (isset($sessions) && count($sessions) > 0)
                                 @foreach ($sessions as $session)
-                                    <option value="{{$course['department_name']}}">{{$session['type_name']}}</option>
+                                    <option value="{{$session->type_name}}">{{$session->type_name}}</option>
                                 @endforeach
                             @endif
                         </select>
@@ -374,7 +381,7 @@
                         <h5 style="text-transform: uppercase;color:#4D4D4D"><u>Declearation:</u></h5>
                         <div class=" form-check">
                             <input type="checkbox" class="form-check-input" id="declearationChecked">
-                            <label class="form-check-label" for="declearationChecked">
+                            <label style="margin-left: 18px" class="form-check-label" for="declearationChecked">
                                 I hereby declare that the information given above is true to the best of
                                 my knowledge, information and belief. I fully understand that if any of
                                 the information given by me in this application is in any way false or

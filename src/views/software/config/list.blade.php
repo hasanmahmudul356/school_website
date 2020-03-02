@@ -50,7 +50,7 @@
                                     @if ($config->type == 'file')
                                         <img src="{{env('PUBLIC_PATH')}}/img/backend/config/{{$config->value}}">
                                         @else
-                                        {{$config->value}}
+                                        {{substr(strip_tags($config->value),0, 100)}}
                                     @endif
                                 </td>
                                 <td>

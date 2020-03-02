@@ -81,6 +81,10 @@
                             <p class="text-danger" v-text="error.get('lastname')"></p>
                         </div>
                         <div class="form-group">
+                            <input type="text" class="form-control"  v-model="FormData.email" placeholder="Last Name">
+                            <p class="text-danger" v-text="error.get('email')"></p>
+                        </div>
+                        <div class="form-group">
                             <input type="text" class="form-control" v-model="FormData.phone" placeholder="Phone">
                             <p class="text-danger" v-text="error.get('phone')"></p>
                         </div>
@@ -114,6 +118,7 @@
                 app_url: baseURL,
                 FormData: {
                     firstname: '',
+                    email: '',
                     lastname: '',
                     phone: '',
                     subject: '',

@@ -67,7 +67,7 @@
             <div class="col-md-6 col-lg-3">
                 <div class="ftco-footer-widget mb-5" id="Vue_component_subscriber">
                     <h2 class="ftco-heading-2">{{isset($config) ? $config['footer_block4_head'] : ''}}</h2>
-                    <p class="mb-4" v-text="SuccessMessge"></p>
+                    <p class="mb-4" style="color: lightgreen" v-text="SuccessMessge"></p>
                     <form method="post" @submit.prevent="SubmitContact($event)"
                           enctype="multipart/form-data" class="subscribe-form">
                         <div class="form-group">

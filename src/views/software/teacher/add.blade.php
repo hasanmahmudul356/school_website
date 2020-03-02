@@ -20,7 +20,7 @@
                 <form class="form-horizontal" method="post"  action="{{url('teacher/update')}}" enctype="multipart/form-data">
                     <div class="widget-content nopadding">
                         <div class="control-group">
-                            <label for="student_name" class="control-label" title="student_name">Teachers Say</label>
+                            <label for="student_name" class="control-label" title="student_name">Teachers Speech</label>
                             <div class="controls">
                                 <input type="hidden" name="teacher_id" value="{{isset($data) && isset($data->teacher_id) ? $data->teacher_id : ''}}">
                                 <textarea rows="3" name="teachers_say">{{isset($data) && isset($data->teachers_say) ? $data->teachers_say : ''}}</textarea>
